@@ -1,3 +1,13 @@
+Unless otherwise stated, DICE is released under Apache License
+Version 2.0. You can find a copy of license file below.
+
+The various components that DICE uses may have their own licenses. Please refer
+to the LICENSE/COPYING file in each directory or to the header of each source file.
+In summary,
+1) AFL, including P2IM's modifications to AFL, is released under Apache v2.0.
+2) QEMU, including P2IM's modifications to QEMU and the extensions for the MIPS PIC32, are released under GPL v2.0.                                 
+3) P2IM, is released under GPL v2.0.
+                                 
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -139,7 +149,14 @@
       names, trademarks, service marks, or product names of the Licensor,
       except as required for reasonable and customary use in describing the
       origin of the Work and reproducing the content of the NOTICE file.
+Unless otherwise stated, the P2IM framework is released under Apache License
+Version 2.0. You can find a copy of license file below.
 
+The various components that P2IM uses may have their own licenses. Please refer
+to the LICENSE/COPYING file in each directory or to the header of each source file.
+In summary,
+1) AFL, including P2IM's modifications to AFL, is released under Apache v2.0.
+2) QEMU, including P2IM's modifications to QEMU, is released under GPL v2.0.
    7. Disclaimer of Warranty. Unless required by applicable law or
       agreed to in writing, Licensor provides the Work (and each
       Contributor provides its Contributions) on an "AS IS" BASIS,
