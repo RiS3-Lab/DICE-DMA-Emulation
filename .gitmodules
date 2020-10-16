@@ -1,0 +1,6 @@
+[submodule "p2im"]
+	path = p2im
+	url = https://github.com/RiS3-Lab/p2im
+[submodule "mips-emulator"]
+	path = mips-emulator
+	url = https://github.com/sergev/qemu.git
