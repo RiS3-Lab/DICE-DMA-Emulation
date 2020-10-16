@@ -1,0 +1,1989 @@
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 000000000..b106ac048
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1,11 @@
++{
++    "files.associations": {
++        "dma.h": "c",
++        "stdio.h": "c",
++        "typeindex": "c",
++        "typeinfo": "c",
++        "softmmu_template.h": "c",
++        "pic32_peripherals.h": "c",
++        "stdbool.h": "c"
++    }
++}
+\ No newline at end of file
+diff --git a/hw/mips/Makefile.objs b/hw/mips/Makefile.objs
+index dcbaec957..c80af509d 100644
+--- a/hw/mips/Makefile.objs
++++ b/hw/mips/Makefile.objs
+@@ -6,3 +6,4 @@ obj-y += gt64xxx_pci.o
+ obj-y += mips_pic32mz.o mips_pic32mx7.o
+ obj-y += pic32_load_hex.o pic32_sdcard.o pic32_spi.o pic32_uart.o pic32_gpio.o
+ obj-y += pic32_ethernet.o
++obj-y += dma.o
+diff --git a/hw/mips/dma.c b/hw/mips/dma.c
+new file mode 100644
+index 000000000..0c237ba82
+--- /dev/null
++++ b/hw/mips/dma.c
+@@ -0,0 +1,98 @@
++#include "dma/dma.h"
++#include <stdbool.h>
++
++
++bool valid_descriptor_pointers(target_ulong p1, target_ulong p2 )
++{
++    pm_pointer_type_t pt1, pt2;
++
++    pt1= get_pointer_type(p1);
++    pt2= get_pointer_type(p2);
++    
++    if( pt1==TUNKNOWN || pt2==TUNKNOWN) return false;
++
++    if( pt1==TFLASH && pt2==TFLASH) return false;
++    if( pt1==TFLASH && pt2==TRAM) return false; //this should be true but generates too many false positives
++    if( pt1==TFLASH && pt2==TPERIPHERAL) return false;
++
++    if( pt1==TRAM && pt2==TFLASH) return false; //this should be true but generates too many false positives
++    if( pt1==TRAM && pt2==TRAM) return false;  //this should be true but generates too many false positives
++    if( pt1==TRAM && pt2==TPERIPHERAL) return true;
++
++    if( pt1==TPERIPHERAL && pt2==TFLASH) return false;
++    if( pt1==TPERIPHERAL && pt2==TRAM) return true;
++    if( pt1==TPERIPHERAL && pt2==TPERIPHERAL) return false; //this should be true but we are not able to emulate this type of DMA transfer
++    
++    return false;
++}
++
++
++pm_pointer_type_t get_pointer_type(target_ulong value){
++    if  (value >= DATA_MEM_START && value < (DATA_MEM_START+DATA_MEM_SIZE))             
++    {
++        return TRAM;
++    }
++    if  ((value >= PROGRAM_FLASH_START && value < PROGRAM_FLASH_START + PROGRAM_FLASH_SIZE) ||
++        (value >= BOOT_FLASH_START && value < BOOT_FLASH_START + BOOT_FLASH_SIZE ))
++    {
++        return TFLASH;
++    }
++    if (value >= IO_MEM_START  && value < IO_MEM_END)            
++    {
++        return TPERIPHERAL;
++    }
++    return TUNKNOWN;
++}
++
++void delete_dma_descriptor(int descriptor_id)
++{
++   int i;
++   
++   for(i=descriptor_id; i<(number_dma_descriptors-1); i++)
++   {
++       dma_descriptors[i]=dma_descriptors[i+1];
++   }
++   number_dma_descriptors--;
++}
++
++
++void delete_dma_pointer(int pointer_id)
++{
++   int i,j;
++   
++   for(i=0; i<number_dma_pointers; i++)
++   {
++       if(dma_pointers[i].id == pointer_id)
++       {
++           for(j=i; j<(number_dma_pointers-1); j++)
++           {
++               dma_pointers[j] =  dma_pointers[j+1];    
++           }
++           number_dma_pointers--;
++           break;  
++       }        
++   }
++   
++}
++
++
++
++int  cmp_address_DMA(const void *a, const void *b)
++{
++ pm_dma_buffer_beat *aa; 
++ pm_dma_buffer_beat *bb;
++ aa=(pm_dma_buffer_beat *)a;
++ bb=(pm_dma_buffer_beat *)b;
++return(aa->address-bb->address);
++
++}
++
++
++unsigned virtual_to_phys(unsigned address)
++{
++    if (address >= 0xa0000000 && address <= 0xbfffffff)
++        return address - 0xa0000000;
++    if (address >= 0x80000000 && address <= 0x9fffffff)
++        return address - 0x80000000;
++    return address;
++}
+\ No newline at end of file
+diff --git a/hw/mips/mips_pic32mx7.c b/hw/mips/mips_pic32mx7.c
+index f2469293a..2a9428a88 100644
+--- a/hw/mips/mips_pic32mx7.c
++++ b/hw/mips/mips_pic32mx7.c
+@@ -33,6 +33,7 @@
+ #include "hw/loader.h"
+ #include "qemu/error-report.h"
+ #include "hw/empty_slot.h"
++#include "dma/dma.h"
+ #include <termios.h>
+ 
+ #define PIC32MX7
+@@ -40,6 +41,7 @@
+ #include "pic32_peripherals.h"
+ 
+ /* Hardware addresses */
++/*
+ #define PROGRAM_FLASH_START 0x1d000000
+ #define BOOT_FLASH_START    0x1fc00000
+ #define DATA_MEM_START      0x00000000
+@@ -49,9 +51,12 @@
+ #define BOOT_FLASH_SIZE     (12*1024)           // 12 kbytes
+ #define DATA_MEM_SIZE       (128*1024)          // 128 kbytes
+ #define USER_MEM_START      0xbf000000
++*/
+ 
+ #define TYPE_MIPS_PIC32     "mips-pic32mx7"
+ 
++
++
+ /*
+  * Board variants.
+  */
+@@ -73,6 +78,7 @@ static const char *board_name[] = {
+ static char *prog_ptr;
+ static char *boot_ptr;
+ 
++
+ #define BOOTMEM(addr) ((uint32_t*) boot_ptr) [(addr & 0xffff) >> 2]
+ 
+ /*
+@@ -80,6 +86,80 @@ static char *boot_ptr;
+  */
+ #define TRACE   0
+ 
++
++static void fire_irq_DMA(pic32_t *s)
++{
++    pm_int++;   
++    if(number_dma_descriptors && pm_int >= IRQ_TRESHOLD)
++    {
++       
++        pm_int = 0;
++        int i,j; 
++        int i_control = VALUE(IEC(1)); //interrupt control register for DMA               
++        
++     
++        for (i=16; i<=23; i++ )
++        {
++            if ((1<<i) &  i_control)
++            {
++                //printf("DMA INT channel enabled #: %d\n", (i-16));
++                irqs_dma[i-16] = 1;               
++            }
++            else
++            {
++                irqs_dma[i-16] = 0;
++            }                                              
++        }   
++
++        // round robin triger
++        if (irq_dma_previous==-1)
++        {
++            j = 0;
++        }
++        else{
++            if (irq_dma_previous+1 < 8)j=irq_dma_previous+1;
++            else j=0;
++        }
++        
++        irq_dma_current = -1;
++        for (i = j; i<8; i++)
++        {
++            if(irq_dma_previous ==-1 && irqs_dma[i]==1)
++            {
++                irq_dma_current = i;
++                break;
++            }
++            else if(irqs_dma[i]==1)
++            {
++                irq_dma_current = i;
++                break;
++            }
++            
++        }
++        
++        irq_dma_previous = irq_dma_current;
++
++        if(irq_dma_current >-1) {
++            //printf("IRQ DMA: %d\n", irq_dma_current);
++
++            //irq_raise(s, irq_dma_current + 134);
++            //VALUE(IFS(irq >> 5)) |= 1 << (irq & 31);
++            switch(irq_dma_current){
++                case 0:
++                    VALUE(DCH0INT) |= 1 << 3;
++                    break;
++                case 1:
++                    VALUE(DCH1INT) |= 1 << 3;
++                    break;
++
++            }
++                        
++        }
++
++    }
++}
++
++
+ /*
+  * PIC32MX7 specific table:
+  * translate IRQ number to interrupt vector.
+@@ -192,6 +272,7 @@ static const int irq_to_vector[] = {
+     PIC32_VECT_U5,      /* 75 - UART5 Transmitter */
+ };
+ 
++
+ static void update_irq_status(pic32_t *s)
+ {
+     /* Assume no interrupts pending. */
+@@ -456,6 +537,7 @@ static unsigned io_read32(pic32_t *s, unsigned offset, const char **namep)
+ {
+     unsigned *bufp = &VALUE(offset);
+ 
++  
+     switch (offset) {
+     /*-------------------------------------------------------------------------
+      * Bus matrix control registers.
+@@ -499,6 +581,7 @@ static unsigned io_read32(pic32_t *s, unsigned offset, const char **namep)
+      */
+     STORAGE(CHECON); break;     // Prefetch Control
+ 
++
+     /*-------------------------------------------------------------------------
+      * System controller.
+      */
+@@ -514,12 +597,63 @@ static unsigned io_read32(pic32_t *s, unsigned offset, const char **namep)
+         }
+         break;
+ 
+-    /*-------------------------------------------------------------------------
++
++/*-------------------------------------------------------------------------
+      * DMA controller.
+      */
+-    STORAGE(DMACON); break;     // DMA Control
++    STORAGE(DMACON);  break;    // DMA Control
+     STORAGE(DMASTAT); break;    // DMA Status
+     STORAGE(DMAADDR); break;    // DMA Address
++    
++    //DMA CRC
++    STORAGE(DCRCCON)  ; break;        
++    STORAGE(DCRCDATA) ; break;        
++    STORAGE(DCRCXOR)  ; break;        
++    
++    //DMA channel 0
++    STORAGE(DCH0CON)  ; break; 
++    STORAGE(DCH0ECON) ; break; 
++    STORAGE(DCH0INT)  ; break; 
++    STORAGE(DCH0SSA)  ; break; 
++    STORAGE(DCH0DSA)  ; break; 
++    STORAGE(DCH0SSIZ) ; break; 
++    STORAGE(DCH0DSIZ) ; break; 
++    STORAGE(DCH0SPTR) ; break; 
++    STORAGE(DCH0DPTR) ; break; 
++    STORAGE(DCH0CSIZ) ; break; 
++    STORAGE(DCH0CPTR) ; break; 
++    STORAGE(DCH0DAT)  ; break; 
++    
++    //channel 1
++    STORAGE(DCH1CON)  ; break; 
++    STORAGE(DCH1ECON) ; break; 
++    STORAGE(DCH1INT)  ; break; 
++    STORAGE(DCH1SSA)  ; break; 
++    STORAGE(DCH1DSA)  ; break; 
++    STORAGE(DCH1SSIZ) ; break; 
++    STORAGE(DCH1DSIZ) ; break; 
++    STORAGE(DCH1SPTR) ; break; 
++    STORAGE(DCH1DPTR) ; break; 
++    STORAGE(DCH1CSIZ) ; break; 
++    STORAGE(DCH1CPTR) ; break; 
++    STORAGE(DCH1DAT)  ; break; 
++
++    //channel 2
++    STORAGE(DCH2CON)  ; break; 
++    STORAGE(DCH2ECON) ; break; 
++    STORAGE(DCH2INT)  ; break; 
++    STORAGE(DCH2SSA)  ; break; 
++    STORAGE(DCH2DSA)  ; break; 
++    STORAGE(DCH2SSIZ) ; break; 
++    STORAGE(DCH2DSIZ) ; break; 
++    STORAGE(DCH2SPTR) ; break; 
++    STORAGE(DCH2DPTR) ; break; 
++    STORAGE(DCH2CSIZ) ; break; 
++    STORAGE(DCH2CPTR) ; break; 
++    STORAGE(DCH2DAT)  ; break; 
++
++    //todo add register of remaining registers
++ 
+ 
+     /*-------------------------------------------------------------------------
+      * Analog to digital converter.
+@@ -753,7 +887,18 @@ static unsigned io_read32(pic32_t *s, unsigned offset, const char **namep)
+     STORAGE(U6BRGCLR);  *bufp = 0; break;
+     STORAGE(U6BRGSET);  *bufp = 0; break;
+     STORAGE(U6BRGINV);  *bufp = 0; break;
+-
++  
++    /*
++    * I2C REGISTERS
++    */
++    STORAGE(I2C1CON);  break;
++    STORAGE(I2C1STAT); break;
++    STORAGE(I2C1ADD);  break;
++    STORAGE(I2C1MSK);  break;
++    STORAGE(I2C1BRG);  break;
++    STORAGE(I2C1TRN);  break;
++    STORAGE(I2C1RCV);  break;
++    
+     /*-------------------------------------------------------------------------
+      * SPI 1.
+      */
+@@ -831,11 +976,11 @@ static unsigned io_read32(pic32_t *s, unsigned offset, const char **namep)
+     STORAGE(SPI4BRGINV); *bufp = 0; break;
+ 
+     default:
+-        printf("--- Read 1f8%05x: peripheral register not supported\n",
+-            offset);
++        printf("--- Read 1f8%05x (0x%08x): peripheral register not supported\n",
++            offset, offset);
+         if (TRACE)
+-            fprintf(qemu_logfile, "--- Read 1f8%05x: peripheral register not supported\n",
+-                offset);
++            fprintf(qemu_logfile, "--- Read 1f8%05x (0x%08x): peripheral register not supported\n",
++                offset, offset);
+         exit(1);
+     }
+     return *bufp;
+@@ -845,6 +990,7 @@ static void io_write32(pic32_t *s, unsigned offset, unsigned data, const char **
+ {
+     unsigned *bufp = &VALUE(offset);
+ 
++   
+     switch (offset) {
+     /*-------------------------------------------------------------------------
+      * Bus matrix control registers.
+@@ -919,12 +1065,72 @@ irq:    update_irq_status(s);
+         }
+         break;
+ 
+-    /*-------------------------------------------------------------------------
++  /*-------------------------------------------------------------------------
+      * DMA controller.
+      */
+     WRITEOP(DMACON); return;    // DMA Control
+     STORAGE(DMASTAT); break;    // DMA Status
+     STORAGE(DMAADDR); break;    // DMA Address
++    
++    //DMA CRC
++    STORAGE(DCRCCON)  ; break;        
++    STORAGE(DCRCDATA) ; break;        
++    STORAGE(DCRCXOR)  ; break;        
++    
++    //DMA channel 0
++    WRITEOP(DCH0CON)  ; return; 
++    WRITEOP(DCH0ECON) ; return; 
++    WRITEOP(DCH0INT)  ; return; 
++    WRITEOP(DCH0SSA)  ; return; 
++    WRITEOP(DCH0DSA)  ; return; 
++    WRITEOP(DCH0SSIZ) ; return; 
++    WRITEOP(DCH0DSIZ) ; return; 
++    WRITEOP(DCH0SPTR) ; return; 
++    WRITEOP(DCH0DPTR) ; return; 
++    WRITEOP(DCH0CSIZ) ; return; 
++    WRITEOP(DCH0CPTR) ; return; 
++    WRITEOP(DCH0DAT)  ; return; 
++    
++    //channel 1
++    WRITEOP(DCH1CON)  ; return; 
++    WRITEOP(DCH1ECON) ; return; 
++    WRITEOP(DCH1INT)  ; return; 
++    WRITEOP(DCH1SSA)  ; return; 
++    WRITEOP(DCH1DSA)  ; return; 
++    WRITEOP(DCH1SSIZ) ; return; 
++    WRITEOP(DCH1DSIZ) ; return; 
++    WRITEOP(DCH1SPTR) ; return; 
++    WRITEOP(DCH1DPTR) ; return; 
++    WRITEOP(DCH1CSIZ) ; return; 
++    WRITEOP(DCH1CPTR) ; return; 
++    WRITEOP(DCH1DAT)  ; return; 
++
++    //channel 2
++    WRITEOP(DCH2CON)  ; return; 
++    WRITEOP(DCH2ECON) ; return; 
++    WRITEOP(DCH2INT)  ; return; 
++    WRITEOP(DCH2SSA)  ; return; 
++    WRITEOP(DCH2DSA)  ; return; 
++    WRITEOP(DCH2SSIZ) ; return; 
++    WRITEOP(DCH2DSIZ) ; return; 
++    WRITEOP(DCH2SPTR) ; return; 
++    WRITEOP(DCH2DPTR) ; return; 
++    WRITEOP(DCH2CSIZ) ; return; 
++    WRITEOP(DCH2CPTR) ; return; 
++    WRITEOP(DCH2DAT)  ; return; 
++
++    //todo add register of remaining registers
++
++    /*
++    * I2C REGISTERS
++    */
++    WRITEOP(I2C1CON);  return;
++    WRITEOP(I2C1STAT); return;
++    WRITEOP(I2C1ADD);  return;
++    WRITEOP(I2C1MSK);  return;
++    WRITEOP(I2C1BRG);  return;
++    WRITEOP(I2C1TRN);  return;
++    STORAGE(I2C1RCV);  break;
+ 
+     /*-------------------------------------------------------------------------
+      * Analog to digital converter.
+@@ -1149,6 +1355,22 @@ irq:    update_irq_status(s);
+     WRITEOP(U6BRG); return;                         // Baud rate
+     READONLY(U6RXREG);                              // Receive
+ 
++    /*-------------------------------------------------------------------------
++    * TIMER2
++    */
++    WRITEOP(T2CON); return;           
++    STORAGE(TMR2);  break;          
++    STORAGE(PR2);   break;          
++
++    /*-------------------------------------------------------------------------
++    * TIMER4
++    */
++    WRITEOP(T4CON); return; 
++    STORAGE(TMR4);  break; 
++    STORAGE(PR4);   break; 
++
++    
++
+     /*-------------------------------------------------------------------------
+      * SPI.
+      */
+@@ -1190,11 +1412,11 @@ irq:    update_irq_status(s);
+     WRITEOP(SPI4BRG); return;                       // Baud rate
+ 
+     default:
+-        printf("--- Write %08x to 1f8%05x: peripheral register not supported\n",
+-            data, offset);
++        printf("--- Write %08x to 1f8%05x (0x%08x): peripheral register not supported\n",
++            data, offset, offset);
+         if (TRACE)
+-            fprintf(qemu_logfile, "--- Write %08x to 1f8%05x: peripheral register not supported\n",
+-                data, offset);
++            fprintf(qemu_logfile, "--- Write %08x to 1f8%05x (0x%08x): peripheral register not supported\n",
++                data, offset, offset);
+         exit(1);
+ readonly:
+         printf("--- Write %08x to %s: readonly register\n",
+@@ -1243,6 +1465,7 @@ static uint64_t pic32_io_read(void *opaque, hwaddr addr, unsigned bytes)
+         }
+         break;
+     }
++    fire_irq_DMA(s);
+     return data;
+ }
+ 
+@@ -1263,12 +1486,175 @@ static void pic32_io_write(void *opaque, hwaddr addr, uint64_t data, unsigned by
+         data <<= (offset & 2) * 8;
+         break;
+     }
++
++    // DICE
++    
++ 
++    pointer_exist=false;
++    pointer_type = get_pointer_type(data);
++
++   
++    if(pointer_type==TPERIPHERAL && bytes==4) // descriptors with a single pointer e.g. NRF52832
++    {         
++             if (TRACE)
++             { 
++                fprintf(qemu_logfile,"Pointer-like value identified: p_offset:*0x%x->*0x%lx \n",offset, data);
++             }
++             printf("Pointer-like value identified: p_offset:*0x%x->*0x%lx \n",offset, data);
++    }
++ 
++    int base_addr,i,j;
++    base_addr=(int)(addr/PERIPHERAL_SPAN);
++    
++    pointer_exist=false;
++
++    //Base address must be greater than 0, because 0 base is reserved for System controller registers   
++    if(bytes==4 && base_addr > 0)
++    {
++        pm_cnt++; //pseudo ID of pointer
++        if(pointer_type != TUNKNOWN && pointer_type != TFLASH) // look for descriptors on peripherals (two pointers) e.g. F103, F429
++        {
++            for (i=0; (i<MAX_POINTERS &&  i < number_dma_pointers ); i++) //check for already observed pointers
++            {               
++                if(dma_pointers[i].base==base_addr &&  dma_pointers[i].register_addr==addr)                
++                {   
++                    pointer_exist=true;
++                    if(dma_pointers[i].id_ctp == 0) // if pointer has not been associated, update it
++                    {                      
++                        //printf("Pointer updated: address: 0x%lx preval: 0x%x val: 0x%lx \n", addr,dma_pointers[i].value,data);
++                        dma_pointers[i].value=data;
++                        dma_pointers[i].ordinal=pm_cnt;             
++                        dma_pointers[i].type=pointer_type;                       
++                    }
++                    else
++                    {   // if pointer has been associated, update it and remove association of pointers associated
++                        //TODO: if this pointer was used on a previously identified descriptor, this desctriptor should be invalidated and deleted from the list
++                        // the sencond pointer associated with this descriptor should be updated as well (id_ctp=0)
++                                                                                                                               
++                        for(j=0;j<number_dma_descriptors;j++)
++                        {
++                            if(dma_descriptors[j].pointer_mem.id==dma_pointers[i].id || dma_descriptors[j].pointer_peri.id==dma_pointers[i].id)
++                            {
++                                delete_dma_descriptor(j); //delete descriptor
++                                dma_pointers[i].id_ctp=0; // remove pointer association 
++                                dma_pointers[i].value=data;
++                                dma_pointers[i].ordinal=pm_cnt;             
++                                dma_pointers[i].type=pointer_type;     
++
++                                //printf("Pointer on 0x%lx already used for Descriptor ID: %d, invalidating descriptor...\n",addr, j);
++                                for(j=0;j<number_dma_pointers;j++)
++                                {
++                                    if(dma_pointers[i].id==dma_pointers[j].id_ctp)
++                                    {
++                                        dma_pointers[j].id_ctp=0; //remove pointer association 
++                                        printf("Removed asociation of Pointers  0x%x  and 0x%x\n",dma_pointers[i].value,dma_pointers[j].value);                                        
++                                        break;
++                                    }
++                                }
++
++                                break;
++                            }
++                        }
++                                      
++                    }
++                                             
++                    break;
++                }
++            }
++            // if pointer does not exist add to the list
++            if (pointer_exist == false && number_dma_pointers < MAX_POINTERS){
++                dma_pointers[number_dma_pointers].id=pm_cnt; //is this useful?
++                dma_pointers[number_dma_pointers].id_ctp=0;
++                dma_pointers[number_dma_pointers].value=data;
++                dma_pointers[number_dma_pointers].base=base_addr;
++                dma_pointers[number_dma_pointers].register_addr=addr;
++                dma_pointers[number_dma_pointers].ordinal=pm_cnt;   
++                dma_pointers[number_dma_pointers].type=pointer_type;             
++                number_dma_pointers++;
++            }
++                              
++            bool descriptor_found=false;
++
++            if (number_dma_pointers>=2 ) // requirement for descriptor with 2 pointers
++            {                
++                for (i=0; i < (number_dma_pointers -1);i++)
++                {
++                    for (j=i+1; j < (number_dma_pointers);j++)
++                    {
++                        if(dma_pointers[i].base==dma_pointers[j].base //pointers that share the same base
++                        && dma_pointers[i].id_ctp==0 && dma_pointers[j].id_ctp==0  // pointers that have not been used before
++                        && abs(dma_pointers[i].register_addr - dma_pointers[j].register_addr)==0x10 // source and destination are in contiguous adrresses, this is necessary for multiple descriptors/channels per DMA controller
++                        &&  dma_pointers[i].value !=  dma_pointers[j].value  
++                        && valid_descriptor_pointers(dma_pointers[i].value, dma_pointers[j].value)  ) 
++                        {
++                            printf("DMA Stream configuration identified: *0x%x p_A:*0x%x->*0x%x p_B:*0x%x->*0x%x \n", 
++                            dma_pointers[i].base,dma_pointers[i].register_addr, dma_pointers[i].value, dma_pointers[j].register_addr, dma_pointers[j].value);
++                            dma_pointers[j].id_ctp=dma_pointers[i].id;
++                            dma_pointers[i].id_ctp=dma_pointers[j].id;
++                            //number_dma_pointers=0; // This is necessary to avoid false positives on consecutive DMA descriptor configuration. TODO: double check when this was observed   
++                            //F103 does not require this change                   
++                            descriptor_found=true;
++                            
++                            // create a DMA descriptor
++                            if(number_dma_descriptors<MAX_DMA_DESC)
++                            {
++                                //arbitrary assigment to peri or mem not necessarily represents a pripheral or memory address, 
++                                //it is just a differentiation of names between pointers. This is similar to STM32F103 DMA hardware implementation                               
++                                if(dma_pointers[i].type==TPERIPHERAL) 
++                                {    
++                                    dma_descriptors[number_dma_descriptors].id_pointer_peri=i;
++                                    dma_descriptors[number_dma_descriptors].pointer_peri=dma_pointers[i];
++                                    dma_descriptors[number_dma_descriptors].id_pointer_mem=j;
++                                    dma_descriptors[number_dma_descriptors].pointer_mem=dma_pointers[j];
++                                }else
++                                {
++                                                                         
++                                        dma_descriptors[number_dma_descriptors].id_pointer_peri=j;
++                                        dma_descriptors[number_dma_descriptors].pointer_peri=dma_pointers[j];
++                                        dma_descriptors[number_dma_descriptors].id_pointer_mem=i;
++                                        dma_descriptors[number_dma_descriptors].pointer_mem=dma_pointers[i];
++
++                                }
++                                dma_descriptors[number_dma_descriptors].number_beats=0;
++                                dma_descriptors[number_dma_descriptors].t_access_mem=NOACCESS;
++                                dma_descriptors[number_dma_descriptors].t_access_peri=NOACCESS;
++                                dma_descriptors[number_dma_descriptors].exc_num_dma= NONUM;
++                                dma_descriptors[number_dma_descriptors].version=2;
++                                number_dma_descriptors++;   
++                                                             
++                            }
++
++                            else
++                            {
++                                printf("Max number of DMA streams reached!!");
++                            }
++                            
++                            break;
++                        }
++                    }
++                    if (descriptor_found==true)
++                    {
++                        break;
++                    }
++
++                }
++                
++            }
++
++
++        }
++    }
++
++
++
+     io_write32(s, offset & ~3, data, &name);
+ 
+     if (TRACE && name != 0) {
+-        fprintf(qemu_logfile, "--- I/O Write %08x to %s\n",
+-            (uint32_t) data, name);
++        fprintf(qemu_logfile, "--- I/O Write %08x to %s (%08x)\n",
++            (uint32_t) data, name,offset);
+     }
++
++     fire_irq_DMA(s);
+ }
+ 
+ static const MemoryRegionOps pic32_io_ops = {
+@@ -1426,8 +1812,7 @@ static void pic32_init(MachineState *machine, int board_type)
+     /* CPU runs at 80MHz.
+      * Count register increases at half this rate. */
+     cpu_mips_clock_init(env, 40*1000*1000);
+-
+-    /*
++      /*
+      * Initialize board-specific parameters.
+      */
+     int cs0_port, cs0_pin, cs1_port, cs1_pin;
+@@ -1503,7 +1888,7 @@ static void pic32_init(MachineState *machine, int board_type)
+     }
+     if (! sd0_file) {
+         dinfo = drive_get(IF_SD, 0, 0);
+-        if (dinfo) {
++        if (dinfo) {           
+             sd0_file = qemu_opt_get(dinfo->opts, "file");
+             dinfo->is_default = 1;
+         }
+diff --git a/hw/mips/mips_pic32mz.c b/hw/mips/mips_pic32mz.c
+index ccbfbbdd9..9c26c44b7 100644
+--- a/hw/mips/mips_pic32mz.c
++++ b/hw/mips/mips_pic32mz.c
+@@ -33,12 +33,14 @@
+ #include "hw/loader.h"
+ #include "qemu/error-report.h"
+ #include "hw/empty_slot.h"
++#include "dma/dma.h"
+ #include <termios.h>
+ 
+ #include "pic32mz.h"
+ #include "pic32_peripherals.h"
+ 
+ /* Hardware addresses */
++/*
+ #define PROGRAM_FLASH_START 0x1d000000
+ #define BOOT_FLASH_START    0x1fc00000
+ #define DATA_MEM_START      0x00000000
+@@ -47,6 +49,7 @@
+ #define PROGRAM_FLASH_SIZE  (2*1024*1024)       // 2 Mbytes
+ #define BOOT_FLASH_SIZE     (64*1024)           // 64 kbytes
+ #define DATA_MEM_SIZE       (512*1024)          // 512 kbytes
++*/
+ 
+ #define TYPE_MIPS_PIC32     "mips-pic32mz"
+ 
+@@ -71,12 +74,105 @@ static const char *board_name[] = {
+ static char *prog_ptr;
+ static char *boot_ptr;
+ 
++/* 
++* Global variables DICE
++*/
++int number_dma_buff_addreses=0;
++int number_dma_pointers=0;
++int number_dma_descriptors=0;
++pm_pointer_type_t pointer_type;
++bool pointer_exist=false;
++pm_DMA_desc dma_descriptors[MAX_DMA_DESC];
++pm_DMA_pointers dma_pointers[MAX_POINTERS];
++pm_dma_buffer_beat dma_buffer_addresses[MAX_DMA_BEAT_ADDRESS];
++
++int pm_cnt=0;
++int pm_int=0;
++int irqs_dma[8];
++int irq_dma_current=-1;
++int irq_dma_previous=-1;
++
++
++
+ #define BOOTMEM(addr) ((uint32_t*) boot_ptr) [(addr & 0xffff) >> 2]
+ 
+ /*
+  * TODO: add option to enable tracing.
+  */
+ #define TRACE   0
++//static void irq_raise(pic32_t *s, int irq);
++
++static void fire_irq_DMA(pic32_t *s)
++{
++    pm_int++;   
++    if(number_dma_descriptors && pm_int >= IRQ_TRESHOLD)
++    {
++        pm_int = 0;
++        int i,j; 
++        int i_control = VALUE(IEC(4)); //interrupt control register for DMA               
++        
++     
++        for (i=6; i<=13; i++ )
++        {
++            if ((1<<i) &  i_control)
++            {
++                //printf("DMA INT channel enabled #: %d\n", (i-6));
++                irqs_dma[i-6] = 1;               
++            }
++            else
++            {
++                irqs_dma[i-6] = 0;
++            }                                              
++        }   
++
++        // round robin triger
++        if (irq_dma_previous==-1)
++        {
++            j = 0;
++        }
++        else{
++            if (irq_dma_previous+1 < 8)j=irq_dma_previous+1;
++            else j=0;
++        }
++        
++        irq_dma_current = -1;
++        for (i = j; i<8; i++)
++        {
++            if(irq_dma_previous ==-1 && irqs_dma[i]==1)
++            {
++                irq_dma_current = i;
++                break;
++            }
++            else if(irqs_dma[i]==1)
++            {
++                irq_dma_current = i;
++                break;
++            }
++            
++        }
++        
++        irq_dma_previous = irq_dma_current;
++
++        if(irq_dma_current >-1) {
++            //printf("IRQ DMA: %d\n", irq_dma_current);
++
++            //irq_raise(s, irq_dma_current + 134);
++            //VALUE(IFS(irq >> 5)) |= 1 << (irq & 31);
++            switch(irq_dma_current){
++                case 0:
++                    VALUE(DCH0INT) |= 1 << 3;
++                    break;
++                case 1:
++                    VALUE(DCH1INT) |= 1 << 3;
++                    break;
++
++            }
++                        
++        }
++
++    }
++}
++
+ 
+ static void update_irq_status(pic32_t *s)
+ {
+@@ -106,17 +202,16 @@ static void update_irq_status(pic32_t *s)
+                 int level = VALUE(IPC(irq >> 2));
+                 level >>= 2 + (irq & 3) * 8;
+                 level &= 7;
+-                if (level > cause_ripl) {
++                if (level > cause_ripl) {                    
+                     vector = irq;
+-                    cause_ripl = level;
++                    cause_ripl = level;                    
+                 }
+             }
+         }
+         VALUE(INTSTAT) = vector | (cause_ripl << 8);
+     }
+ 
+-    if (cause_ripl == current_ripl)
+-        return;
++    if (cause_ripl == current_ripl) return;
+ 
+     if (TRACE)
+         fprintf(qemu_logfile, "--- Priority level Cause.RIPL = %u\n",
+@@ -126,7 +221,8 @@ static void update_irq_status(pic32_t *s)
+      * Modify Cause.RIPL field and take EIC interrupt.
+      */
+     env->CP0_Cause &= ~(0x3f << (CP0Ca_IP + 2));
+-    env->CP0_Cause |= cause_ripl << (CP0Ca_IP + 2);
++    env->CP0_Cause |= cause_ripl << (CP0Ca_IP + 2); 
++    //printf("interrupt hard vector %d, level %d \n", vector, cause_ripl);  
+     cpu_interrupt(CPU(s->cpu), CPU_INTERRUPT_HARD);
+ }
+ 
+@@ -135,8 +231,7 @@ static void update_irq_status(pic32_t *s)
+  */
+ static void irq_raise(pic32_t *s, int irq)
+ {
+-    if (VALUE(IFS(irq >> 5)) & (1 << (irq & 31)))
+-        return;
++    if (VALUE(IFS(irq >> 5)) & (1 << (irq & 31))) return;
+ 
+     VALUE(IFS(irq >> 5)) |= 1 << (irq & 31);
+     update_irq_status(s);
+@@ -747,7 +842,7 @@ static unsigned io_read32(pic32_t *s, unsigned offset, const char **namep)
+     STORAGE(OFF(184)); break;   STORAGE(OFF(185)); break;
+     STORAGE(OFF(186)); break;   STORAGE(OFF(187)); break;
+     STORAGE(OFF(188)); break;   STORAGE(OFF(189)); break;
+-    STORAGE(OFF(190)); break;
++    STORAGE(OFF(190)); break;   STORAGE(OFF(192)); break;
+ 
+     /*-------------------------------------------------------------------------
+      * Prefetch controller.
+@@ -1263,6 +1358,20 @@ static unsigned io_read32(pic32_t *s, unsigned offset, const char **namep)
+     STORAGE(SPI4CON2SET); *bufp = 0; break;
+     STORAGE(SPI4CON2INV); *bufp = 0; break;
+ 
++
++
++    /* 
++    * I2C registers
++    */
++    STORAGE(I2C1CON) ; break;
++    STORAGE(I2C1STAT); break;
++    STORAGE(I2C1ADD) ; break;
++    STORAGE(I2C1MSK) ; break;
++    STORAGE(I2C1BRG) ; break;
++    STORAGE(I2C1TRN) ; break;
++    STORAGE(I2C1RCV) ; break;
++
++
+     /*-------------------------------------------------------------------------
+      * Timers.
+      */
+@@ -1337,6 +1446,64 @@ static unsigned io_read32(pic32_t *s, unsigned offset, const char **namep)
+     STORAGE(EMAC1SA1); break;           // MAC station address 1
+     STORAGE(EMAC1SA2); break;           // MAC station address 2
+ 
++/*-------------------------------------------------------------------------
++     * DMA controller.
++     */
++    STORAGE(DMACON);  break;    // DMA Control
++    STORAGE(DMASTAT); break;    // DMA Status
++    STORAGE(DMAADDR); break;    // DMA Address
++    
++    //DMA CRC
++    STORAGE(DCRCCON)  ; break;        
++    STORAGE(DCRCDATA) ; break;        
++    STORAGE(DCRCXOR)  ; break;        
++    
++    //DMA channel 0
++    STORAGE(DCH0CON)  ; break; 
++    STORAGE(DCH0ECON) ; break; 
++    STORAGE(DCH0INT)  ; break; 
++    STORAGE(DCH0SSA)  ; break; 
++    STORAGE(DCH0DSA)  ; break; 
++    STORAGE(DCH0SSIZ) ; break; 
++    STORAGE(DCH0DSIZ) ; break; 
++    STORAGE(DCH0SPTR) ; break; 
++    STORAGE(DCH0DPTR) ; break; 
++    STORAGE(DCH0CSIZ) ; break; 
++    STORAGE(DCH0CPTR) ; break; 
++    STORAGE(DCH0DAT)  ; break; 
++    
++    //channel 1
++    STORAGE(DCH1CON)  ; break; 
++    STORAGE(DCH1ECON) ; break; 
++    STORAGE(DCH1INT)  ; break; 
++    STORAGE(DCH1SSA)  ; break; 
++    STORAGE(DCH1DSA)  ; break; 
++    STORAGE(DCH1SSIZ) ; break; 
++    STORAGE(DCH1DSIZ) ; break; 
++    STORAGE(DCH1SPTR) ; break; 
++    STORAGE(DCH1DPTR) ; break; 
++    STORAGE(DCH1CSIZ) ; break; 
++    STORAGE(DCH1CPTR) ; break; 
++    STORAGE(DCH1DAT)  ; break; 
++
++    //channel 2
++    STORAGE(DCH2CON)  ; break; 
++    STORAGE(DCH2ECON) ; break; 
++    STORAGE(DCH2INT)  ; break; 
++    STORAGE(DCH2SSA)  ; break; 
++    STORAGE(DCH2DSA)  ; break; 
++    STORAGE(DCH2SSIZ) ; break; 
++    STORAGE(DCH2DSIZ) ; break; 
++    STORAGE(DCH2SPTR) ; break; 
++    STORAGE(DCH2DPTR) ; break; 
++    STORAGE(DCH2CSIZ) ; break; 
++    STORAGE(DCH2CPTR) ; break; 
++    STORAGE(DCH2DAT)  ; break; 
++
++    //todo add register of remaining registers
++
++
++
+     /*-------------------------------------------------------------------------
+      * USB.
+      */
+@@ -1742,7 +1909,17 @@ irq:    update_irq_status(s);
+     STORAGE(OFF(184)); break;   STORAGE(OFF(185)); break;
+     STORAGE(OFF(186)); break;   STORAGE(OFF(187)); break;
+     STORAGE(OFF(188)); break;   STORAGE(OFF(189)); break;
+-    STORAGE(OFF(190)); break;
++    STORAGE(OFF(190)); break;   
++    STORAGE(OFF(192)); break;   STORAGE(OFF(193)); break;   
++    STORAGE(OFF(194)); break;   
++    STORAGE(OFF(196)); break;   
++    STORAGE(OFF(198)); break;   STORAGE(OFF(199)); break;   
++    STORAGE(OFF(200)); break;   STORAGE(OFF(201)); break;   
++    STORAGE(OFF(202)); break;   STORAGE(OFF(205)); break;
++    STORAGE(OFF(206)); break;   STORAGE(OFF(207)); break;
++    STORAGE(OFF(208)); break;   STORAGE(OFF(209)); break;
++    STORAGE(OFF(210)); break;   STORAGE(OFF(213)); break;
++
+ 
+     /*-------------------------------------------------------------------------
+      * Prefetch controller.
+@@ -2198,6 +2375,17 @@ irq:    update_irq_status(s);
+     WRITEOP(SPI4BRG); return;                       // Baud rate
+     WRITEOP(SPI4CON2); return;                      // Control 2
+ 
++    /* 
++    * I2C registers
++    */
++    WRITEOP(I2C1CON) ; return;
++    WRITEOP(I2C1STAT); return;
++    WRITEOP(I2C1ADD) ; return;
++    WRITEOP(I2C1MSK) ; return;
++    WRITEOP(I2C1BRG) ; return;
++    WRITEOP(I2C1TRN) ; return;
++    STORAGE(I2C1RCV) ; break;
++
+     /*
+      * Timers 1-9.
+      */
+@@ -2278,6 +2466,63 @@ irq:    update_irq_status(s);
+     WRITEOP(EMAC1SA1); return;          // MAC station address 1
+     WRITEOP(EMAC1SA2); return;          // MAC station address 2
+ 
++ /*-------------------------------------------------------------------------
++     * DMA controller.
++     */
++    WRITEOP(DMACON); return;    // DMA Control
++    STORAGE(DMASTAT); break;    // DMA Status
++    STORAGE(DMAADDR); break;    // DMA Address
++    
++    //DMA CRC
++    STORAGE(DCRCCON)  ; break;        
++    STORAGE(DCRCDATA) ; break;        
++    STORAGE(DCRCXOR)  ; break;        
++    
++    //DMA channel 0
++    WRITEOP(DCH0CON)  ; return; 
++    WRITEOP(DCH0ECON) ; return; 
++    WRITEOP(DCH0INT)  ; return; 
++    WRITEOP(DCH0SSA)  ; return; 
++    WRITEOP(DCH0DSA)  ; return; 
++    WRITEOP(DCH0SSIZ) ; return; 
++    WRITEOP(DCH0DSIZ) ; return; 
++    WRITEOP(DCH0SPTR) ; return; 
++    WRITEOP(DCH0DPTR) ; return; 
++    WRITEOP(DCH0CSIZ) ; return; 
++    WRITEOP(DCH0CPTR) ; return; 
++    WRITEOP(DCH0DAT)  ; return; 
++    
++    //channel 1
++    WRITEOP(DCH1CON)  ; return; 
++    WRITEOP(DCH1ECON) ; return; 
++    WRITEOP(DCH1INT)  ; return; 
++    WRITEOP(DCH1SSA)  ; return; 
++    WRITEOP(DCH1DSA)  ; return; 
++    WRITEOP(DCH1SSIZ) ; return; 
++    WRITEOP(DCH1DSIZ) ; return; 
++    WRITEOP(DCH1SPTR) ; return; 
++    WRITEOP(DCH1DPTR) ; return; 
++    WRITEOP(DCH1CSIZ) ; return; 
++    WRITEOP(DCH1CPTR) ; return; 
++    WRITEOP(DCH1DAT)  ; return; 
++
++    //channel 2
++    WRITEOP(DCH2CON)  ; return; 
++    WRITEOP(DCH2ECON) ; return; 
++    WRITEOP(DCH2INT)  ; return; 
++    WRITEOP(DCH2SSA)  ; return; 
++    WRITEOP(DCH2DSA)  ; return; 
++    WRITEOP(DCH2SSIZ) ; return; 
++    WRITEOP(DCH2DSIZ) ; return; 
++    WRITEOP(DCH2SPTR) ; return; 
++    WRITEOP(DCH2DPTR) ; return; 
++    WRITEOP(DCH2CSIZ) ; return; 
++    WRITEOP(DCH2CPTR) ; return; 
++    WRITEOP(DCH2DAT)  ; return; 
++
++    //todo add register of remaining registers
++
++
+     /*-------------------------------------------------------------------------
+      * USB.
+      */
+@@ -2387,6 +2632,18 @@ irq:    update_irq_status(s);
+     STORAGE(USBLPMR1); break;
+     STORAGE(USBLMPR2); break;
+ 
++    /*
++    * PERIPHERAL MODULE DISABLE REGISTERS
++    */
++    STORAGE(PDM1); break;
++    STORAGE(PDM2); break;
++    STORAGE(PDM3); break;
++    STORAGE(PDM4); break;
++    STORAGE(PDM5); break;
++    STORAGE(PDM6); break;
++    STORAGE(PDM7); break;
++    
++
+     default:
+         printf("--- Write %08x to 1f8%05x: peripheral register not supported\n",
+             data, offset);
+@@ -2441,6 +2698,7 @@ static uint64_t pic32_io_read(void *opaque, hwaddr addr, unsigned bytes)
+         }
+         break;
+     }
++    fire_irq_DMA(s);
+     return data;
+ }
+ 
+@@ -2461,12 +2719,173 @@ static void pic32_io_write(void *opaque, hwaddr addr, uint64_t data, unsigned by
+         data <<= (offset & 2) * 8;
+         break;
+     }
+-    io_write32(s, offset & ~3, data, &name);
+ 
++   // DICE
++    
++    pointer_exist=false;
++    pointer_type = get_pointer_type(data);
++       
++    if(pointer_type==TPERIPHERAL && bytes==4) // descriptors with a single pointer e.g. NRF52832
++    {         
++             if (TRACE)
++             { 
++                fprintf(qemu_logfile,"Pointer-like value identified: p_offset:*0x%x->*0x%lx \n",offset, data);
++             }
++             printf("Pointer-like value identified: p_offset:*0x%x->*0x%lx \n",offset, data);
++    }
++
++    int base_addr,i,j;
++    base_addr=(int)(addr/PERIPHERAL_SPAN);
++    
++    pointer_exist=false;
++
++    //Base address must be greater than 0, because 0 base is reserved for System controller registers   
++    if(bytes==4 && base_addr > 0 )
++    {
++        pm_cnt++; //pseudo ID of pointer
++        if(pointer_type != TUNKNOWN && pointer_type != TFLASH ) // look for descriptors on peripherals (two pointers) e.g. F103, F429
++        {
++            for (i=0; (i<MAX_POINTERS &&  i < number_dma_pointers ); i++) //check for already observed pointers
++            {               
++                if(dma_pointers[i].base==base_addr &&  dma_pointers[i].register_addr==addr)                
++                {   
++                    pointer_exist=true;
++                    if(dma_pointers[i].id_ctp == 0) // if pointer has not been associated, update it
++                    {                      
++                        //printf("Pointer updated: address: 0x%lx preval: 0x%x val: 0x%lx \n", addr,dma_pointers[i].value,data);
++                        dma_pointers[i].value=data;
++                        dma_pointers[i].ordinal=pm_cnt;             
++                        dma_pointers[i].type=pointer_type;                       
++                    }
++                    else
++                    {   // if pointer has been associated, update it and remove association of pointers associated
++                        //TODO: if this pointer was used on a previously identified descriptor, this desctriptor should be invalidated and deleted from the list
++                        // the sencond pointer associated with this descriptor should be updated as well (id_ctp=0)
++                                                                                                                               
++                        for(j=0;j<number_dma_descriptors;j++)
++                        {
++                            if(dma_descriptors[j].pointer_mem.id==dma_pointers[i].id || dma_descriptors[j].pointer_peri.id==dma_pointers[i].id)
++                            {
++                                delete_dma_descriptor(j); //delete descriptor
++                                dma_pointers[i].id_ctp=0; // remove pointer association 
++                                dma_pointers[i].value=data;
++                                dma_pointers[i].ordinal=pm_cnt;             
++                                dma_pointers[i].type=pointer_type;     
++
++                                //printf("Pointer on 0x%lx already used for Descriptor ID: %d, invalidating descriptor...\n",addr, j);
++                                for(j=0;j<number_dma_pointers;j++)
++                                {
++                                    if(dma_pointers[i].id==dma_pointers[j].id_ctp)
++                                    {
++                                        dma_pointers[j].id_ctp=0; //remove pointer association 
++                                        printf("Removed asociation of Pointers  0x%x  and 0x%x\n",dma_pointers[i].value,dma_pointers[j].value);                                        
++                                        break;
++                                    }
++                                }
++
++                                break;
++                            }
++                        }
++                                      
++                    }
++                                             
++                    break;
++                }
++            }
++            // if pointer does not exist add to the list
++            if (pointer_exist == false && number_dma_pointers < MAX_POINTERS){
++                dma_pointers[number_dma_pointers].id=pm_cnt; //is this useful?
++                dma_pointers[number_dma_pointers].id_ctp=0;
++                dma_pointers[number_dma_pointers].value=data;
++                dma_pointers[number_dma_pointers].base=base_addr;
++                dma_pointers[number_dma_pointers].register_addr=addr;
++                dma_pointers[number_dma_pointers].ordinal=pm_cnt;   
++                dma_pointers[number_dma_pointers].type=pointer_type;             
++                number_dma_pointers++;
++            }
++                              
++            bool descriptor_found=false;
++
++            if (number_dma_pointers>=2 ) // requirement for descriptor with 2 pointers
++            {                
++                for (i=0; i < (number_dma_pointers -1);i++)
++                {
++                    for (j=i+1; j < (number_dma_pointers);j++)
++                    {
++                        if(dma_pointers[i].base==dma_pointers[j].base //pointers that share the same base
++                        && dma_pointers[i].id_ctp==0 && dma_pointers[j].id_ctp==0  // pointers that have not been used before
++                        && abs(dma_pointers[i].register_addr - dma_pointers[j].register_addr)==0x10 // source and destination are in contiguous adrresses, this is necessary for multiple descriptors/channels per DMA controller
++                        &&  dma_pointers[i].value !=  dma_pointers[j].value  
++                        && valid_descriptor_pointers(dma_pointers[i].value, dma_pointers[j].value)  ) 
++                        {
++                            printf("DMA Stream configuration identified:: *0x%x p_A:*0x%x->*0x%x p_B:*0x%x->*0x%x \n", 
++                            dma_pointers[i].base,dma_pointers[i].register_addr, dma_pointers[i].value, dma_pointers[j].register_addr, dma_pointers[j].value);
++                            dma_pointers[j].id_ctp=dma_pointers[i].id;
++                            dma_pointers[i].id_ctp=dma_pointers[j].id;
++                            //number_dma_pointers=0; // This is necessary to avoid false positives on consecutive DMA descriptor configuration. TODO: double check when this was observed   
++                            //F103 does not require this change                   
++                            descriptor_found=true;
++                            
++                            // create a DMA descriptor
++                            if(number_dma_descriptors<MAX_DMA_DESC)
++                            {
++                                //arbitrary assigment to peri or mem not necessarily represents a pripheral or memory address, 
++                                //it is just a differentiation of names between pointers. This is similar to STM32F103 DMA hardware implementation                               
++                                if(dma_pointers[i].type==TPERIPHERAL) 
++                                {    
++                                    dma_descriptors[number_dma_descriptors].id_pointer_peri=i;
++                                    dma_descriptors[number_dma_descriptors].pointer_peri=dma_pointers[i];
++                                    dma_descriptors[number_dma_descriptors].id_pointer_mem=j;
++                                    dma_descriptors[number_dma_descriptors].pointer_mem=dma_pointers[j];
++                                }else
++                                {
++                                                                         
++                                        dma_descriptors[number_dma_descriptors].id_pointer_peri=j;
++                                        dma_descriptors[number_dma_descriptors].pointer_peri=dma_pointers[j];
++                                        dma_descriptors[number_dma_descriptors].id_pointer_mem=i;
++                                        dma_descriptors[number_dma_descriptors].pointer_mem=dma_pointers[i];
++
++                                }
++                                dma_descriptors[number_dma_descriptors].number_beats=0;
++                                dma_descriptors[number_dma_descriptors].t_access_mem=NOACCESS;
++                                dma_descriptors[number_dma_descriptors].t_access_peri=NOACCESS;
++                                dma_descriptors[number_dma_descriptors].exc_num_dma= NONUM;
++                                dma_descriptors[number_dma_descriptors].version=2;
++                                number_dma_descriptors++;   
++                                                             
++                            }
++
++                            else
++                            {
++                                printf("Max number of DMA Streams reached!!");
++                            }
++                            
++                            break;
++                        }
++                    }
++                    if (descriptor_found==true)
++                    {
++                        break;
++                    }
++
++                }
++                
++            }
++
++
++        }
++    }
++    
++
++    io_write32(s, offset & ~3, data, &name);
+     if (TRACE && name != 0) {
+-        fprintf(qemu_logfile, "--- I/O Write %08x to %s\n",
+-            (uint32_t) data, name);
++    fprintf(qemu_logfile, "--- I/O Write %08x to %s\n",
++        (uint32_t) data, name);
+     }
++
++ 
++    fire_irq_DMA(s);
++
+ }
+ 
+ static const MemoryRegionOps pic32_io_ops = {
+@@ -2487,6 +2906,12 @@ static void main_cpu_reset(void *opaque)
+     env->CP0_IntCtl = 0x00030000;
+     env->CP0_Debug = (1 << CP0DB_CNT) | (5 << CP0DB_VER);
+     env->CP0_Performance0 = 0x80000000;
++    /* M-Class Cores DSP ASE version 2 enabled for PIC32MZEF  */
++    env->CP0_Config3 = (1 << CP0C3_DSPP) | (1 << CP0C3_DSP2P);
++    /*MX: MIPS DSP Resource Enable bit (3)
++     This bit must be set prior to executing any DSP ASE instruction. An attempt to execute a DSP ASE
++     instruction while this bit is cleared will result in a DSP State Disabled exception.*/     
++    env->CP0_Status = (1<<CP0St_MX); 
+     for (i=0; i<7; i++)
+         env->CP0_WatchHi[i] = (i < 3) ? 0x80000000 : 0;
+ }
+diff --git a/hw/mips/pic32_peripherals.h b/hw/mips/pic32_peripherals.h
+index 4d95fd282..b33d75159 100644
+--- a/hw/mips/pic32_peripherals.h
++++ b/hw/mips/pic32_peripherals.h
+@@ -174,3 +174,5 @@ int pic32_load_hex_file(const char *filename,
+                         case name+8: *namep = #name"SET"; goto op_##name;\
+                         case name+12: *namep = #name"INV"; op_##name: \
+                         VALUE(name) = (VALUE(name) & (romask)) | (write_op(VALUE(name), data, offset) & ~(romask))
++
++
+diff --git a/hw/mips/pic32mx.h b/hw/mips/pic32mx.h
+index e5d14b143..a1af02118 100644
+--- a/hw/mips/pic32mx.h
++++ b/hw/mips/pic32mx.h
+@@ -749,6 +749,19 @@
+ #define PIC32_SPISTAT_SPIROV    0x00000040      /* Receive overflow flag */
+ #define PIC32_SPISTAT_SPIBUSY   0x00000800      /* SPI is busy */
+ 
++/*
++* I2C controllers
++*/
++
++#define I2C1CON   PIC32_R(0x5300)
++#define I2C1STAT  PIC32_R(0x5310)
++#define I2C1ADD   PIC32_R(0x5320)
++#define I2C1MSK   PIC32_R(0x5330)
++#define I2C1BRG   PIC32_R(0x5340)
++#define I2C1TRN   PIC32_R(0x5350)
++#define I2C1RCV   PIC32_R(0x5360)
++
++
+ /*--------------------------------------
+  * DMA controller registers.
+  */
+@@ -758,6 +771,49 @@
+ #define DMACONINV       PIC32_R (0x8300C)
+ #define DMASTAT         PIC32_R (0x83010)       /* DMA Status */
+ #define DMAADDR         PIC32_R (0x83020)       /* DMA Address */
++#define DCRCCON         PIC32_R (0x83030)       /* DMA CRC */
++#define DCRCDATA        PIC32_R (0x83040)       /* DMA CRC */
++#define DCRCXOR         PIC32_R (0x83050)       /* DMA CRC */
++/*channel 0 */
++#define DCH0CON         PIC32_R (0x83060)
++#define DCH0ECON        PIC32_R (0x83070)
++#define DCH0INT         PIC32_R (0x83080)
++#define DCH0SSA         PIC32_R (0x83090)
++#define DCH0DSA         PIC32_R (0x830A0)
++#define DCH0SSIZ        PIC32_R (0x830B0)
++#define DCH0DSIZ        PIC32_R (0x830C0)
++#define DCH0SPTR        PIC32_R (0x830D0)
++#define DCH0DPTR        PIC32_R (0x830E0)
++#define DCH0CSIZ        PIC32_R (0x830F0)
++#define DCH0CPTR        PIC32_R (0x83100)
++#define DCH0DAT         PIC32_R (0x83110)
++/*channel 1 */
++#define DCH1CON         PIC32_R (0x83120)
++#define DCH1ECON        PIC32_R (0x83130)
++#define DCH1INT         PIC32_R (0x83140)
++#define DCH1SSA         PIC32_R (0x83150)
++#define DCH1DSA         PIC32_R (0x83160)
++#define DCH1SSIZ        PIC32_R (0x83170)
++#define DCH1DSIZ        PIC32_R (0x83180)
++#define DCH1SPTR        PIC32_R (0x83190)
++#define DCH1DPTR        PIC32_R (0x831A0)
++#define DCH1CSIZ        PIC32_R (0x831B0)
++#define DCH1CPTR        PIC32_R (0x831C0)
++#define DCH1DAT         PIC32_R (0x831D0)
++/*channel 2 */
++#define DCH2CON         PIC32_R (0x831E0)
++#define DCH2ECON        PIC32_R (0x831F0)
++#define DCH2INT         PIC32_R (0x83200)
++#define DCH2SSA         PIC32_R (0x83210)
++#define DCH2DSA         PIC32_R (0x83220)
++#define DCH2SSIZ        PIC32_R (0x83230)
++#define DCH2DSIZ        PIC32_R (0x83240)
++#define DCH2SPTR        PIC32_R (0x83250)
++#define DCH2DPTR        PIC32_R (0x83260)
++#define DCH2CSIZ        PIC32_R (0x83270)
++#define DCH2CPTR        PIC32_R (0x83280)
++#define DCH2DAT         PIC32_R (0x83290)
++
+ // TODO: other DMA registers.
+ 
+ /*--------------------------------------
+@@ -878,10 +934,22 @@
+  * Timer2 registers
+  */
+ #define T2CON           PIC32_R (0x0800)
++#define T2CONCLR        PIC32_R (0x0804)
+ #define T2CONSET        PIC32_R (0x0808)
++#define T2CONINV        PIC32_R (0x080C)
+ #define TMR2            PIC32_R (0x0810)
+ #define PR2             PIC32_R (0x0820)
+ 
++/*
++ * Timer4 registers
++ */
++#define T4CON           PIC32_R (0x0C00)
++#define T4CONCLR        PIC32_R (0x0C04)
++#define T4CONSET        PIC32_R (0x0C08)
++#define T4CONINV        PIC32_R (0x0C0C)
++#define TMR4            PIC32_R (0x0C10)
++#define PR4             PIC32_R (0x0c20)
++
+ /*
+  * Output compare registers
+  */
+diff --git a/hw/mips/pic32mz.h b/hw/mips/pic32mz.h
+index 0ed92b24b..43e3dcfde 100644
+--- a/hw/mips/pic32mz.h
++++ b/hw/mips/pic32mz.h
+@@ -808,6 +808,63 @@
+ #define PIC32_PMMODE_IRQM_A3    0x4000  /* Interrupt on address 3 */
+ #define PIC32_PMMODE_BUSY       0x8000  /* Port is busy */
+ 
++
++
++/*--------------------------------------
++ * DMA controller registers.
++ */
++#define DMACON          PIC32_R (0x11000)       /* DMA Control */
++#define DMACONCLR       PIC32_R (0x11004)
++#define DMACONSET       PIC32_R (0x11008)
++#define DMACONINV       PIC32_R (0x1100C)
++#define DMASTAT         PIC32_R (0x11010)       /* DMA Status */
++#define DMAADDR         PIC32_R (0x11020)       /* DMA Address */
++#define DCRCCON         PIC32_R (0x11030)       /* DMA CRC */
++#define DCRCDATA        PIC32_R (0x11040)       /* DMA CRC */
++#define DCRCXOR         PIC32_R (0x11050)       /* DMA CRC */
++/*channel 0 */
++#define DCH0CON         PIC32_R (0x11060)
++#define DCH0ECON        PIC32_R (0x11070)
++#define DCH0INT         PIC32_R (0x11080)
++#define DCH0SSA         PIC32_R (0x11090)
++#define DCH0DSA         PIC32_R (0x110A0)
++#define DCH0SSIZ        PIC32_R (0x110B0)
++#define DCH0DSIZ        PIC32_R (0x110C0)
++#define DCH0SPTR        PIC32_R (0x110D0)
++#define DCH0DPTR        PIC32_R (0x110E0)
++#define DCH0CSIZ        PIC32_R (0x110F0)
++#define DCH0CPTR        PIC32_R (0x11100)
++#define DCH0DAT         PIC32_R (0x11110)
++/*channel 1 */
++#define DCH1CON         PIC32_R (0x11120)
++#define DCH1ECON        PIC32_R (0x11130)
++#define DCH1INT         PIC32_R (0x11140)
++#define DCH1SSA         PIC32_R (0x11150)
++#define DCH1DSA         PIC32_R (0x11160)
++#define DCH1SSIZ        PIC32_R (0x11170)
++#define DCH1DSIZ        PIC32_R (0x11180)
++#define DCH1SPTR        PIC32_R (0x11190)
++#define DCH1DPTR        PIC32_R (0x111A0)
++#define DCH1CSIZ        PIC32_R (0x111B0)
++#define DCH1CPTR        PIC32_R (0x111C0)
++#define DCH1DAT         PIC32_R (0x111D0)
++/*channel 2 */
++#define DCH2CON         PIC32_R (0x111E0)
++#define DCH2ECON        PIC32_R (0x111F0)
++#define DCH2INT         PIC32_R (0x11200)
++#define DCH2SSA         PIC32_R (0x11210)
++#define DCH2DSA         PIC32_R (0x11220)
++#define DCH2SSIZ        PIC32_R (0x11230)
++#define DCH2DSIZ        PIC32_R (0x11240)
++#define DCH2SPTR        PIC32_R (0x11250)
++#define DCH2DPTR        PIC32_R (0x11260)
++#define DCH2CSIZ        PIC32_R (0x11270)
++#define DCH2CPTR        PIC32_R (0x11280)
++#define DCH2DAT         PIC32_R (0x11290)
++
++// TODO: other DMA registers.
++
++
+ /*
+  * PMP Address register.
+  */
+@@ -1434,6 +1491,20 @@
+ #define PIC32_SPISTAT_SPIROV    0x00000040      /* Receive overflow flag */
+ #define PIC32_SPISTAT_SPIBUSY   0x00000800      /* SPI is busy */
+ 
++
++/*
++* I2C registers
++*/
++     
++#define  I2C1CON    PIC32_R(0x20000)       
++#define  I2C1STAT   PIC32_R(0x20010)      
++#define  I2C1ADD    PIC32_R(0x20020)       
++#define  I2C1MSK    PIC32_R(0x20030)       
++#define  I2C1BRG    PIC32_R(0x20040)       
++#define  I2C1TRN    PIC32_R(0x20050)       
++#define  I2C1RCV    PIC32_R(0x20060)       
++        
++
+ /*--------------------------------------
+  * USB registers.
+  */
+@@ -1604,6 +1675,17 @@
+ #define EMAC1SA1        PIC32_R (0x82310)   /* MAC station address 1 */
+ #define EMAC1SA2        PIC32_R (0x82320)   /* MAC station address 2 */
+ 
++/*
++* PERIPHERAL MODULE DISABLE REGISTERS
++*/
++#define PDM1        PIC32_R (0x0040)
++#define PDM2        PIC32_R (0x0050)
++#define PDM3        PIC32_R (0x0060)
++#define PDM4        PIC32_R (0x0070)
++#define PDM5        PIC32_R (0x0080)
++#define PDM6        PIC32_R (0x0090)
++#define PDM7        PIC32_R (0x00A0) 
++
+ /*
+  * Ethernet Control register 1.
+  */
+diff --git a/include/dma/dma.h b/include/dma/dma.h
+new file mode 100644
+index 000000000..33208dcef
+--- /dev/null
++++ b/include/dma/dma.h
+@@ -0,0 +1,160 @@
++/*
++   DICE - DMA header file
++   ------------------------------------------------------
++
++   Copyright (C) 2019-2020 RiS3 Lab
++
++   Licensed under the Apache License, Version 2.0 (the "License");
++   you may not use this file except in compliance with the License.
++   You may obtain a copy of the License at:
++
++     http://www.apache.org/licenses/LICENSE-2.0
++
++*/
++
++
++#ifndef _DMA_H
++#define _DMA_H
++
++#include <stdbool.h>
++#include <stdio.h>
++
++//PIC32MX795F512  "mips-pic32mx7"
++/* Hardware addresses */
++/*
++#define PROGRAM_FLASH_START 0x1d000000
++#define BOOT_FLASH_START    0x1fc00000
++#define DATA_MEM_START      0x00000000
++#define IO_MEM_START        0x1f800000
++#define IO_MEM_END          0x1F8FFFFF
++
++#define PROGRAM_FLASH_SIZE  (512*1024)          // 512 kbytes
++#define BOOT_FLASH_SIZE     (12*1024)           // 12 kbytes
++#define DATA_MEM_SIZE       (128*1024)          // 128 kbytes
++*/
++#define USER_MEM_START      0xbf000000
++
++
++//PIC32MZEF 
++/* Hardware addresses */
++#define PROGRAM_FLASH_START 0x1d000000
++#define BOOT_FLASH_START    0x1fc00000
++#define DATA_MEM_START      0x00000000
++#define IO_MEM_START        0x1f800000
++#define IO_MEM_END          0x1F8FFFFF
++
++#define PROGRAM_FLASH_SIZE  (2*1024*1024)       // 2 Mbytes
++#define BOOT_FLASH_SIZE     (64*1024)           // 64 kbytes
++#define DATA_MEM_SIZE       (512*1024)          // 512 kbytes
++
++#define IRQ_TRESHOLD 100000
++
++#define MAX_POINTERS 4096
++#define MAX_DMA_DESC MAX_POINTERS/2
++// beat address should be at least 16kb stepper firmware uses 4kb
++#define MAX_DMA_BEAT_ADDRESS 2048 
++//#define DMA_SPAN_BUFFER 64
++#define DMA_SPAN_BUFFER 4
++
++#define PERIPHERAL_SPAN 0x1000
++
++#define NONUM 255
++
++#define NUMCANARIES 20
++
++typedef unsigned target_ulong;
++
++// enum DMA transfer direction
++typedef enum {
++    MEMTOPERI = 0,
++    PERITOMEM,
++    NODIR
++}pm_dma_transfer_dir_t;
++
++// enum type of access to descriptor pointers (dereference)
++typedef enum {
++    READ = 0,
++    WRITE,
++    READWRITE,
++    NOACCESS
++}pm_dma_access_type_t;
++
++
++typedef struct {
++    target_ulong address;
++    pm_dma_access_type_t access;
++    int exc_num_dma;
++}pm_dma_buffer_beat;
++
++// enum for DMA pointer type
++typedef enum {
++    TRAM = 0,
++    TFLASH,
++    TPERIPHERAL,
++    TUNKNOWN
++} pm_pointer_type_t;
++
++
++typedef struct {
++   target_ulong address;
++   int size;
++}pm_dma_canary;
++
++typedef struct 
++{
++    int id; //unique id for each DMA pointer identified
++    int id_ctp; // id of DMA pointer counterpart
++    target_ulong base; //base of peripheral
++    target_ulong register_addr; //address of CR register that was written
++    target_ulong value; // value to be written on CR
++    target_ulong ordinal; // ordinal number at wich the write operation happened
++    pm_pointer_type_t type; // type of pointer according to major memory areas Peripheral, RAM, Flash
++
++}pm_DMA_pointers;
++
++typedef struct {  
++    int id_pointer_mem; //first
++    int id_pointer_peri; //second
++    
++    pm_DMA_pointers pointer_mem;
++    pm_DMA_pointers pointer_peri;
++
++    int beat_size;   //number of "beats" to be transfered  a beat could be 8, 16, 32 bit 
++    int number_beats;   //beat_size x number_beats= transfer size in bytes       
++    pm_dma_access_type_t  t_access_mem; 
++    pm_dma_access_type_t  t_access_peri;
++    pm_dma_transfer_dir_t direction;
++    int exc_num_dma; //exception number IRQ
++    int version; //1: single pointer (NRF52832) , 2: Double pointer (F103, F429)
++} pm_DMA_desc;
++
++
++// Function prototypes
++//Returns the corresponding pointer type according to memory range
++pm_pointer_type_t get_pointer_type(target_ulong value);
++bool valid_descriptor_pointers(target_ulong p1, target_ulong p2);
++void  delete_dma_descriptor(int descriptor_id);
++void delete_dma_pointer(int pointer_id);
++int  cmp_address_DMA(const void *a, const void *b);
++unsigned virtual_to_phys(unsigned address);
++
++//static int  cmp_address_DMA(const void *a, const void *b);
++
++
++extern int number_dma_buff_addreses;
++extern int pm_cnt;
++extern int number_dma_pointers;
++extern int number_dma_descriptors;
++extern pm_pointer_type_t pointer_type;
++extern bool pointer_exist;
++extern pm_DMA_desc dma_descriptors[MAX_DMA_DESC];
++extern pm_DMA_pointers dma_pointers[MAX_POINTERS];
++extern pm_dma_buffer_beat dma_buffer_addresses[MAX_DMA_BEAT_ADDRESS];
++
++extern int pm_int;
++extern int irqs_dma[8];
++extern int irq_dma_current;
++extern int irq_dma_previous;
++
++
++#endif //_DMA_H
+\ No newline at end of file
+diff --git a/memory.c b/memory.c
+index 3ac0bd20d..2ed6172c8 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1119,7 +1119,6 @@ static MemTxResult memory_region_dispatch_read1(MemoryRegion *mr,
+                                                 MemTxAttrs attrs)
+ {
+     *pval = 0;
+-
+     if (mr->ops->read) {
+         return access_with_adjusted_size(addr, pval, size,
+                                          mr->ops->impl.min_access_size,
+diff --git a/scripts/texi2pod.pl b/scripts/texi2pod.pl
+index 94097fb06..8767662d3 100755
+--- a/scripts/texi2pod.pl
++++ b/scripts/texi2pod.pl
+@@ -317,7 +317,7 @@ while(<$inf>) {
+ 	@columns = ();
+ 	for $column (split (/\s*\@tab\s*/, $1)) {
+ 	    # @strong{...} is used a @headitem work-alike
+-	    $column =~ s/^\@strong{(.*)}$/$1/;
++	    $column =~ s/^\@strong\{(.*)\}$/$1/;
+ 	    push @columns, $column;
+ 	}
+ 	$_ = "\n=item ".join (" : ", @columns)."\n";
+diff --git a/softmmu_template.h b/softmmu_template.h
+index d42d89d54..e6b7159af 100644
+--- a/softmmu_template.h
++++ b/softmmu_template.h
+@@ -24,6 +24,7 @@
+ #include "qemu/timer.h"
+ #include "exec/address-spaces.h"
+ #include "exec/memory.h"
++#include "dma/dma.h"
+ 
+ #define DATA_SIZE (1 << SHIFT)
+ 
+@@ -177,9 +178,181 @@ WORD_TYPE helper_le_ld_name(CPUArchState *env, target_ulong addr,
+     uintptr_t haddr;
+     DATA_TYPE res;
+ 
++    //DICE
++    //pm_pointer_type_t pointer_type;
++    pm_pointer_type_t address_type;
++    bool access_nearby_DMA;
++    target_ulong addrphys = virtual_to_phys(addr);
+     /* Adjust the given return address.  */
+     retaddr -= GETPC_ADJ;
+ 
++    address_type = get_pointer_type(addrphys); 
++    /*if (number_dma_descriptors)
++    {      
++          
++
++    }*/
++    
++    if(address_type==TRAM  && number_dma_descriptors > 0)
++    {
++        // printf("Inst. addr: 0x%x, phys: 0x%x \n", addr , addrphys);
++        int i,j,beat_size, number_beats;
++        bool find_address=false;
++
++        // Uncomment this block to allow single pointer DMA Streams, not supported by DICE 
++        /*
++        for(i=0; i<number_dma_pointers; i++)
++        {
++            //No span supported for this type of descriptor
++            //check that pointer has not been used previously
++            
++           
++            if(dma_pointers[i].id_ctp==0 && dma_pointers[i].value==addrphys)  //id_ctp is used to verify if pointer has been associated with another descriptor
++            {
++                printf("DMA Stream: base *0x%x p_A:*0x%x->*0x%x \n", dma_pointers[i].base,dma_pointers[i].register_addr,dma_pointers[i].value);
++                if(number_dma_descriptors<MAX_DMA_DESC)
++                {
++                    //arbitrary assigment to peri or mem not necessarily represents a pripheral or memory address, 
++                    //it is just a differentition of names between pointers. This is similar to STM32F103 DMA hardware implementation                               
++                    
++                    dma_descriptors[number_dma_descriptors].id_pointer_peri=i; // both pointers are equal on this type of descriptor
++                    dma_descriptors[number_dma_descriptors].id_pointer_mem=i;                                        
++                    dma_descriptors[number_dma_descriptors].number_beats=0;
++                    dma_descriptors[number_dma_descriptors].t_access_mem=NOACCESS;
++                    dma_descriptors[number_dma_descriptors].t_access_peri=NOACCESS;
++                    dma_descriptors[number_dma_descriptors].exc_num_dma= NONUM;
++                    dma_descriptors[number_dma_descriptors].version=1;
++                
++                    dma_descriptors[number_dma_descriptors].pointer_peri=dma_pointers[i];
++                    dma_descriptors[number_dma_descriptors].pointer_mem=dma_pointers[i];
++
++                    number_dma_descriptors++;       
++                     //here execution should terminate, model needs to be updated
++                     //New DMA descriptor found
++
++                }
++                else
++                {
++                        printf("Max number of DMA Streams reached!!");
++                }       
++                                       
++
++            }  
++        }
++        */
++       
++        for(i=0; i<number_dma_descriptors; i++)
++        {       
++                access_nearby_DMA=false;     
++                //register access to nearby memory areas of a DMA pointer
++                
++                //if(( (addr - dma_descriptors[i].pointer_mem.value)<=DMA_SPAN_BUFFER   ) || ( (addr - dma_descriptors[i].pointer_peri.value)<=DMA_SPAN_BUFFER ) )
++                if( ((addrphys - dma_descriptors[i].pointer_mem.value)<(DATA_SIZE*2) &&   (addrphys - dma_descriptors[i].pointer_mem.value) )|| 
++                 ( (addrphys - dma_descriptors[i].pointer_peri.value)<(DATA_SIZE*2) &&   (addrphys - dma_descriptors[i].pointer_peri.value) ))
++                {
++                   
++                    if(addrphys == dma_pointers[dma_descriptors[i].id_pointer_mem].value || addrphys == dma_pointers[ dma_descriptors[i].id_pointer_peri].value)
++                    {
++                        access_nearby_DMA=false; 
++                    }
++                    else
++                    {
++                        access_nearby_DMA=true; // more aggressive heuristic to identify access to DMA buffer
++                    }
++                   
++                }
++                   
++                if((addrphys>=dma_descriptors[i].pointer_mem.value  && 
++                   addrphys<=(dma_descriptors[i].pointer_mem.value + dma_descriptors[i].number_beats * dma_descriptors[i].beat_size ))
++                   || (addrphys>=dma_descriptors[i].pointer_peri.value  && 
++                   addrphys<=(dma_descriptors[i].pointer_peri.value + dma_descriptors[i].number_beats * dma_descriptors[i].beat_size )) 
++                   || access_nearby_DMA  )
++                {               
++                    
++                     //Verify if the memory address is already registered
++                    for(j=0; (j<MAX_DMA_BEAT_ADDRESS) && (j< number_dma_buff_addreses); j++)
++                    {
++                        if(dma_buffer_addresses[j].address==addrphys)
++                        {
++                            find_address=true;
++                            break;
++                        }                        
++                    }
++                    //This should be eliminated.
++                    if(find_address==false)
++                    {
++                        //adds new address
++                        dma_buffer_addresses[number_dma_buff_addreses].address=addr;
++                        dma_buffer_addresses[number_dma_buff_addreses].access=READ;
++                        //dma_buffer_addresses[number_dma_buff_addreses].exc_num_dma=exception_num_dma; 
++                        number_dma_buff_addreses++;
++                        qsort(dma_buffer_addresses,number_dma_buff_addreses,sizeof(pm_dma_buffer_beat),cmp_address_DMA); 
++                    }
++                    else
++                    {
++                        //update address
++                        dma_buffer_addresses[j].address=addr;
++                        dma_buffer_addresses[j].access=READ;
++                        //dma_buffer_addresses[j].exc_num_dma=exception_num_dma;                       
++                        qsort(dma_buffer_addresses,number_dma_buff_addreses,sizeof(pm_dma_buffer_beat),cmp_address_DMA); 
++                    }
++                                                        
++                    beat_size=DATA_SIZE; //the size used by DMA template access                  
++                    dma_descriptors[i].beat_size=beat_size;
++                    if(dma_descriptors[i].number_beats==0)
++                    {                 
++                        dma_descriptors[i].number_beats=1; 
++                        //dma_descriptors[i].exc_num_dma=exception_num_dma; //capture the exception number used to access DMA descriptor
++                    }
++                 
++                                                       
++                    /* This is a more agressive less precise method to identify buffer size */                   
++                    beat_size=DATA_SIZE;
++                    int span_aux;
++                    int base_pointer;
++                   
++                    // calulates the current span between base pointer and actual memory access and asign the new buffer size in terms of data_size 
++                    if(abs(addrphys-dma_pointers[dma_descriptors[i].id_pointer_mem].value)< abs(addrphys-dma_pointers[dma_descriptors[i].id_pointer_peri].value))
++                    {
++                        span_aux= addrphys-dma_pointers[dma_descriptors[i].id_pointer_mem].value;          
++                        base_pointer = dma_pointers[dma_descriptors[i].id_pointer_mem].value;           
++                    }
++                    else
++                    {
++                        span_aux= addrphys-dma_pointers[dma_descriptors[i].id_pointer_peri].value;   
++                        base_pointer = dma_pointers[dma_descriptors[i].id_pointer_peri].value;                      
++                    }
++                                                                                                                                                           
++                    number_beats=span_aux/beat_size+1;
++
++
++                    if(access_nearby_DMA) 
++                    {
++                       target_ulong peri, mem;                    
++                       peri= dma_pointers[dma_descriptors[i].id_pointer_mem].value;
++                       mem= dma_pointers[dma_descriptors[i].id_pointer_peri].value;
++                       
++                       printf("\nAccess to nearby area of DMA peri: 0x%x  mem: 0x%x address: 0x%x beatsize: %d  number beats: %d \n", peri, mem, addrphys,beat_size,dma_descriptors[i].number_beats);
++                    }
++                    else
++                    {                       
++                       printf("\nAccess to DMA buffer base address: 0x%x beatsize: %d  number beats: %d address: 0x%x \n",base_pointer,beat_size,dma_descriptors[i].number_beats,addrphys);  
++                    }
++
++                                      
++                    //if(dma_descriptors[i].number_beats <number_beats &&  exception_num_dma== dma_descriptors[i].exc_num_dma ) 
++                    if(dma_descriptors[i].number_beats <number_beats ) 
++                    {
++                        dma_descriptors[i].beat_size=beat_size;
++                        dma_descriptors[i].number_beats=number_beats;   
++                        printf("\nNew size of DMA buffer identified!! beats: %d \n", number_beats);
++                    }               
++                                                                                                                                                         
++                }              
++        }
++
++    }
++
+     /* If the TLB entry is for a different page, reload and try again.  */
+     if ((addr & TARGET_PAGE_MASK)
+          != (tlb_addr & (TARGET_PAGE_MASK | TLB_INVALID_MASK))) {
+@@ -282,6 +455,7 @@ WORD_TYPE helper_be_ld_name(CPUArchState *env, target_ulong addr,
+         tlb_addr = env->tlb_table[mmu_idx][index].ADDR_READ;
+     }
+ 
++
+     /* Handle an IO access.  */
+     if (unlikely(tlb_addr & ~TARGET_PAGE_MASK)) {
+         CPUIOTLBEntry *iotlbentry;
+@@ -395,6 +569,38 @@ void helper_le_st_name(CPUArchState *env, target_ulong addr, DATA_TYPE val,
+     /* Adjust the given return address.  */
+     retaddr -= GETPC_ADJ;
+ 
++    //DICE invalidate written DMA buffer
++    pm_pointer_type_t address_type;
++    target_ulong addrphys = virtual_to_phys(addr);
++    address_type = get_pointer_type(addrphys); 
++    int i;
++    //int j;
++
++
++    if(address_type==TRAM  && number_dma_descriptors > 0)
++    {
++        for(i=0;i<number_dma_descriptors;i++)
++	    {
++       		if( ((addrphys - dma_descriptors[i].pointer_mem.value)<(DATA_SIZE*2) &&   (addrphys - dma_descriptors[i].pointer_mem.value) )|| 
++                 ( (addrphys - dma_descriptors[i].pointer_peri.value)<(DATA_SIZE*2) &&   (addrphys - dma_descriptors[i].pointer_peri.value) ))
++            { 
++			    /*
++                int j;
++                for(j=0; j< number_dma_pointers; j++)
++			    {
++				    if (dma_descriptors[i].pointer_mem.id==dma_pointers[j].id) delete_dma_pointer(dma_pointers[j].id);
++				    if (dma_descriptors[i].pointer_peri.id==dma_pointers[j].id) delete_dma_pointer(dma_pointers[j].id);				
++			    }
++                */
++			             
++			    printf("\nDMA descriptor invalidated mem: 0x%x, peri: 0x%x\n", dma_descriptors[i].pointer_mem.value, dma_descriptors[i].pointer_peri.value);
++                delete_dma_descriptor(i); //delete descriptor
++			    break;
++		    }                  
++	    }
++    }
++
++
+     /* If the TLB entry is for a different page, reload and try again.  */
+     if ((addr & TARGET_PAGE_MASK)
+         != (tlb_addr & (TARGET_PAGE_MASK | TLB_INVALID_MASK))) {
+diff --git a/target-mips/helper.c b/target-mips/helper.c
+index 7e25998f8..952820207 100644
+--- a/target-mips/helper.c
++++ b/target-mips/helper.c
+@@ -486,7 +486,6 @@ void mips_cpu_do_interrupt(CPUState *cs)
+     target_ulong offset;
+     int cause = -1;
+     const char *name;
+-
+     if (qemu_log_enabled() && cs->exception_index != EXCP_EXT_INTERRUPT) {
+         if (cs->exception_index < 0 || cs->exception_index > EXCP_LAST) {
+             name = "unknown";
+@@ -776,6 +775,7 @@ void mips_cpu_do_interrupt(CPUState *cs)
+ 
+ bool mips_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ {
++
+     if (interrupt_request & CPU_INTERRUPT_HARD) {
+         MIPSCPU *cpu = MIPS_CPU(cs);
+         CPUMIPSState *env = &cpu->env;
+diff --git a/target-mips/translate_init.c b/target-mips/translate_init.c
+index 430a547bd..a51c9a2bf 100644
+--- a/target-mips/translate_init.c
++++ b/target-mips/translate_init.c
+@@ -274,7 +274,7 @@ static const mips_def_t mips_defs[] =
+         .CP0_Status_rw_bitmask = 0x1278FF17,
+         .SEGBITS = 32,
+         .PABITS = 32,
+-        .insn_flags = CPU_MIPS32R2,
++        .insn_flags = CPU_MIPS32R2 | ASE_DSP | ASE_DSPR2,
+         .mmu_type = MMU_TYPE_R4000,
+     },
+     {
+diff --git a/tcg/i386/tcg-target.c b/tcg/i386/tcg-target.c
+index ff4d9cfec..3e832c19b 100644
+--- a/tcg/i386/tcg-target.c
++++ b/tcg/i386/tcg-target.c
+@@ -1218,8 +1218,9 @@ static inline void tcg_out_tlb_load(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
+        for the 32-bit host happens with the fastpath ADDL below.  */
+     tcg_out_mov(s, ttype, r1, addrlo);
+ 
+-    /* jne slow_path */
+-    tcg_out_opc(s, OPC_JCC_long + JCC_JNE, 0, 0, 0);
++    /* jne slow_path  DICE*/ 
++    //tcg_out_opc(s, OPC_JCC_long + JCC_JNE, 0, 0, 0);
++    tcg_out_opc(s, OPC_JMP_long, 0, 0, 0); //DICE
+     label_ptr[0] = s->code_ptr;
+     s->code_ptr += 4;
+ 

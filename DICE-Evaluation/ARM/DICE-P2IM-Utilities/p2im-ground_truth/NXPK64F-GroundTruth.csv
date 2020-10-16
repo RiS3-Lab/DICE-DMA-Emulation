@@ -1,0 +1,868 @@
+address,Name,category,Comments,peripheral
+0x4006a000,UART Baud Rate Registers: High (UART0_BDH)8R/W00,CR,,UART0
+0x4006a001,UART Baud Rate Registers: Low (UART0_BDL)8R/W04,CR,,UART0
+0x4006a002,UART Control Register 1 (UART0_C1)8R/W00,CR,,UART0
+0x4006a003,UART Control Register 2 (UART0_C2)8R/W00,CR,,UART0
+0x4006a004,UART Status Register 1 (UART0_S1)8RC0h52.3.5/1584,SR,,UART0
+0x4006a005,UART Status Register 2 (UART0_S2)8R/W00,SR,,UART0
+0x4006a006,UART Control Register 3 (UART0_C3)8R/W00,CR,,UART0
+0x4006a007,UART Data Register (UART0_D)8R/W00,DR,,UART0
+0x4006a008,UART Match Address Registers 1 (UART0_MA1)8R/W00,CR,,UART0
+0x4006a009,UART Match Address Registers 2 (UART0_MA2)8R/W00,CR,,UART0
+0x4006a00a,UART Control Register 4 (UART0_C4)8R/W00,CR,,UART0
+0x4006a00b,UART Control Register 5 (UART0_C5)8R/W00,CR,,UART0
+0x4006a00c,UART Extended Data Register (UART0_ED)8R00h52.3.13/1595,DR,,UART0
+0x4006a00d,UART Modem Register (UART0_MODEM)8R/W00,CR,,UART0
+0x4006a00e,UART Infrared Register (UART0_IR)8R/W00,CR,,UART0
+0x4006a010,UART FIFO Parameters (UART0_PFIFO)8R/WSee sectio,CR,,UART0
+0x4006a011,UART FIFO Control Register (UART0_CFIFO)8R/W00,CR,,UART0
+0x4006a012,UART FIFO Status Register (UART0_SFIFO)8R/WC0,SR,,UART0
+0x4006a013,UART FIFO Transmit Watermark (UART0_TWFIFO)8R/W00,CR,,UART0
+0x4006a014,UART FIFO Transmit Count (UART0_TCFIFO)8R00h52.3.20/1602,CR,CHECK,UART0
+0x4006a015,UART FIFO Receive Watermark (UART0_RWFIFO)8R/W01,CR,CHECK,UART0
+0x4006a016,UART FIFO Receive Count (UART0_RCFIFO)8R00h52.3.22/1603,CR,CHECK,UART0
+0x4006a018,UART 7816 Control Register (UART0_C7816)8R/W00,CR,,UART0
+0x4006a019,UART 7816 Interrupt Enable Register (UART0_IE7816)8R/W00,CR,,UART0
+0x4006a01a,UART 7816 Interrupt Status Register (UART0_IS7816)8R/W00,SR,,UART0
+0x4006a01b,UART 7816 Wait Parameter Register (UART0_WP7816T0)8R/W0A,CR,,UART0
+0x4006a01b,UART 7816 Wait Parameter Register (UART0_WP7816T1)8R/W0A,CR,,UART0
+0x4006a01c,UART 7816 Wait N Register (UART0_WN7816)8R/W00,CR,,UART0
+0x4006a01d,UART 7816 Wait FD Register (UART0_WF7816)8R/W01,CR,,UART0
+0x4006a01e,UART 7816 Error Threshold Register (UART0_ET7816)8R/W00,CR,,UART0
+0x4006a01f,UART 7816 Transmit Length Register (UART0_TL7816)8R/W00,CR,"hybrid, it is programed with avalue that indicates the number of bytes to transmit and is decremented automatically by hardware",UART0
+0x4006b000,UART Baud Rate Registers: High (UART1_BDH)8R/W00,CR,,UART1
+0x4006b001,UART Baud Rate Registers: Low (UART1_BDL)8R/W04,CR,,UART1
+0x4006b002,UART Control Register 1 (UART1_C1)8R/W00,CR,,UART1
+0x4006b003,UART Control Register 2 (UART1_C2)8R/W00,CR,,UART1
+0x4006b004,UART Status Register 1 (UART1_S1)8RC0h52.3.5/1584,SR,,UART1
+0x4006b005,UART Status Register 2 (UART1_S2)8R/W00,SR,,UART1
+0x4006b006,UART Control Register 3 (UART1_C3)8R/W00,CR,,UART1
+0x4006b007,UART Data Register (UART1_D)8R/W00,DR,,UART1
+0x4006b008,UART Match Address Registers 1 (UART1_MA1)8R/W00,CR,,UART1
+0x4006b009,UART Match Address Registers 2 (UART1_MA2)8R/W00,CR,,UART1
+0x4006b00a,UART Control Register 4 (UART1_C4)8R/W00,CR,,UART1
+0x4006b00b,UART Control Register 5 (UART1_C5)8R/W00,CR,,UART1
+0x4006b00c,UART Extended Data Register (UART1_ED)8R00h52.3.13/1595,DR,,UART1
+0x4006b00d,UART Modem Register (UART1_MODEM)8R/W00,CR,,UART1
+0x4006b00e,UART Infrared Register (UART1_IR)8R/W00,CR,,UART1
+0x4006b010,UART FIFO Parameters (UART1_PFIFO)8R/WSee sectio,CR,,UART1
+0x4006b011,UART FIFO Control Register (UART1_CFIFO)8R/W00,CR,,UART1
+0x4006b012,UART FIFO Status Register (UART1_SFIFO)8R/WC0,SR,,UART1
+0x4006b013,UART FIFO Transmit Watermark (UART1_TWFIFO)8R/W00,CR,,UART1
+0x4006b014,UART FIFO Transmit Count (UART1_TCFIFO)8R00h52.3.20/1602,DR,ONLY FOR DEBUGGING,UART1
+0x4006b015,UART FIFO Receive Watermark (UART1_RWFIFO)8R/W01,CR,,UART1
+0x4006b016,UART FIFO Receive Count (UART1_RCFIFO)8R00h52.3.22/1603,SR,number of bytes in buffer,UART1
+0x4006b018,UART 7816 Control Register (UART1_C7816)8R/W00,CR,,#N/A
+0x4006b019,UART 7816 Interrupt Enable Register (UART1_IE7816)8R/W00,CR,,#N/A
+0x4006b01a,UART 7816 Interrupt Status Register (UART1_IS7816)8R/W00,SR,,#N/A
+0x4006b01b,UART 7816 Wait Parameter Register (UART1_WP7816T0)8R/W0A,CR,,#N/A
+0x4006b01b,UART 7816 Wait Parameter Register (UART1_WP7816T1)8R/W0A,CR,,#N/A
+0x4006b01c,UART 7816 Wait N Register (UART1_WN7816)8R/W00,CR,,#N/A
+0x4006b01d,UART 7816 Wait FD Register (UART1_WF7816)8R/W01,CR,,#N/A
+0x4006b01e,UART 7816 Error Threshold Register (UART1_ET7816)8R/W00,CR,,#N/A
+0x4006b01f,UART 7816 Transmit Length Register (UART1_TL7816)8R/W00,CR,"hybrid, it is programed with avalue that indicates the number of bytes to transmit and is decremented automatically by hardware",#N/A
+0x4006c000,UART Baud Rate Registers: High (UART2_BDH)8R/W00,CR,,UART2
+0x4006c001,UART Baud Rate Registers: Low (UART2_BDL)8R/W04,CR,,UART2
+0x4006c002,UART Control Register 1 (UART2_C1)8R/W00,CR,,UART2
+0x4006c003,UART Control Register 2 (UART2_C2)8R/W00,CR,,UART2
+0x4006c004,UART Status Register 1 (UART2_S1)8RC0h52.3.5/1584,SR,,UART2
+0x4006c005,UART Status Register 2 (UART2_S2)8R/W00,SR,,UART2
+0x4006c006,UART Control Register 3 (UART2_C3)8R/W00,CR,,UART2
+0x4006c007,UART Data Register (UART2_D)8R/W00,DR,,UART2
+0x4006c008,UART Match Address Registers 1 (UART2_MA1)8R/W00,CR,,UART2
+0x4006c009,UART Match Address Registers 2 (UART2_MA2)8R/W00,CR,,UART2
+0x4006c00a,UART Control Register 4 (UART2_C4)8R/W00,CR,,UART2
+0x4006c00b,UART Control Register 5 (UART2_C5)8R/W00,CR,,UART2
+0x4006c00c,UART Extended Data Register (UART2_ED)8R00h52.3.13/1595,DR,,UART2
+0x4006c00d,UART Modem Register (UART2_MODEM)8R/W00,,,UART2
+0x4006c00e,UART Infrared Register (UART2_IR)8R/W00,CR,,UART2
+0x4006c010,UART FIFO Parameters (UART2_PFIFO)8R/WSee sectio,CR,,UART2
+0x4006c011,UART FIFO Control Register (UART2_CFIFO)8R/W00,CR,,UART2
+0x4006c012,UART FIFO Status Register (UART2_SFIFO)8R/WC0,SR,,UART2
+0x4006c013,UART FIFO Transmit Watermark (UART2_TWFIFO)8R/W00,CR,,UART2
+0x4006c014,UART FIFO Transmit Count (UART2_TCFIFO)8R00h52.3.20/1602,DR,ONLY FOR DEBUGGING,UART2
+0x4006c015,UART FIFO Receive Watermark (UART2_RWFIFO)8R/W01,CR,,UART2
+0x4006c016,UART FIFO Receive Count (UART2_RCFIFO)8R00h52.3.22/1603,SR,number of bytes in buffer,UART2
+0x4006c018,UART 7816 Control Register (UART2_C7816)8R/W00,CR,,#N/A
+0x4006c019,UART 7816 Interrupt Enable Register (UART2_IE7816)8R/W00,CR,,#N/A
+0x4006c01a,UART 7816 Interrupt Status Register (UART2_IS7816)8R/W00,SR,,#N/A
+0x4006c01b,UART 7816 Wait Parameter Register (UART2_WP7816T0)8R/W0A,CR,,#N/A
+0x4006c01b,UART 7816 Wait Parameter Register (UART2_WP7816T1)8R/W0A,CR,,#N/A
+0x4006c01c,UART 7816 Wait N Register (UART2_WN7816)8R/W00,CR,,#N/A
+0x4006c01d,UART 7816 Wait FD Register (UART2_WF7816)8R/W01,CR,,#N/A
+0x4006c01e,UART 7816 Error Threshold Register (UART2_ET7816)8R/W00,CR,,#N/A
+0x4006c01f,UART 7816 Transmit Length Register (UART2_TL7816)8R/W00,CR,"hybrid, it is programed with avalue that indicates the number of bytes to transmit and is decremented automatically by hardware",#N/A
+0x4006d000,UART Baud Rate Registers: High (UART3_BDH)8R/W00,CR,,UART3
+0x4006d001,UART Baud Rate Registers: Low (UART3_BDL)8R/W04,CR,,UART3
+0x4006d002,UART Control Register 1 (UART3_C1)8R/W00,CR,,UART3
+0x4006d003,UART Control Register 2 (UART3_C2)8R/W00,CR,,UART3
+0x4006d004,UART Status Register 1 (UART3_S1)8RC0h52.3.5/1584,SR,,UART3
+0x4006d005,UART Status Register 2 (UART3_S2)8R/W00,SR,,UART3
+0x4006d006,UART Control Register 3 (UART3_C3)8R/W00,CR,,UART3
+0x4006d007,UART Data Register (UART3_D)8R/W00,DR,,UART3
+0x4006d008,UART Match Address Registers 1 (UART3_MA1)8R/W00,CR,,UART3
+0x4006d009,UART Match Address Registers 2 (UART3_MA2)8R/W00,CR,,UART3
+0x4006d00a,UART Control Register 4 (UART3_C4)8R/W00,CR,,UART3
+0x4006d00b,UART Control Register 5 (UART3_C5)8R/W00,CR,,UART3
+0x4006d00c,UART Extended Data Register (UART3_ED)8R00h52.3.13/1595,DR,,UART3
+0x4006d00d,UART Modem Register (UART3_MODEM)8R/W00,,,UART3
+0x4006d00e,UART Infrared Register (UART3_IR)8R/W00,CR,,UART3
+0x4006d010,UART FIFO Parameters (UART3_PFIFO)8R/WSee sectio,CR,,UART3
+0x4006d011,UART FIFO Control Register (UART3_CFIFO)8R/W00,CR,,UART3
+0x4006d012,UART FIFO Status Register (UART3_SFIFO)8R/WC0,SR,,UART3
+0x4006d013,UART FIFO Transmit Watermark (UART3_TWFIFO)8R/W00,CR,,UART3
+0x4006d014,UART FIFO Transmit Count (UART3_TCFIFO)8R00h52.3.20/1602,DR,ONLY FOR DEBUGGING,UART3
+0x4006d015,UART FIFO Receive Watermark (UART3_RWFIFO)8R/W01,CR,,UART3
+0x4006d016,UART FIFO Receive Count (UART3_RCFIFO)8R00h52.3.22/1603,SR,number of bytes in buffer,UART3
+0x4006d018,UART 7816 Control Register (UART3_C7816)8R/W00,CR,,#N/A
+0x4006d019,UART 7816 Interrupt Enable Register (UART3_IE7816)8R/W00,CR,,#N/A
+0x4006d01a,UART 7816 Interrupt Status Register (UART3_IS7816)8R/W00,SR,,#N/A
+0x4006d01b,UART 7816 Wait Parameter Register (UART3_WP7816T0)8R/W0A,CR,,#N/A
+0x4006d01b,UART 7816 Wait Parameter Register (UART3_WP7816T1)8R/W0A,CR,,#N/A
+0x4006d01c,UART 7816 Wait N Register (UART3_WN7816)8R/W00,CR,,#N/A
+0x4006d01d,UART 7816 Wait FD Register (UART3_WF7816)8R/W01,CR,,#N/A
+0x4006d01e,UART 7816 Error Threshold Register (UART3_ET7816)8R/W00,CR,,#N/A
+0x4006d01f,UART 7816 Transmit Length Register (UART3_TL7816)8R/W00,CR,"hybrid, it is programed with avalue that indicates the number of bytes to transmit and is decremented automatically by hardware",#N/A
+0x400ea000,UART Baud Rate Registers: High (UART4_BDH)8R/W00,CR,,UART4
+0x400ea001,UART Baud Rate Registers: Low (UART4_BDL)8R/W04,CR,,UART4
+0x400ea002,UART Control Register 1 (UART4_C1)8R/W00,CR,,UART4
+0x400ea003,UART Control Register 2 (UART4_C2)8R/W00,CR,,UART4
+0x400ea004,UART Status Register 1 (UART4_S1)8RC0h52.3.5/1584,SR,,UART4
+0x400ea005,UART Status Register 2 (UART4_S2)8R/W00,SR,,UART4
+0x400ea006,UART Control Register 3 (UART4_C3)8R/W00,CR,,UART4
+0x400ea007,UART Data Register (UART4_D)8R/W00,DR,,UART4
+0x400ea008,UART Match Address Registers 1 (UART4_MA1)8R/W00,CR,,UART4
+0x400ea009,UART Match Address Registers 2 (UART4_MA2)8R/W00,CR,,UART4
+0x400ea00a,UART Control Register 4 (UART4_C4)8R/W00,CR,,UART4
+0x400ea00b,UART Control Register 5 (UART4_C5)8R/W00,CR,,UART4
+0x400ea00c,UART Extended Data Register (UART4_ED)8R00h52.3.13/1595,DR,,UART4
+0x400ea00d,UART Modem Register (UART4_MODEM)8R/W00,,,UART4
+0x400ea00e,UART Infrared Register (UART4_IR)8R/W00,CR,,UART4
+0x400ea010,UART FIFO Parameters (UART4_PFIFO)8R/WSee sectio,CR,,UART4
+0x400ea011,UART FIFO Control Register (UART4_CFIFO)8R/W00,CR,,UART4
+0x400ea012,UART FIFO Status Register (UART4_SFIFO)8R/WC0,SR,,UART4
+0x400ea013,UART FIFO Transmit Watermark (UART4_TWFIFO)8R/W00,CR,,UART4
+0x400ea014,UART FIFO Transmit Count (UART4_TCFIFO)8R00h52.3.20/1602,DR,ONLY FOR DEBUGGING,UART4
+0x400ea015,UART FIFO Receive Watermark (UART4_RWFIFO)8R/W01,CR,,UART4
+0x400ea016,UART FIFO Receive Count (UART4_RCFIFO)8R00h52.3.22/1603,SR,number of bytes in buffer,UART4
+0x400ea018,UART 7816 Control Register (UART4_C7816)8R/W00,CR,,#N/A
+0x400ea019,UART 7816 Interrupt Enable Register (UART4_IE7816)8R/W00,CR,,#N/A
+0x400ea01a,UART 7816 Interrupt Status Register (UART4_IS7816)8R/W00,SR,,#N/A
+0x400ea01b,UART 7816 Wait Parameter Register (UART4_WP7816T0)8R/W0A,CR,,#N/A
+0x400ea01b,UART 7816 Wait Parameter Register (UART4_WP7816T1)8R/W0A,CR,,#N/A
+0x400ea01c,UART 7816 Wait N Register (UART4_WN7816)8R/W00,CR,,#N/A
+0x400ea01d,UART 7816 Wait FD Register (UART4_WF7816)8R/W01,CR,,#N/A
+0x400ea01e,UART 7816 Error Threshold Register (UART4_ET7816)8R/W00,CR,,#N/A
+0x400ea01f,UART 7816 Transmit Length Register (UART4_TL7816)8R/W00,CR,"hybrid, it is programed with avalue that indicates the number of bytes to transmit and is decremented automatically by hardware",#N/A
+0x400eb000,UART Baud Rate Registers: High (UART5_BDH)8R/W00,CR,,UART5
+0x400eb001,UART Baud Rate Registers: Low (UART5_BDL)8R/W04,CR,,UART5
+0x400eb002,UART Control Register 1 (UART5_C1)8R/W00,CR,,UART5
+0x400eb003,UART Control Register 2 (UART5_C2)8R/W00,CR,,UART5
+0x400eb004,UART Status Register 1 (UART5_S1)8RC0h52.3.5/1584,SR,,UART5
+0x400eb005,UART Status Register 2 (UART5_S2)8R/W00,SR,,UART5
+0x400eb006,UART Control Register 3 (UART5_C3)8R/W00,CR,,UART5
+0x400eb007,UART Data Register (UART5_D)8R/W00,DR,,UART5
+0x400eb008,UART Match Address Registers 1 (UART5_MA1)8R/W00,CR,,UART5
+0x400eb009,UART Match Address Registers 2 (UART5_MA2)8R/W00,CR,,UART5
+0x400eb00a,UART Control Register 4 (UART5_C4)8R/W00,CR,,UART5
+0x400eb00b,UART Control Register 5 (UART5_C5)8R/W00,CR,,UART5
+0x400eb00c,UART Extended Data Register (UART5_ED)8R00h52.3.13/1595,DR,,UART5
+0x400eb00d,UART Modem Register (UART5_MODEM)8R/W00,,,UART5
+0x400eb00e,UART Infrared Register (UART5_IR)8R/W00,CR,,UART5
+0x400eb010,UART FIFO Parameters (UART5_PFIFO)8R/WSee sectio,CR,,UART5
+0x400eb011,UART FIFO Control Register (UART5_CFIFO)8R/W00,CR,,UART5
+0x400eb012,UART FIFO Status Register (UART5_SFIFO)8R/WC0,SR,,UART5
+0x400eb013,UART FIFO Transmit Watermark (UART5_TWFIFO)8R/W00,CR,,UART5
+0x400eb014,UART FIFO Transmit Count (UART5_TCFIFO)8R00h52.3.20/1602,DR,ONLY FOR DEBUGGING,UART5
+0x400eb015,UART FIFO Receive Watermark (UART5_RWFIFO)8R/W01,CR,,UART5
+0x400eb016,UART FIFO Receive Count (UART5_RCFIFO)8R00h52.3.22/1603,SR,number of bytes in buffer,UART5
+0x400eb018,UART 7816 Control Register (UART5_C7816)8R/W00,CR,,#N/A
+0x400eb019,UART 7816 Interrupt Enable Register (UART5_IE7816)8R/W00,CR,,#N/A
+0x400eb01a,UART 7816 Interrupt Status Register (UART5_IS7816)8R/W00,SR,,#N/A
+0x400eb01b,UART 7816 Wait Parameter Register (UART5_WP7816T0)8R/W0A,CR,,#N/A
+0x400eb01b,UART 7816 Wait Parameter Register (UART5_WP7816T1)8R/W0A,CR,,#N/A
+0x400eb01c,UART 7816 Wait N Register (UART5_WN7816)8R/W00,CR,,#N/A
+0x400eb01d,UART 7816 Wait FD Register (UART5_WF7816)8R/W01,CR,,#N/A
+0x400eb01e,UART 7816 Error Threshold Register (UART5_ET7816)8R/W00,CR,,#N/A
+0x400eb01f,UART 7816 Transmit Length Register (UART5_TL7816)8R/W00,CR,"hybrid, it is programed with avalue that indicates the number of bytes to transmit and is decremented automatically by hardware",#N/A
+0x4002c084,Receive FIFO Registers (SPI0_RXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002c088,Receive FIFO Registers (SPI0_RXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d000,Module Configuration Register (SPI1_MCR)32R/W0000_4001,CR,,SPI1
+0x4002d008,Transfer Count Register (SPI1_TCR)32R/W0000_0000,SR,COUNTS EVENTS OF SPI,SPI1
+0x4002d00c,Clock and Transfer Attributes Register (In Master Mode)(SPI1_CTAR0)32R/W7800_0000,CR,,SPI1
+0x4002d00c,Clock and Transfer Attributes Register (In Slave Mode)(SPI1_CTAR0_SLAVE)32R/W7800_0000,CR,,SPI1
+0x4002d010,Clock and Transfer Attributes Register (In Master Mode)(SPI1_CTAR1)32R/W7800_0000,CR,,#N/A
+0x4002d02c,Status Register (SPI1_SR)32R/W0200_0000,SR,,SPI1
+0x4002d030,DMA/Interrupt Request Select and Enable Register(SPI1_RSER)32R/W0000_0000,CR,,SPI1
+0x4002d034,PUSH TX FIFO Register In Master Mode (SPI1_PUSHR)32R/W0000_0000,DR,,SPI1
+0x4002d034,PUSH TX FIFO Register In Slave Mode(SPI1_PUSHR_SLAVE)32R/W0000_0000,DR,,SPI1
+0x4002d038,POP RX FIFO Register (SPI1_POPR)32R0000_0000,DR,,SPI1
+0x4002d03c,Transmit FIFO Registers (SPI1_TXFR0)32R0000_0000,DR,ONLY FOR DEBUGGING,SPI1
+0x4002d040,Transmit FIFO Registers (SPI1_TXFR1)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d044,Transmit FIFO Registers (SPI1_TXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d048,Transmit FIFO Registers (SPI1_TXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d07c,Receive FIFO Registers (SPI1_RXFR0)32R0000_0000,DR,ONLY FOR DEBUGGING,SPI1
+0x4002d080,Receive FIFO Registers (SPI1_RXFR1)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d084,Receive FIFO Registers (SPI1_RXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d088,Receive FIFO Registers (SPI1_RXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac000,Module Configuration Register (SPI2_MCR)32R/W0000_4001,CR,,SPI2
+0x400ac008,Transfer Count Register (SPI2_TCR)32R/W0000_0000,SR,COUNTS EVENTS OF SPI,SPI2
+0x400ac00c,Clock and Transfer Attributes Register (In Master Mode)(SPI2_CTAR0)32R/W7800_0000,CR,,SPI2
+0x400ac00c,Clock and Transfer Attributes Register (In Slave Mode)(SPI2_CTAR0_SLAVE)32R/W7800_0000,CR,,SPI2
+0x400ac010,Clock and Transfer Attributes Register (In Master Mode)(SPI2_CTAR1)32R/W7800_0000,CR,,#N/A
+0x400ac02c,Status Register (SPI2_SR)32R/W0200_0000,SR,,SPI2
+0x400ac030,DMA/Interrupt Request Select and Enable Register(SPI2_RSER)32R/W0000_0000,CR,,SPI2
+0x400ac034,PUSH TX FIFO Register In Master Mode (SPI2_PUSHR)32R/W0000_0000,DR,,SPI2
+0x400ac034,PUSH TX FIFO Register In Slave Mode(SPI2_PUSHR_SLAVE)32R/W0000_0000,DR,,SPI2
+0x400ac038,POP RX FIFO Register (SPI2_POPR)32R0000_0000,DR,,SPI2
+0x400ac03c,Transmit FIFO Registers (SPI2_TXFR0)32R0000_0000,DR,ONLY FOR DEBUGGING,SPI2
+0x400ac040,Transmit FIFO Registers (SPI2_TXFR1)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac044,Transmit FIFO Registers (SPI2_TXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac048,Transmit FIFO Registers (SPI2_TXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac07c,Receive FIFO Registers (SPI2_RXFR0)32R0000_0000,DR,ONLY FOR DEBUGGING,SPI2
+0x400ac080,Receive FIFO Registers (SPI2_RXFR1)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac084,Receive FIFO Registers (SPI2_RXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac088,Receive FIFO Registers (SPI2_RXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x40049000,Pin Control Register n (PORTA_PCR0)32R/WSee sectio,CR,,PORTA
+0x40049004,Pin Control Register n (PORTA_PCR1)32R/WSee sectio,CR,,PORTA
+0x40049008,Pin Control Register n (PORTA_PCR2)32R/WSee sectio,CR,,PORTA
+0x4004900c,Pin Control Register n (PORTA_PCR3)32R/WSee sectio,CR,,PORTA
+0x40049010,Pin Control Register n (PORTA_PCR4)32R/WSee sectio,CR,,PORTA
+0x40049014,Pin Control Register n (PORTA_PCR5)32R/WSee sectio,CR,,PORTA
+0x40049018,Pin Control Register n (PORTA_PCR6)32R/WSee sectio,CR,,PORTA
+0x4004901c,Pin Control Register n (PORTA_PCR7)32R/WSee sectio,CR,,PORTA
+0x40049020,Pin Control Register n (PORTA_PCR8)32R/WSee sectio,CR,,PORTA
+0x40049024,Pin Control Register n (PORTA_PCR9)32R/WSee sectio,CR,,PORTA
+0x40049028,Pin Control Register n (PORTA_PCR10)32R/WSee sectio,CR,,PORTA
+0x4004902c,Pin Control Register n (PORTA_PCR11)32R/WSee sectio,CR,,PORTA
+0x40049030,Pin Control Register n (PORTA_PCR12)32R/WSee sectio,CR,,PORTA
+0x40049034,Pin Control Register n (PORTA_PCR13)32R/WSee sectio,CR,,PORTA
+0x40049038,Pin Control Register n (PORTA_PCR14)32R/WSee sectio,CR,,PORTA
+0x4004903c,Pin Control Register n (PORTA_PCR15)32R/WSee sectio,CR,,PORTA
+0x40049040,Pin Control Register n (PORTA_PCR16)32R/WSee sectio,CR,,PORTA
+0x40049044,Pin Control Register n (PORTA_PCR17)32R/WSee sectio,CR,,PORTA
+0x40049048,Pin Control Register n (PORTA_PCR18)32R/WSee sectio,CR,,PORTA
+0x4004904c,Pin Control Register n (PORTA_PCR19)32R/WSee sectio,CR,,PORTA
+0x40049050,Pin Control Register n (PORTA_PCR20)32R/WSee sectio,CR,,PORTA
+0x40049054,Pin Control Register n (PORTA_PCR21)32R/WSee sectio,CR,,PORTA
+0x40049058,Pin Control Register n (PORTA_PCR22)32R/WSee sectio,CR,,PORTA
+0x4004905c,Pin Control Register n (PORTA_PCR23)32R/WSee sectio,CR,,PORTA
+0x40049060,Pin Control Register n (PORTA_PCR24)32R/WSee sectio,CR,,PORTA
+0x40049064,Pin Control Register n (PORTA_PCR25)32R/WSee sectio,CR,,PORTA
+0x40049068,Pin Control Register n (PORTA_PCR26)32R/WSee sectio,CR,,PORTA
+0x4004906c,Pin Control Register n (PORTA_PCR27)32R/WSee sectio,CR,,PORTA
+0x40049070,Pin Control Register n (PORTA_PCR28)32R/WSee sectio,CR,,PORTA
+0x40049074,Pin Control Register n (PORTA_PCR29)32R/WSee sectio,CR,,PORTA
+0x40049078,Pin Control Register n (PORTA_PCR30)32R/WSee sectio,CR,,PORTA
+0x4004907c,Pin Control Register n (PORTA_PCR31)32R/WSee sectio,CR,,PORTA
+0x40049080,Global Pin Control Low Register (PORTA_GPCLR)32W(alwaysreads 0)0000_0000,CR,,PORTA
+0x40049084,Global Pin Control High Register (PORTA_GPCHR)32W(alwaysreads 0)0000_0000,CR,,PORTA
+0x400490a0,Interrupt Status Flag Register (PORTA_ISFR)32w1c0000_0000,SR,,PORTA
+0x400490c0,Digital Filter Enable Register (PORTA_DFER)32R/W0000_0000,CR,,#N/A
+0x400490c4,Digital Filter Clock Register (PORTA_DFCR)32R/W0000_0000,CR,,#N/A
+0x400490c8,Digital Filter Width Register (PORTA_DFWR)32R/W0000_0000,CR,,#N/A
+0x4004a000,Pin Control Register n (PORTB_PCR0)32R/WSee sectio,CR,,PORTB
+0x4004a004,Pin Control Register n (PORTB_PCR1)32R/WSee sectio,CR,,PORTB
+0x4004a008,Pin Control Register n (PORTB_PCR2)32R/WSee sectio,CR,,PORTB
+0x4004a00c,Pin Control Register n (PORTB_PCR3)32R/WSee sectio,CR,,PORTB
+0x4004a010,Pin Control Register n (PORTB_PCR4)32R/WSee sectio,CR,,PORTB
+0x4004a014,Pin Control Register n (PORTB_PCR5)32R/WSee sectio,CR,,PORTB
+0x4004a018,Pin Control Register n (PORTB_PCR6)32R/WSee sectio,CR,,PORTB
+0x4004a01c,Pin Control Register n (PORTB_PCR7)32R/WSee sectio,CR,,PORTB
+0x4004a020,Pin Control Register n (PORTB_PCR8)32R/WSee sectio,CR,,PORTB
+0x4004a024,Pin Control Register n (PORTB_PCR9)32R/WSee sectio,CR,,PORTB
+0x4004a028,Pin Control Register n (PORTB_PCR10)32R/WSee sectio,CR,,PORTB
+0x4004a02c,Pin Control Register n (PORTB_PCR11)32R/WSee sectio,CR,,PORTB
+0x4004a030,Pin Control Register n (PORTB_PCR12)32R/WSee sectio,CR,,PORTB
+0x4004a034,Pin Control Register n (PORTB_PCR13)32R/WSee sectio,CR,,PORTB
+0x4004a038,Pin Control Register n (PORTB_PCR14)32R/WSee sectio,CR,,PORTB
+0x4004a03c,Pin Control Register n (PORTB_PCR15)32R/WSee sectio,CR,,PORTB
+0x4004a040,Pin Control Register n (PORTB_PCR16)32R/WSee sectio,CR,,PORTB
+0x4004a044,Pin Control Register n (PORTB_PCR17)32R/WSee sectio,CR,,PORTB
+0x4004a048,Pin Control Register n (PORTB_PCR18)32R/WSee sectio,CR,,PORTB
+0x4004a04c,Pin Control Register n (PORTB_PCR19)32R/WSee sectio,CR,,PORTB
+0x4004a050,Pin Control Register n (PORTB_PCR20)32R/WSee sectio,CR,,PORTB
+0x4004a054,Pin Control Register n (PORTB_PCR21)32R/WSee sectio,CR,,PORTB
+0x4004a058,Pin Control Register n (PORTB_PCR22)32R/WSee sectio,CR,,PORTB
+0x4004a05c,Pin Control Register n (PORTB_PCR23)32R/WSee sectio,CR,,PORTB
+0x4004a060,Pin Control Register n (PORTB_PCR24)32R/WSee sectio,CR,,PORTB
+0x4004a064,Pin Control Register n (PORTB_PCR25)32R/WSee sectio,CR,,PORTB
+0x4004a068,Pin Control Register n (PORTB_PCR26)32R/WSee sectio,CR,,PORTB
+0x4004a06c,Pin Control Register n (PORTB_PCR27)32R/WSee sectio,CR,,PORTB
+0x4004a070,Pin Control Register n (PORTB_PCR28)32R/WSee sectio,CR,,PORTB
+0x4004a074,Pin Control Register n (PORTB_PCR29)32R/WSee sectio,CR,,PORTB
+0x4004a078,Pin Control Register n (PORTB_PCR30)32R/WSee sectio,CR,,PORTB
+0x4004a07c,Pin Control Register n (PORTB_PCR31)32R/WSee sectio,CR,,PORTB
+0x4004a080,Global Pin Control Low Register (PORTB_GPCLR)32W(alwaysreads 0)0000_0000,CR,,PORTB
+0x4004a084,Global Pin Control High Register (PORTB_GPCHR)32W(alwaysreads 0)0000_0000,CR,,PORTB
+0x4004a0a0,Interrupt Status Flag Register (PORTB_ISFR)32w1c0000_0000,SR,,PORTB
+0x4004a0c0,Digital Filter Enable Register (PORTB_DFER)32R/W0000_0000,CR,,N/A
+0x4004a0c4,Digital Filter Clock Register (PORTB_DFCR)32R/W0000_0000,CR,,#N/A
+0x4004a0c8,Digital Filter Width Register (PORTB_DFWR)32R/W0000_0000,CR,,#N/A
+0x4004b000,Pin Control Register n (PORTC_PCR0)32R/WSee sectio,CR,,PORTC
+0x4004b004,Pin Control Register n (PORTC_PCR1)32R/WSee sectio,CR,,PORTC
+0x4004b008,Pin Control Register n (PORTC_PCR2)32R/WSee sectio,CR,,PORTC
+0x4004b00c,Pin Control Register n (PORTC_PCR3)32R/WSee sectio,CR,,PORTC
+0x4004b010,Pin Control Register n (PORTC_PCR4)32R/WSee sectio,CR,,PORTC
+0x4004b014,Pin Control Register n (PORTC_PCR5)32R/WSee sectio,CR,,PORTC
+0x4004b018,Pin Control Register n (PORTC_PCR6)32R/WSee sectio,CR,,PORTC
+0x4004b01c,Pin Control Register n (PORTC_PCR7)32R/WSee sectio,CR,,PORTC
+0x4004b020,Pin Control Register n (PORTC_PCR8)32R/WSee sectio,CR,,PORTC
+0x4004b024,Pin Control Register n (PORTC_PCR9)32R/WSee sectio,CR,,PORTC
+0x4004b028,Pin Control Register n (PORTC_PCR10)32R/WSee sectio,CR,,PORTC
+0x4004b02c,Pin Control Register n (PORTC_PCR11)32R/WSee sectio,CR,,PORTC
+0x4004b030,Pin Control Register n (PORTC_PCR12)32R/WSee sectio,CR,,PORTC
+0x4004b034,Pin Control Register n (PORTC_PCR13)32R/WSee sectio,CR,,PORTC
+0x4004b038,Pin Control Register n (PORTC_PCR14)32R/WSee sectio,CR,,PORTC
+0x4004b03c,Pin Control Register n (PORTC_PCR15)32R/WSee sectio,CR,,PORTC
+0x4004b040,Pin Control Register n (PORTC_PCR16)32R/WSee sectio,CR,,PORTC
+0x4004b044,Pin Control Register n (PORTC_PCR17)32R/WSee sectio,CR,,PORTC
+0x4004b048,Pin Control Register n (PORTC_PCR18)32R/WSee sectio,CR,,PORTC
+0x4004b04c,Pin Control Register n (PORTC_PCR19)32R/WSee sectio,CR,,PORTC
+0x4004b050,Pin Control Register n (PORTC_PCR20)32R/WSee sectio,CR,,PORTC
+0x4004b054,Pin Control Register n (PORTC_PCR21)32R/WSee sectio,CR,,PORTC
+0x4004b058,Pin Control Register n (PORTC_PCR22)32R/WSee sectio,CR,,PORTC
+0x4004b05c,Pin Control Register n (PORTC_PCR23)32R/WSee sectio,CR,,PORTC
+0x4004b060,Pin Control Register n (PORTC_PCR24)32R/WSee sectio,CR,,PORTC
+0x4004b064,Pin Control Register n (PORTC_PCR25)32R/WSee sectio,CR,,PORTC
+0x4004b068,Pin Control Register n (PORTC_PCR26)32R/WSee sectio,CR,,PORTC
+0x4004b06c,Pin Control Register n (PORTC_PCR27)32R/WSee sectio,CR,,PORTC
+0x4004b070,Pin Control Register n (PORTC_PCR28)32R/WSee sectio,CR,,PORTC
+0x4004b074,Pin Control Register n (PORTC_PCR29)32R/WSee sectio,CR,,PORTC
+0x4004b078,Pin Control Register n (PORTC_PCR30)32R/WSee sectio,CR,,PORTC
+0x4004b07c,Pin Control Register n (PORTC_PCR31)32R/WSee sectio,CR,,PORTC
+0x4004b080,Global Pin Control Low Register (PORTC_GPCLR)32W(alwaysreads 0)0000_0000,CR,,PORTC
+0x4004b084,Global Pin Control High Register (PORTC_GPCHR)32W(alwaysreads 0)0000_0000,CR,,PORTC
+0x4004b0a0,Interrupt Status Flag Register (PORTC_ISFR)32w1c0000_0000,SR,,PORTC
+0x4004b0c0,Digital Filter Enable Register (PORTC_DFER)32R/W0000_0000,CR,,#N/A
+0x4004b0c4,Digital Filter Clock Register (PORTC_DFCR)32R/W0000_0000,CR,,#N/A
+0x4004b0c8,Digital Filter Width Register (PORTC_DFWR)32R/W0000_0000,CR,,#N/A
+0x4004c000,Pin Control Register n (PORTD_PCR0)32R/WSee sectio,CR,,PORTD
+0x4004c004,Pin Control Register n (PORTD_PCR1)32R/WSee sectio,CR,,PORTD
+0x4004c008,Pin Control Register n (PORTD_PCR2)32R/WSee sectio,CR,,PORTD
+0x4004c00c,Pin Control Register n (PORTD_PCR3)32R/WSee sectio,CR,,PORTD
+0x4004c010,Pin Control Register n (PORTD_PCR4)32R/WSee sectio,CR,,PORTD
+0x4004c014,Pin Control Register n (PORTD_PCR5)32R/WSee sectio,CR,,PORTD
+0x4004c018,Pin Control Register n (PORTD_PCR6)32R/WSee sectio,CR,,PORTD
+0x4004c01c,Pin Control Register n (PORTD_PCR7)32R/WSee sectio,CR,,PORTD
+0x4004c020,Pin Control Register n (PORTD_PCR8)32R/WSee sectio,CR,,PORTD
+0x4004c024,Pin Control Register n (PORTD_PCR9)32R/WSee sectio,CR,,PORTD
+0x4004c028,Pin Control Register n (PORTD_PCR10)32R/WSee sectio,CR,,PORTD
+0x4004c02c,Pin Control Register n (PORTD_PCR11)32R/WSee sectio,CR,,PORTD
+0x4004c030,Pin Control Register n (PORTD_PCR12)32R/WSee sectio,CR,,PORTD
+0x4004c034,Pin Control Register n (PORTD_PCR13)32R/WSee sectio,CR,,PORTD
+0x4004c038,Pin Control Register n (PORTD_PCR14)32R/WSee sectio,CR,,PORTD
+0x4004c03c,Pin Control Register n (PORTD_PCR15)32R/WSee sectio,CR,,PORTD
+0x4004c040,Pin Control Register n (PORTD_PCR16)32R/WSee sectio,CR,,PORTD
+0x4004c044,Pin Control Register n (PORTD_PCR17)32R/WSee sectio,CR,,PORTD
+0x4004c048,Pin Control Register n (PORTD_PCR18)32R/WSee sectio,CR,,PORTD
+0x4004c04c,Pin Control Register n (PORTD_PCR19)32R/WSee sectio,CR,,PORTD
+0x4004c050,Pin Control Register n (PORTD_PCR20)32R/WSee sectio,CR,,PORTD
+0x4004c054,Pin Control Register n (PORTD_PCR21)32R/WSee sectio,CR,,PORTD
+0x4004c058,Pin Control Register n (PORTD_PCR22)32R/WSee sectio,CR,,PORTD
+0x4004c05c,Pin Control Register n (PORTD_PCR23)32R/WSee sectio,CR,,PORTD
+0x4004c060,Pin Control Register n (PORTD_PCR24)32R/WSee sectio,CR,,PORTD
+0x4004c064,Pin Control Register n (PORTD_PCR25)32R/WSee sectio,CR,,PORTD
+0x4004c068,Pin Control Register n (PORTD_PCR26)32R/WSee sectio,CR,,PORTD
+0x4004c06c,Pin Control Register n (PORTD_PCR27)32R/WSee sectio,CR,,PORTD
+0x4004c070,Pin Control Register n (PORTD_PCR28)32R/WSee sectio,CR,,PORTD
+0x4004c074,Pin Control Register n (PORTD_PCR29)32R/WSee sectio,CR,,PORTD
+0x4004c078,Pin Control Register n (PORTD_PCR30)32R/WSee sectio,CR,,PORTD
+0x4004c07c,Pin Control Register n (PORTD_PCR31)32R/WSee sectio,CR,,PORTD
+0x4004c080,Global Pin Control Low Register (PORTD_GPCLR)32W(alwaysreads 0)0000_0000,CR,,PORTD
+0x4004c084,Global Pin Control High Register (PORTD_GPCHR)32W(alwaysreads 0)0000_0000,CR,,PORTD
+0x4004c0a0,Interrupt Status Flag Register (PORTD_ISFR)32w1c0000_0000,SR,,PORTD
+0x4004c0c0,Digital Filter Enable Register (PORTD_DFER)32R/W0000_0000,CR,,PORTD
+0x4004c0c4,Digital Filter Clock Register (PORTD_DFCR)32R/W0000_0000,CR,,PORTD
+0x4004c0c8,Digital Filter Width Register (PORTD_DFWR)32R/W0000_0000,CR,,PORTD
+0x4004d000,Pin Control Register n (PORTE_PCR0)32R/WSee sectio,CR,,PORTE
+0x4004d004,Pin Control Register n (PORTE_PCR1)32R/WSee sectio,CR,,PORTE
+0x4004d008,Pin Control Register n (PORTE_PCR2)32R/WSee sectio,CR,,PORTE
+0x4004d00c,Pin Control Register n (PORTE_PCR3)32R/WSee sectio,CR,,PORTE
+0x4004d010,Pin Control Register n (PORTE_PCR4)32R/WSee sectio,CR,,PORTE
+0x4004d014,Pin Control Register n (PORTE_PCR5)32R/WSee sectio,CR,,PORTE
+0x4004d018,Pin Control Register n (PORTE_PCR6)32R/WSee sectio,CR,,PORTE
+0x4004d01c,Pin Control Register n (PORTE_PCR7)32R/WSee sectio,CR,,PORTE
+0x4004d020,Pin Control Register n (PORTE_PCR8)32R/WSee sectio,CR,,PORTE
+0x4004d024,Pin Control Register n (PORTE_PCR9)32R/WSee sectio,CR,,PORTE
+0x4004d028,Pin Control Register n (PORTE_PCR10)32R/WSee sectio,CR,,PORTE
+0x4004d02c,Pin Control Register n (PORTE_PCR11)32R/WSee sectio,CR,,PORTE
+0x4004d030,Pin Control Register n (PORTE_PCR12)32R/WSee sectio,CR,,PORTE
+0x4004d034,Pin Control Register n (PORTE_PCR13)32R/WSee sectio,CR,,PORTE
+0x4004d038,Pin Control Register n (PORTE_PCR14)32R/WSee sectio,CR,,PORTE
+0x4004d03c,Pin Control Register n (PORTE_PCR15)32R/WSee sectio,CR,,PORTE
+0x4004d040,Pin Control Register n (PORTE_PCR16)32R/WSee sectio,CR,,PORTE
+0x4004d044,Pin Control Register n (PORTE_PCR17)32R/WSee sectio,CR,,PORTE
+0x4004d048,Pin Control Register n (PORTE_PCR18)32R/WSee sectio,CR,,PORTE
+0x4004d04c,Pin Control Register n (PORTE_PCR19)32R/WSee sectio,CR,,PORTE
+0x4004d050,Pin Control Register n (PORTE_PCR20)32R/WSee sectio,CR,,PORTE
+0x4004d054,Pin Control Register n (PORTE_PCR21)32R/WSee sectio,CR,,PORTE
+0x4004d058,Pin Control Register n (PORTE_PCR22)32R/WSee sectio,CR,,PORTE
+0x4004d05c,Pin Control Register n (PORTE_PCR23)32R/WSee sectio,CR,,PORTE
+0x4004d060,Pin Control Register n (PORTE_PCR24)32R/WSee sectio,CR,,PORTE
+0x4004d064,Pin Control Register n (PORTE_PCR25)32R/WSee sectio,CR,,PORTE
+0x4004d068,Pin Control Register n (PORTE_PCR26)32R/WSee sectio,CR,,PORTE
+0x4004d06c,Pin Control Register n (PORTE_PCR27)32R/WSee sectio,CR,,PORTE
+0x4004d070,Pin Control Register n (PORTE_PCR28)32R/WSee sectio,CR,,PORTE
+0x4004d074,Pin Control Register n (PORTE_PCR29)32R/WSee sectio,CR,,PORTE
+0x4004d078,Pin Control Register n (PORTE_PCR30)32R/WSee sectio,CR,,PORTE
+0x4004d07c,Pin Control Register n (PORTE_PCR31)32R/WSee sectio,CR,,PORTE
+0x4004d080,Global Pin Control Low Register (PORTE_GPCLR)32W(alwaysreads 0)0000_0000,CR,,PORTE
+0x4004d084,Global Pin Control High Register (PORTE_GPCHR)32W(alwaysreads 0)0000_0000,CR,,PORTE
+0x4004d0a0,Interrupt Status Flag Register (PORTE_ISFR)32w1c0000_0000,SR,,PORTE
+0x4004d0c0,Digital Filter Enable Register (PORTE_DFER)32R/W0000_0000,CR,,#N/A
+0x4004d0c4,Digital Filter Clock Register (PORTE_DFCR)32R/W0000_0000,CR,,#N/A
+0x4004d0c8,Digital Filter Width Register (PORTE_DFWR)32R/W0000_0000,CR,,#N/A
+0x40052000,Watchdog Status and Control Register High(WDOG_STCTRLH)16R/W01D3,SR,Hybrid,WDOG
+0x40052002,Watchdog Status and Control Register Low(WDOG_STCTRLL)16R/W0001,SR,Hybrid,WDOG
+0x40052004,Watchdog Time-out Value Register High (WDOG_TOVALH)16R/W004C,,,WDOG
+0x40052006,Watchdog Time-out Value Register Low (WDOG_TOVALL)16R/W4B4C,,,WDOG
+0x40052008,Watchdog Window Register High (WDOG_WINH)16R/W0000,,,WDOG
+0x4005200a,Watchdog Window Register Low (WDOG_WINL)16R/W0010,,,WDOG
+0x4005200c,Watchdog Refresh register (WDOG_REFRESH)16R/WB480,,,WDOG
+0x4005200e,Watchdog Unlock register (WDOG_UNLOCK)16R/WD928,CR,,WDOG
+0x40052010,Watchdog Timer Output Register High (WDOG_TMROUTH)16R/W0000,,,WDOG
+0x40052012,Watchdog Timer Output Register Low (WDOG_TMROUTL)16R/W0000,,,WDOG
+0x40052014,Watchdog Reset Count register (WDOG_RSTCNT)16R/W0000,SR,COUNTS EVENST OF WDT,WDOG
+0x40052016,Watchdog Prescaler register (WDOG_PRESC)16R/W0400,,,WDOG
+0x40064000,MCG Control 1 Register (MCG_C1)8R/W04,CR,,MCG
+0x40064001,MCG Control 2 Register (MCG_C2)8R/W80,CR,,MCG
+0x40064002,MCG Control 3 Register (MCG_C3)8R/WUndefined25.3.3/596,CR,,MCG
+0x40064003,MCG Control 4 Register (MCG_C4)8R/WSee sectio,CR,,MCG
+0x40064004,MCG Control 5 Register (MCG_C5)8R/W00,CR,,MCG
+0x40064005,MCG Control 6 Register (MCG_C6)8R/W00,CR,,MCG
+0x40064006,MCG Status Register (MCG_S)8R10h25.3.7/601,SR,,MCG
+0x40064008,MCG Status and Control Register (MCG_SC)8R/W02,SR,Hybrid,MCG
+0x4006400a,MCG Auto Trim Compare Value High Register(MCG_ATCVH)8R/W00,,,MCG
+0x4006400b,MCG Auto Trim Compare Value Low Register(MCG_ATCVL)8R/W00,,,MCG
+0x4006400c,MCG Control 7 Register (MCG_C7)8R/W00,CR,,MCG
+0x4006400d,MCG Control 8 Register (MCG_C8)8R/W80,CR,,MCG
+0x40064011,MCG Control 12 Register (MCG_C12)8R/W00,CR,,#N/A
+0x40064012,MCG Status 2 Register (MCG_S2)8R/W00,SR,,#N/A
+0x40064013,MCG Test 3 Register (MCG_T3)8R/W00,,,#N/A
+0x40065000,OSC Control Register (OSC_CR)8R/W00,CR,,OSC
+0x400ff000,Port Data Output Register (GPIOA_PDOR)32R/W0000_0000,DR,,GPIOA
+0x400ff004,Port Set Output Register (GPIOA_PSOR)32W(alwaysreads 0)0000_0000,DR,,GPIOA
+0x400ff008,Port Clear Output Register (GPIOA_PCOR)32W(alwaysreads 0)0000_0000,,,GPIOA
+0x400ff00c,Port Toggle Output Register (GPIOA_PTOR)32W(alwaysreads 0)0000_0000,DR,,GPIOA
+0x400ff010,Port Data Input Register (GPIOA_PDIR)32R0000_0000,DR,,GPIOA
+0x400ff014,Port Data Direction Register (GPIOA_PDDR)32R/W0000_0000,CR,,GPIOA
+0x400ff040,Port Data Output Register (GPIOB_PDOR)32R/W0000_0000,DR,,GPIOB
+0x400ff044,Port Set Output Register (GPIOB_PSOR)32W(alwaysreads 0)0000_0000,DR,,GPIOB
+0x400ff048,Port Clear Output Register (GPIOB_PCOR)32W(alwaysreads 0)0000_0000,DR,,GPIOB
+0x400ff04c,Port Toggle Output Register (GPIOB_PTOR)32W(alwaysreads 0)0000_0000,DR,,GPIOB
+0x400ff050,Port Data Input Register (GPIOB_PDIR)32R0000_0000,DR,,GPIOB
+0x400ff054,Port Data Direction Register (GPIOB_PDDR)32R/W0000_0000,CR,,GPIOB
+0x400ff080,Port Data Output Register (GPIOC_PDOR)32R/W0000_0000,DR,,GPIOC
+0x400ff084,Port Set Output Register (GPIOC_PSOR)32W(alwaysreads 0)0000_0000,DR,,GPIOC
+0x400ff088,Port Clear Output Register (GPIOC_PCOR)32W(alwaysreads 0)0000_0000,DR,,GPIOC
+0x400ff08c,Port Toggle Output Register (GPIOC_PTOR)32W(alwaysreads 0)0000_0000,DR,,GPIOC
+0x400ff090,Port Data Input Register (GPIOC_PDIR)32R0000_0000,DR,,GPIOC
+0x400ff094,Port Data Direction Register (GPIOC_PDDR)32R/W0000_0000,CR,,GPIOC
+0x400ff0c0,Port Data Output Register (GPIOD_PDOR)32R/W0000_0000,DR,,GPIOD
+0x400ff0c4,Port Set Output Register (GPIOD_PSOR)32W(alwaysreads 0)0000_0000,DR,,GPIOD
+0x400ff0c8,Port Clear Output Register (GPIOD_PCOR)32W(alwaysreads 0)0000_0000,DR,,GPIOD
+0x400ff0cc,Port Toggle Output Register (GPIOD_PTOR)32W(alwaysreads 0)0000_0000,DR,,GPIOD
+0x400ff0d0,Port Data Input Register (GPIOD_PDIR)32R0000_0000,DR,,GPIOD
+0x400ff0d4,Port Data Direction Register (GPIOD_PDDR)32R/W0000_0000,CR,,GPIOD
+0x400ff100,Port Data Output Register (GPIOE_PDOR)32R/W0000_0000,DR,,GPIOE
+0x400ff104,Port Set Output Register (GPIOE_PSOR)32W(alwaysreads 0)0000_0000,DR,,GPIOE
+0x400ff108,Port Clear Output Register (GPIOE_PCOR)32W(alwaysreads 0)0000_0000,DR,,GPIOE
+0x400ff10c,Port Toggle Output Register (GPIOE_PTOR)32W(alwaysreads 0)0000_0000,DR,,GPIOE
+0x400ff110,Port Data Input Register (GPIOE_PDIR)32R0000_0000,DR,,GPIOE
+0x400ff114,Port Data Direction Register (GPIOE_PDDR)32R/W0000_0000,DR,,GPIOE
+0x40066000,I2C Address Register 1 (I2C0_A1)8R/W00,CR,,I2C0
+0x40066001,I2C Frequency Divider register (I2C0_F)8R/W00,CR,,I2C0
+0x40066002,I2C Control Register 1 (I2C0_C1)8R/W00,CR,,I2C0
+0x40066003,I2C Status register (I2C0_S)8R/W80,SR,,I2C0
+0x40066004,I2C Data I/O register (I2C0_D)8R/W00,DR,,I2C0
+0x40066005,I2C Control Register 2 (I2C0_C2)8R/W00,CR,,I2C0
+0x40066006,I2C Programmable Input Glitch Filter Register (I2C0_FLT)8R/W00,CR,,I2C0
+0x40066007,I2C Range Address register (I2C0_RA)8R/W00,CR,,I2C0
+0x40066008,I2C SMBus Control and Status register (I2C0_SMB)8R/W00,SR,Hybrid,I2C0
+0x40066009,I2C Address Register 2 (I2C0_A2)8R/WC2,CR,,I2C0
+0x4006600a,I2C SCL Low Timeout Register High (I2C0_SLTH)8R/W00,CR,,I2C0
+0x4006600b,I2C SCL Low Timeout Register Low (I2C0_SLTL)8R/W00,CR,,I2C0
+0x40067000,I2C Address Register 1 (I2C1_A1)8R/W00,CR,,I2C1
+0x40067001,I2C Frequency Divider register (I2C1_F)8R/W00,CR,,I2C1
+0x40067002,I2C Control Register 1 (I2C1_C1)8R/W00,CR,,I2C1
+0x40067003,I2C Status register (I2C1_S)8R/W80,SR,,I2C1
+0x40067004,I2C Data I/O register (I2C1_D)8R/W00,DR,,I2C1
+0x40067005,I2C Control Register 2 (I2C1_C2)8R/W00,CR,,I2C1
+0x40067006,I2C Programmable Input Glitch Filter Register (I2C1_FLT)8R/W00,CR,,I2C1
+0x40067007,I2C Range Address register (I2C1_RA)8R/W00,CR,,I2C1
+0x40067008,I2C SMBus Control and Status register (I2C1_SMB)8R/W00,SR,Hybrid,I2C1
+0x40067009,I2C Address Register 2 (I2C1_A2)8R/WC2,CR,,I2C1
+0x4006700a,I2C SCL Low Timeout Register High (I2C1_SLTH)8R/W00,CR,,I2C1
+0x4006700b,I2C SCL Low Timeout Register Low (I2C1_SLTL)8R/W00,CR,,I2C1
+0x400e6000,I2C Address Register 1 (I2C2_A1)8R/W00,CR,,I2C2
+0x400e6001,I2C Frequency Divider register (I2C2_F)8R/W00,CR,,I2C2
+0x400e6002,I2C Control Register 1 (I2C2_C1)8R/W00,CR,,I2C2
+0x400e6003,I2C Status register (I2C2_S)8R/W80,SR,,I2C2
+0x400e6004,I2C Data I/O register (I2C2_D)8R/W00,DR,,I2C2
+0x400e6005,I2C Control Register 2 (I2C2_C2)8R/W00,CR,,I2C2
+0x400e6006,I2C Programmable Input Glitch Filter Register (I2C2_FLT)8R/W00,CR,,I2C2
+0x400e6007,I2C Range Address register (I2C2_RA)8R/W00,CR,,I2C2
+0x400e6008,I2C SMBus Control and Status register (I2C2_SMB)8R/W00,SR,Hybrid,I2C2
+0x400e6009,I2C Address Register 2 (I2C2_A2)8R/WC2,CR,,I2C2
+0x400e600a,I2C SCL Low Timeout Register High (I2C2_SLTH)8R/W00,CR,,I2C2
+0x400e600b,I2C SCL Low Timeout Register Low (I2C2_SLTL)8R/W00,CR,,I2C2
+0x400cc000,DAC Data Low Register (DAC0_DAT0L)8R/W00,DR,,DAC0
+0x400cc001,DAC Data High Register (DAC0_DAT0H)8R/W00,DR,,DAC0
+0x400cc002,DAC Data Low Register (DAC0_DAT1L)8R/W00,DR,,#N/A
+0x400cc003,DAC Data High Register (DAC0_DAT1H)8R/W00,DR,,#N/A
+0x400cc004,DAC Data Low Register (DAC0_DAT2L)8R/W00,DR,,#N/A
+0x400cc005,DAC Data High Register (DAC0_DAT2H)8R/W00,DR,,#N/A
+0x400cc006,DAC Data Low Register (DAC0_DAT3L)8R/W00,DR,,#N/A
+0x400cc007,DAC Data High Register (DAC0_DAT3H)8R/W00,DR,,#N/A
+0x400cc008,DAC Data Low Register (DAC0_DAT4L)8R/W00,DR,,#N/A
+0x400cc009,DAC Data High Register (DAC0_DAT4H)8R/W00,DR,,#N/A
+0x400cc00a,DAC Data Low Register (DAC0_DAT5L)8R/W00,DR,,#N/A
+0x400cc00b,DAC Data High Register (DAC0_DAT5H)8R/W00,DR,,#N/A
+0x400cc00c,DAC Data Low Register (DAC0_DAT6L)8R/W00,DR,,#N/A
+0x400cc00d,DAC Data High Register (DAC0_DAT6H)8R/W00,DR,,#N/A
+0x400cc00e,DAC Data Low Register (DAC0_DAT7L)8R/W00,DR,,#N/A
+0x400cc00f,DAC Data High Register (DAC0_DAT7H)8R/W00,DR,,#N/A
+0x400cc010,DAC Data Low Register (DAC0_DAT8L)8R/W00,DR,,#N/A
+0x400cc011,DAC Data High Register (DAC0_DAT8H)8R/W00,DR,,#N/A
+0x400cc012,DAC Data Low Register (DAC0_DAT9L)8R/W00,DR,,#N/A
+0x400cc013,DAC Data High Register (DAC0_DAT9H)8R/W00,DR,,#N/A
+0x400cc014,DAC Data Low Register (DAC0_DAT10L)8R/W00,DR,,#N/A
+0x400cc015,DAC Data High Register (DAC0_DAT10H)8R/W00,DR,,#N/A
+0x400cc016,DAC Data Low Register (DAC0_DAT11L)8R/W00,DR,,#N/A
+0x400cc017,DAC Data High Register (DAC0_DAT11H)8R/W00,DR,,#N/A
+0x400cc018,DAC Data Low Register (DAC0_DAT12L)8R/W00,DR,,#N/A
+0x400cc019,DAC Data High Register (DAC0_DAT12H)8R/W00,DR,,#N/A
+0x400cc01a,DAC Data Low Register (DAC0_DAT13L)8R/W00,DR,,#N/A
+0x400cc01b,DAC Data High Register (DAC0_DAT13H)8R/W00,DR,,#N/A
+0x400cc01c,DAC Data Low Register (DAC0_DAT14L)8R/W00,DR,,#N/A
+0x400cc01d,DAC Data High Register (DAC0_DAT14H)8R/W00,DR,,#N/A
+0x400cc01e,DAC Data Low Register (DAC0_DAT15L)8R/W00,DR,,#N/A
+0x400cc01f,DAC Data High Register (DAC0_DAT15H)8R/W00,DR,,#N/A
+0x400cc020,DAC Status Register (DAC0_SR)8R/W02,SR,,DAC0
+0x400cc021,DAC Control Register (DAC0_C0)8R/W00,CR,,DAC0
+0x400cc022,DAC Control Register 1 (DAC0_C1)8R/W00,CR,,DAC0
+0x400cc023,DAC Control Register 2 (DAC0_C2)8R/W0F,CR,,DAC0
+0x400cd000,DAC Data Low Register (DAC1_DAT0L)8R/W00,DR,,DAC1
+0x400cd001,DAC Data High Register (DAC1_DAT0H)8R/W00,DR,,DAC1
+0x400cd002,DAC Data Low Register (DAC1_DAT1L)8R/W00,DR,,#N/A
+0x400cd003,DAC Data High Register (DAC1_DAT1H)8R/W00,DR,,#N/A
+0x400cd004,DAC Data Low Register (DAC1_DAT2L)8R/W00,DR,,#N/A
+0x400cd005,DAC Data High Register (DAC1_DAT2H)8R/W00,DR,,#N/A
+0x400cd006,DAC Data Low Register (DAC1_DAT3L)8R/W00,DR,,#N/A
+0x400cd007,DAC Data High Register (DAC1_DAT3H)8R/W00,DR,,#N/A
+0x400cd008,DAC Data Low Register (DAC1_DAT4L)8R/W00,DR,,#N/A
+0x400cd009,DAC Data High Register (DAC1_DAT4H)8R/W00,DR,,#N/A
+0x400cd00a,DAC Data Low Register (DAC1_DAT5L)8R/W00,DR,,#N/A
+0x400cd00b,DAC Data High Register (DAC1_DAT5H)8R/W00,DR,,#N/A
+0x400cd00c,DAC Data Low Register (DAC1_DAT6L)8R/W00,DR,,#N/A
+0x400cd00d,DAC Data High Register (DAC1_DAT6H)8R/W00,DR,,#N/A
+0x400cd00e,DAC Data Low Register (DAC1_DAT7L)8R/W00,DR,,#N/A
+0x400cd00f,DAC Data High Register (DAC1_DAT7H)8R/W00,DR,,#N/A
+0x400cd010,DAC Data Low Register (DAC1_DAT8L)8R/W00,DR,,#N/A
+0x400cd011,DAC Data High Register (DAC1_DAT8H)8R/W00,DR,,#N/A
+0x400cd012,DAC Data Low Register (DAC1_DAT9L)8R/W00,DR,,#N/A
+0x400cd013,DAC Data High Register (DAC1_DAT9H)8R/W00,DR,,#N/A
+0x400cd014,DAC Data Low Register (DAC1_DAT10L)8R/W00,DR,,#N/A
+0x400cd015,DAC Data High Register (DAC1_DAT10H)8R/W00,DR,,#N/A
+0x400cd016,DAC Data Low Register (DAC1_DAT11L)8R/W00,DR,,#N/A
+0x400cd017,DAC Data High Register (DAC1_DAT11H)8R/W00,DR,,#N/A
+0x400cd018,DAC Data Low Register (DAC1_DAT12L)8R/W00,DR,,#N/A
+0x400cd019,DAC Data High Register (DAC1_DAT12H)8R/W00,DR,,#N/A
+0x400cd01a,DAC Data Low Register (DAC1_DAT13L)8R/W00,DR,,#N/A
+0x400cd01b,DAC Data High Register (DAC1_DAT13H)8R/W00,DR,,#N/A
+0x400cd01c,DAC Data Low Register (DAC1_DAT14L)8R/W00,DR,,#N/A
+0x400cd01d,DAC Data High Register (DAC1_DAT14H)8R/W00,DR,,#N/A
+0x400cd01e,DAC Data Low Register (DAC1_DAT15L)8R/W00,DR,,#N/A
+0x400cd01f,DAC Data High Register (DAC1_DAT15H)8R/W00,DR,,#N/A
+0x400cd020,DAC Status Register (DAC1_SR)8R/W02,SR,,DAC1
+0x400cd021,DAC Control Register (DAC1_C0)8R/W00,CR,,DAC1
+0x400cd022,DAC Control Register 1 (DAC1_C1)8R/W00,CR,,DAC1
+0x400cd023,DAC Control Register 2 (DAC1_C2)8R/W0F,CR,,DAC1
+0x4003b000,ADC Status and Control Registers 1 (ADC0_SC1A)32R/W0000_001F,SR,Hybrid,ADC0
+0x4003b004,ADC Status and Control Registers 1 (ADC0_SC1B)32R/W0000_001F,SR,Hybrid,#N/A
+0x4003b008,ADC Configuration Register 1 (ADC0_CFG1)32R/W0000_0000,CR,,ADC0
+0x4003b00c,ADC Configuration Register 2 (ADC0_CFG2)32R/W0000_0000,CR,,ADC0
+0x4003b010,ADC Data Result Register (ADC0_RA)32R0000_0000,DR,,ADC0
+0x4003b014,ADC Data Result Register (ADC0_RB)32R0000_0000,DR,,#N/A
+0x4003b018,Compare Value Registers (ADC0_CV1)32R/W0000_0000,,,ADC0
+0x4003b01c,Compare Value Registers (ADC0_CV2)32R/W0000_0000,,,#N/A
+0x4003b020,Status and Control Register 2 (ADC0_SC2)32R/W0000_0000,SR,Hybrid,ADC0
+0x4003b024,Status and Control Register 3 (ADC0_SC3)32R/W0000_0000,SR,Hybrid,ADC0
+0x4003b028,ADC Offset Correction Register (ADC0_OFS)32R/W0000_0004,,,ADC0
+0x4003b02c,ADC Plus-Side Gain Register (ADC0_PG)32R/W0000_8200,CR,,ADC0
+0x4003b030,ADC Minus-Side Gain Register (ADC0_MG)32R/W0000_8200,CR,,ADC0
+0x4003b034,ADC Plus-Side General Calibration Value Register(ADC0_CLPD)32R/W0000_000A,CR,,ADC0
+0x4003b038,ADC Plus-Side General Calibration Value Register(ADC0_CLPS)32R/W0000_0020,CR,,ADC0
+0x4003b03c,ADC Plus-Side General Calibration Value Register(ADC0_CLP4)32R/W0000_0200,CR,,ADC0
+0x4003b040,ADC Plus-Side General Calibration Value Register(ADC0_CLP3)32R/W0000_0100,CR,,ADC0
+0x4003b044,ADC Plus-Side General Calibration Value Register(ADC0_CLP2)32R/W0000_0080,CR,,ADC0
+0x4003b048,ADC Plus-Side General Calibration Value Register(ADC0_CLP1)32R/W0000_0040,CR,,ADC0
+0x4003b04c,ADC Plus-Side General Calibration Value Register(ADC0_CLP0)32R/W0000_0020,CR,,ADC0
+0x4003b054,ADC Minus-Side General Calibration Value Register(ADC0_CLMD)32R/W0000_000A,CR,,ADC0
+0x4003b058,ADC Minus-Side General Calibration Value Register(ADC0_CLMS)32R/W0000_0020,CR,,ADC0
+0x4003b05c,ADC Minus-Side General Calibration Value Register(ADC0_CLM4)32R/W0000_0200,CR,,ADC0
+0x4003b060,ADC Minus-Side General Calibration Value Register(ADC0_CLM3)32R/W0000_0100,CR,,ADC0
+0x4003b064,ADC Minus-Side General Calibration Value Register(ADC0_CLM2)32R/W0000_0080,CR,,ADC0
+0x4003b068,ADC Minus-Side General Calibration Value Register(ADC0_CLM1)32R/W0000_0040,CR,,ADC0
+0x4003b06c,ADC Minus-Side General Calibration Value Register(ADC0_CLM0)32R/W0000_0020,CR,,ADC0
+0x400bb000,ADC Status and Control Registers 1 (ADC1_SC1A)32R/W0000_001F,SR,Hybrid,ADC1
+0x400bb004,ADC Status and Control Registers 1 (ADC1_SC1B)32R/W0000_001F,SR,Hybrid,#N/A
+0x400bb008,ADC Configuration Register 1 (ADC1_CFG1)32R/W0000_0000,CR,,ADC1
+0x400bb00c,ADC Configuration Register 2 (ADC1_CFG2)32R/W0000_0000,CR,,ADC1
+0x400bb010,ADC Data Result Register (ADC1_RA)32R0000_0000,DR,,ADC1
+0x40038000,Status And Control (FTM0_SC)32R/W0000_0000,SR,Hybrid,FTM0
+0x40038004,Counter (FTM0_CNT)32R/W0000_0000,DR,,FTM0
+0x40038008,Modulo (FTM0_MOD)32R/W0000_0000,,,FTM0
+0x4003800c,Channel (n) Status And Control (FTM0_C0SC)32R/W0000_0000,SR,Hybrid,FTM0
+0x40038010,Channel (n) Value (FTM0_C0V)32R/W0000_0000,DR,in some operation modes R y others W,FTM0
+0x40038014,Channel (n) Status And Control (FTM0_C1SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40038018,Channel (n) Value (FTM0_C1V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003801c,Channel (n) Status And Control (FTM0_C2SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40038020,Channel (n) Value (FTM0_C2V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x40038024,Channel (n) Status And Control (FTM0_C3SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40038028,Channel (n) Value (FTM0_C3V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003802c,Channel (n) Status And Control (FTM0_C4SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40038030,Channel (n) Value (FTM0_C4V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x40038034,Channel (n) Status And Control (FTM0_C5SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40038038,Channel (n) Value (FTM0_C5V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003803c,Channel (n) Status And Control (FTM0_C6SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40038040,Channel (n) Value (FTM0_C6V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x40038044,Channel (n) Status And Control (FTM0_C7SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40038048,Channel (n) Value (FTM0_C7V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003804c,Counter Initial Value (FTM0_CNTIN)32R/W0000_0000,DR,,FTM0
+0x40038050,Capture And Compare Status (FTM0_STATUS)32R/W0000_0000,SR,,FTM0
+0x40038054,Features Mode Selection (FTM0_MODE)32R/W0000_0004,,,FTM0
+0x40038058,Synchronization (FTM0_SYNC)32R/W0000_0000,,,FTM0
+0x4003805c,Initial State For Channels Output (FTM0_OUTINIT)32R/W0000_0000,CR,,FTM0
+0x40038060,Output Mask (FTM0_OUTMASK)32R/W0000_0000,,,FTM0
+0x40038064,Function For Linked Channels (FTM0_COMBINE)32R/W0000_0000,,,FTM0
+0x40038068,Deadtime Insertion Control (FTM0_DEADTIME)32R/W0000_0000,CR,,FTM0
+0x4003806c,FTM External Trigger (FTM0_EXTTRIG)32R/W0000_0000,,,FTM0
+0x40038070,Channels Polarity (FTM0_POL)32R/W0000_0000,CR,,FTM0
+0x40038074,Fault Mode Status (FTM0_FMS)32R/W0000_0000,SR,,FTM0
+0x40038078,Input Capture Filter Control (FTM0_FILTER)32R/W0000_0000,CR,,FTM0
+0x4003807c,Fault Control (FTM0_FLTCTRL)32R/W0000_0000,CR,,FTM0
+0x40038080,Quadrature Decoder Control And Status (FTM0_QDCTRL)32R/W0000_0000,SR,Hybrid,FTM0
+0x40038084,Configuration (FTM0_CONF)32R/W0000_0000,CR,,FTM0
+0x40038088,FTM Fault Input Polarity (FTM0_FLTPOL)32R/W0000_0000,CR,,FTM0
+0x4003808c,Synchronization Configuration (FTM0_SYNCONF)32R/W0000_0000,CR,,FTM0
+0x40038090,FTM Inverting Control (FTM0_INVCTRL)32R/W0000_0000,CR,,FTM0
+0x40038094,FTM Software Output Control (FTM0_SWOCTRL)32R/W0000_0000,CR,,FTM0
+0x40038098,FTM PWM Load (FTM0_PWMLOAD)32R/W0000_0000,,,FTM0
+0x40039000,Status And Control (FTM1_SC)32R/W0000_0000,SR,Hybrid,FTM1
+0x40039004,Counter (FTM1_CNT)32R/W0000_0000,DR,,FTM1
+0x40039008,Modulo (FTM1_MOD)32R/W0000_0000,,,FTM1
+0x4003900c,Channel (n) Status And Control (FTM1_C0SC)32R/W0000_0000,SR,Hybrid,FTM1
+0x40039010,Channel (n) Value (FTM1_C0V)32R/W0000_0000,DR,in some operation modes R y others W,FTM1
+0x40039014,Channel (n) Status And Control (FTM1_C1SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40039018,Channel (n) Value (FTM1_C1V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003901c,Channel (n) Status And Control (FTM1_C2SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40039020,Channel (n) Value (FTM1_C2V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x40039024,Channel (n) Status And Control (FTM1_C3SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40039028,Channel (n) Value (FTM1_C3V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003902c,Channel (n) Status And Control (FTM1_C4SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40039030,Channel (n) Value (FTM1_C4V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x40039034,Channel (n) Status And Control (FTM1_C5SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40039038,Channel (n) Value (FTM1_C5V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003903c,Channel (n) Status And Control (FTM1_C6SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40039040,Channel (n) Value (FTM1_C6V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x40039044,Channel (n) Status And Control (FTM1_C7SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x40039048,Channel (n) Value (FTM1_C7V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003904c,Counter Initial Value (FTM1_CNTIN)32R/W0000_0000,DR,,FTM1
+0x40039050,Capture And Compare Status (FTM1_STATUS)32R/W0000_0000,SR,,FTM1
+0x40039054,Features Mode Selection (FTM1_MODE)32R/W0000_0004,,,FTM1
+0x40039058,Synchronization (FTM1_SYNC)32R/W0000_0000,,,FTM1
+0x4003905c,Initial State For Channels Output (FTM1_OUTINIT)32R/W0000_0000,CR,,FTM1
+0x40039060,Output Mask (FTM1_OUTMASK)32R/W0000_0000,,,FTM1
+0x40039064,Function For Linked Channels (FTM1_COMBINE)32R/W0000_0000,,,FTM1
+0x40039068,Deadtime Insertion Control (FTM1_DEADTIME)32R/W0000_0000,CR,,FTM1
+0x4003906c,FTM External Trigger (FTM1_EXTTRIG)32R/W0000_0000,,,FTM1
+0x40039070,Channels Polarity (FTM1_POL)32R/W0000_0000,CR,,FTM1
+0x40039074,Fault Mode Status (FTM1_FMS)32R/W0000_0000,SR,,FTM1
+0x40039078,Input Capture Filter Control (FTM1_FILTER)32R/W0000_0000,CR,,FTM1
+0x4003907c,Fault Control (FTM1_FLTCTRL)32R/W0000_0000,CR,,FTM1
+0x40039080,Quadrature Decoder Control And Status (FTM1_QDCTRL)32R/W0000_0000,SR,Hybrid,FTM1
+0x40039084,Configuration (FTM1_CONF)32R/W0000_0000,CR,,FTM1
+0x40039088,FTM Fault Input Polarity (FTM1_FLTPOL)32R/W0000_0000,CR,,FTM1
+0x4003908c,Synchronization Configuration (FTM1_SYNCONF)32R/W0000_0000,CR,,FTM1
+0x40039090,FTM Inverting Control (FTM1_INVCTRL)32R/W0000_0000,CR,,FTM1
+0x40039094,FTM Software Output Control (FTM1_SWOCTRL)32R/W0000_0000,CR,,FTM1
+0x40039098,FTM PWM Load (FTM1_PWMLOAD)32R/W0000_0000,,,FTM1
+0x4003a000,Status And Control (FTM2_SC)32R/W0000_0000,SR,Hybrid,FTM2
+0x4003a004,Counter (FTM2_CNT)32R/W0000_0000,DR,,FTM2
+0x4003a008,Modulo (FTM2_MOD)32R/W0000_0000,,,FTM2
+0x4003a00c,Channel (n) Status And Control (FTM2_C0SC)32R/W0000_0000,SR,Hybrid,FTM2
+0x4003a010,Channel (n) Value (FTM2_C0V)32R/W0000_0000,DR,in some operation modes R y others W,FTM2
+0x4003a014,Channel (n) Status And Control (FTM2_C1SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x4003a018,Channel (n) Value (FTM2_C1V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003a01c,Channel (n) Status And Control (FTM2_C2SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x4003a020,Channel (n) Value (FTM2_C2V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003a024,Channel (n) Status And Control (FTM2_C3SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x4003a028,Channel (n) Value (FTM2_C3V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003a02c,Channel (n) Status And Control (FTM2_C4SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x4003a030,Channel (n) Value (FTM2_C4V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003a034,Channel (n) Status And Control (FTM2_C5SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x4003a038,Channel (n) Value (FTM2_C5V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003a03c,Channel (n) Status And Control (FTM2_C6SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x4003a040,Channel (n) Value (FTM2_C6V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003a044,Channel (n) Status And Control (FTM2_C7SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x4003a048,Channel (n) Value (FTM2_C7V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x4003a04c,Counter Initial Value (FTM2_CNTIN)32R/W0000_0000,DR,,FTM2
+0x4003a050,Capture And Compare Status (FTM2_STATUS)32R/W0000_0000,SR,,FTM2
+0x4003a054,Features Mode Selection (FTM2_MODE)32R/W0000_0004,CR,,FTM2
+0x4003a058,Synchronization (FTM2_SYNC)32R/W0000_0000,,,FTM2
+0x4003a05c,Initial State For Channels Output (FTM2_OUTINIT)32R/W0000_0000,CR,,FTM2
+0x4003a060,Output Mask (FTM2_OUTMASK)32R/W0000_0000,,,FTM2
+0x4003a064,Function For Linked Channels (FTM2_COMBINE)32R/W0000_0000,,,FTM2
+0x4003a068,Deadtime Insertion Control (FTM2_DEADTIME)32R/W0000_0000,CR,,FTM2
+0x4003a06c,FTM External Trigger (FTM2_EXTTRIG)32R/W0000_0000,,,FTM2
+0x4003a070,Channels Polarity (FTM2_POL)32R/W0000_0000,CR,,FTM2
+0x4003a074,Fault Mode Status (FTM2_FMS)32R/W0000_0000,SR,,FTM2
+0x4003a078,Input Capture Filter Control (FTM2_FILTER)32R/W0000_0000,CR,,FTM2
+0x4003a07c,Fault Control (FTM2_FLTCTRL)32R/W0000_0000,CR,,FTM2
+0x4003a080,Quadrature Decoder Control And Status (FTM2_QDCTRL)32R/W0000_0000,SR,Hybrid,FTM2
+0x4003a084,Configuration (FTM2_CONF)32R/W0000_0000,CR,,FTM2
+0x4003a088,FTM Fault Input Polarity (FTM2_FLTPOL)32R/W0000_0000,CR,,FTM2
+0x4003a08c,Synchronization Configuration (FTM2_SYNCONF)32R/W0000_0000,CR,,FTM2
+0x4003a090,FTM Inverting Control (FTM2_INVCTRL)32R/W0000_0000,CR,,FTM2
+0x4003a094,FTM Software Output Control (FTM2_SWOCTRL)32R/W0000_0000,CR,,FTM2
+0x4003a098,FTM PWM Load (FTM2_PWMLOAD)32R/W0000_0000,,,FTM2
+0x400b9000,Status And Control (FTM3_SC)32R/W0000_0000,SR,Hybrid,FTM3
+0x400b9004,Counter (FTM3_CNT)32R/W0000_0000,DR,,FTM3
+0x400b9008,Modulo (FTM3_MOD)32R/W0000_0000,,,FTM3
+0x400b900c,Channel (n) Status And Control (FTM3_C0SC)32R/W0000_0000,SR,Hybrid,FTM3
+0x400b9010,Channel (n) Value (FTM3_C0V)32R/W0000_0000,DR,in some operation modes R y others W,FTM3
+0x400b9014,Channel (n) Status And Control (FTM3_C1SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x400b9018,Channel (n) Value (FTM3_C1V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x400b901c,Channel (n) Status And Control (FTM3_C2SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x400b9020,Channel (n) Value (FTM3_C2V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x400b9024,Channel (n) Status And Control (FTM3_C3SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x400b9028,Channel (n) Value (FTM3_C3V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x400b902c,Channel (n) Status And Control (FTM3_C4SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x400b9030,Channel (n) Value (FTM3_C4V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x400b9034,Channel (n) Status And Control (FTM3_C5SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x400b9038,Channel (n) Value (FTM3_C5V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x400b903c,Channel (n) Status And Control (FTM3_C6SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x400b9040,Channel (n) Value (FTM3_C6V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x400b9044,Channel (n) Status And Control (FTM3_C7SC)32R/W0000_0000,SR,Hybrid,#N/A
+0x400b9048,Channel (n) Value (FTM3_C7V)32R/W0000_0000,DR,in some operation modes R y others W,#N/A
+0x400b904c,Counter Initial Value (FTM3_CNTIN)32R/W0000_0000,DR,,FTM3
+0x400b9050,Capture And Compare Status (FTM3_STATUS)32R/W0000_0000,SR,,FTM3
+0x400b9054,Features Mode Selection (FTM3_MODE)32R/W0000_0004,CR,,FTM3
+0x400b9058,Synchronization (FTM3_SYNC)32R/W0000_0000,CR,,FTM3
+0x400b905c,Initial State For Channels Output (FTM3_OUTINIT)32R/W0000_0000,CR,,FTM3
+0x400b9060,Output Mask (FTM3_OUTMASK)32R/W0000_0000,CR,,FTM3
+0x400b9064,Function For Linked Channels (FTM3_COMBINE)32R/W0000_0000,CR,,FTM3
+0x400b9068,Deadtime Insertion Control (FTM3_DEADTIME)32R/W0000_0000,CR,,FTM3
+0x400b906c,FTM External Trigger (FTM3_EXTTRIG)32R/W0000_0000,CR,,FTM3
+0x400b9070,Channels Polarity (FTM3_POL)32R/W0000_0000,CR,,FTM3
+0x400b9074,Fault Mode Status (FTM3_FMS)32R/W0000_0000,CR,,FTM3
+0x400b9078,Input Capture Filter Control (FTM3_FILTER)32R/W0000_0000,CR,,FTM3
+0x400b907c,Fault Control (FTM3_FLTCTRL)32R/W0000_0000,CR,,FTM3
+0x400b9080,Quadrature Decoder Control And Status (FTM3_QDCTRL)32R/W0000_0000,CR,,FTM3
+0x400b9084,Configuration (FTM3_CONF)32R/W0000_0000,CR,,FTM3
+0x400b9088,FTM Fault Input Polarity (FTM3_FLTPOL)32R/W0000_0000,CR,,FTM3
+0x400b908c,Synchronization Configuration (FTM3_SYNCONF)32R/W0000_0000,CR,,FTM3
+0x400b9090,FTM Inverting Control (FTM3_INVCTRL)32R/W0000_0000,CR,,FTM3
+0x400b9094,FTM Software Output Control (FTM3_SWOCTRL)32R/W0000_0000,CR,,FTM3
+0x400b9098,FTM PWM Load (FTM3_PWMLOAD)32R/W0000_0000,CR,,FTM3
+0x40047000,System Options Register 1 (SIM_SOPT1)32R/WSee sectio,CR,Hybrid some bits are read only to determine RAM size on device,SIM
+0x40047004,SOPT1 Configuration Register (SIM_SOPT1CFG)32R/W0000_0000,CR,,SIM
+0x40048004,System Options Register 2 (SIM_SOPT2)32R/W0000_1000,CR,,SIM
+0x4004800c,System Options Register 4 (SIM_SOPT4)32R/W0000_0000,CR,,SIM
+0x40048010,System Options Register 5 (SIM_SOPT5)32R/W0000_0000,CR,,SIM
+0x40048018,System Options Register 7 (SIM_SOPT7)32R/W0000_0000,CR,,SIM
+0x40048024,System Device Identification Register (SIM_SDID)32R12.2.7/313,SR,,SIM
+0x40048028,System Clock Gating Control Register 1 (SIM_SCGC1)32R/W0000_0000,CR,,SIM
+0x4004802c,System Clock Gating Control Register 2 (SIM_SCGC2)32R/W0000_0000,CR,,SIM
+0x40048030,System Clock Gating Control Register 3 (SIM_SCGC3)32R/W0000_0000,CR,,SIM
+0x40048034,System Clock Gating Control Register 4 (SIM_SCGC4)32R/WF010_0030,CR,,SIM
+0x40048038,System Clock Gating Control Register 5 (SIM_SCGC5)32R/W0004_0182,CR,,SIM
+0x4004803c,System Clock Gating Control Register 6 (SIM_SCGC6)32R/W4000_0001,CR,,SIM
+0x40048040,System Clock Gating Control Register 7 (SIM_SCGC7)32R/W0000_0006,CR,,SIM
+0x40048044,System Clock Divider Register 1 (SIM_CLKDIV1)32R/WSee sectio,CR,,SIM
+0x40048048,System Clock Divider Register 2 (SIM_CLKDIV2)32R/W0000_0000,CR,,SIM
+0x4004804c,Flash Configuration Register 1 (SIM_FCFG1)32RSee sectio,,,SIM
+0x40048050,Flash Configuration Register 2 (SIM_FCFG2)32RSee sectio,,,SIM
+0x40048054,Unique Identification Register High (SIM_UIDH)32RSee sectio,,,SIM
+0x40048058,Unique Identification Register Mid-High (SIM_UIDMH)32RSee sectio,,,SIM
+0x4004805c,Unique Identification Register Mid Low (SIM_UIDML)32RSee sectio,,,SIM
+0x40048060,Unique Identification Register Low (SIM_UIDL)32RSee sectio,,,SIM
+0x4002c000,Module Configuration Register (SPI0_MCR)32R/W0000_4001,CR,,SPI0
+0x4002c008,Transfer Count Register (SPI0_TCR)32R/W0000_0000,SR,COUNTS BYTES IN FIFO BUFFER,SPI0
+0x4002c00c,Clock and Transfer Attributes Register (In Master Mode)(SPI0_CTAR0)32R/W7800_0000,CR,,SPI0
+0x4002c00c,Clock and Transfer Attributes Register (In Slave Mode)(SPI0_CTAR0_SLAVE)32R/W7800_0000,CR,,SPI0
+0x4002c010,Clock and Transfer Attributes Register (In Master Mode)(SPI0_CTAR1)32R/W7800_0000,CR,,#N/A
+0x4002c02c,Status Register (SPI0_SR)32R/W0200_0000,SR,,SPI0
+0x4002c030,DMA/Interrupt Request Select and Enable Register(SPI0_RSER)32R/W0000_0000,CR,,SPI0
+0x4002c034,PUSH TX FIFO Register In Master Mode (SPI0_PUSHR)32R/W0000_0000,DR,,SPI0
+0x4002c034,PUSH TX FIFO Register In Slave Mode(SPI0_PUSHR_SLAVE)32R/W0000_0000,DR,,SPI0
+0x4002c038,POP RX FIFO Register (SPI0_POPR)32R0000_0000,DR,,SPI0
+0x4002c03c,Transmit FIFO Registers (SPI0_TXFR0)32R0000_0000,DR,ONLY FOR DEBUGGING,SPI0
+0x4002c040,Transmit FIFO Registers (SPI0_TXFR1)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002c044,Transmit FIFO Registers (SPI0_TXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002c048,Transmit FIFO Registers (SPI0_TXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002c07c,Receive FIFO Registers (SPI0_RXFR0)32R0000_0000,DR,ONLY FOR DEBUGGING,SPI0
+0x4002c080,Receive FIFO Registers (SPI0_RXFR1)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002c084,Receive FIFO Registers (SPI0_RXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002c088,Receive FIFO Registers (SPI0_RXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d000,Module Configuration Register (SPI1_MCR)32R/W0000_4001,CR,,SPI1
+0x4002d008,Transfer Count Register (SPI1_TCR)32R/W0000_0000,SR,COUNTS BYTES IN FIFO BUFFER,SPI1
+0x4002d00c,Clock and Transfer Attributes Register (In Master Mode)(SPI1_CTAR0)32R/W7800_0000,CR,,SPI1
+0x4002d00c,Clock and Transfer Attributes Register (In Slave Mode)(SPI1_CTAR0_SLAVE)32R/W7800_0000,CR,,SPI1
+0x4002d010,Clock and Transfer Attributes Register (In Master Mode)(SPI1_CTAR1)32R/W7800_0000,CR,,#N/A
+0x4002d02c,Status Register (SPI1_SR)32R/W0200_0000,SR,,SPI1
+0x4002d030,DMA/Interrupt Request Select and Enable Register(SPI1_RSER)32R/W0000_0000,CR,,SPI1
+0x4002d034,PUSH TX FIFO Register In Master Mode (SPI1_PUSHR)32R/W0000_0000,DR,,SPI1
+0x4002d034,PUSH TX FIFO Register In Slave Mode(SPI1_PUSHR_SLAVE)32R/W0000_0000,DR,,SPI1
+0x4002d038,POP RX FIFO Register (SPI1_POPR)32R0000_0000,DR,,SPI1
+0x4002d03c,Transmit FIFO Registers (SPI1_TXFR0)32R0000_0000,DR,ONLY FOR DEBUGGING,SPI1
+0x4002d040,Transmit FIFO Registers (SPI1_TXFR1)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d044,Transmit FIFO Registers (SPI1_TXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d048,Transmit FIFO Registers (SPI1_TXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d07c,Receive FIFO Registers (SPI1_RXFR0)32R0000_0000,DR,ONLY FOR DEBUGGING,SPI1
+0x4002d080,Receive FIFO Registers (SPI1_RXFR1)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d084,Receive FIFO Registers (SPI1_RXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x4002d088,Receive FIFO Registers (SPI1_RXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac000,Module Configuration Register (SPI2_MCR)32R/W0000_4001,CR,,SPI2
+0x400ac008,Transfer Count Register (SPI2_TCR)32R/W0000_0000,SR,COUNTS BYTES IN FIFO BUFFER,SPI2
+0x400ac00c,Clock and Transfer Attributes Register (In Master Mode)(SPI2_CTAR0)32R/W7800_0000,CR,,SPI2
+0x400ac00c,Clock and Transfer Attributes Register (In Slave Mode)(SPI2_CTAR0_SLAVE)32R/W7800_0000,CR,,SPI2
+0x400ac010,Clock and Transfer Attributes Register (In Master Mode)(SPI2_CTAR1)32R/W7800_0000,CR,,#N/A
+0x400ac02c,Status Register (SPI2_SR)32R/W0200_0000,SR,,SPI2
+0x400ac030,DMA/Interrupt Request Select and Enable Register(SPI2_RSER)32R/W0000_0000,CR,,SPI2
+0x400ac034,PUSH TX FIFO Register In Master Mode (SPI2_PUSHR)32R/W0000_0000,DR,,SPI2
+0x400ac034,PUSH TX FIFO Register In Slave Mode(SPI2_PUSHR_SLAVE)32R/W0000_0000,DR,,SPI2
+0x400ac038,POP RX FIFO Register (SPI2_POPR)32R0000_0000,DR,,SPI2
+0x400ac03c,Transmit FIFO Registers (SPI2_TXFR0)32R0000_0000,DR,ONLY FOR DEBUGGING,SPI2
+0x400ac040,Transmit FIFO Registers (SPI2_TXFR1)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac044,Transmit FIFO Registers (SPI2_TXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac048,Transmit FIFO Registers (SPI2_TXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac07c,Receive FIFO Registers (SPI2_RXFR0)32R0000_0000,DR,ONLY FOR DEBUGGING,SPI2
+0x400ac080,Receive FIFO Registers (SPI2_RXFR1)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac084,Receive FIFO Registers (SPI2_RXFR2)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x400ac088,Receive FIFO Registers (SPI2_RXFR3)32R0000_0000,DR,ONLY FOR DEBUGGING,#N/A
+0x40037000,PIT Module Control Register (PIT_MCR)32R/W0000_0006,CR,,PIT
+0x40037100,Timer Load Value Register (PIT_LDVAL0)32R/W0000_0000,CR,,PIT
+0x40037104,Current Timer Value Register (PIT_CVAL0)32R0000_0000,DR,,PIT
+0x40037108,Timer Control Register (PIT_TCTRL0)32R/W0000_0000,CR,,PIT
+0x4003710c,Timer Flag Register (PIT_TFLG0)32R/W0000_0000,SR,Hybrid it could be write to generate an interrupt,PIT
+0x40037110,Timer Load Value Register (PIT_LDVAL1)32R/W0000_0000,CR,,#N/A
+0x40037114,Current Timer Value Register (PIT_CVAL1)32R0000_0000,DR,,#N/A
+0x40037118,Timer Control Register (PIT_TCTRL1)32R/W0000_0000,CR,,#N/A
+0x4003711c,Timer Flag Register (PIT_TFLG1)32R/W0000_0000,SR,Hybrid it could be write to generate an interrupt,#N/A
+0x40037120,Timer Load Value Register (PIT_LDVAL2)32R/W0000_0000,CR,,#N/A
+0x40037124,Current Timer Value Register (PIT_CVAL2)32R0000_0000,DR,,#N/A
+0x40037128,Timer Control Register (PIT_TCTRL2)32R/W0000_0000,CR,,#N/A
+0x4003712c,Timer Flag Register (PIT_TFLG2)32R/W0000_0000,SR,Hybrid it could be write to generate an interrupt,#N/A
+0x40037130,Timer Load Value Register (PIT_LDVAL3)32R/W0000_0000,CR,,#N/A
+0x40037134,Current Timer Value Register (PIT_CVAL3)32R0000_0000,DR,,#N/A
+0x40037138,Timer Control Register (PIT_TCTRL3)32R/W0000_0000,CR,,#N/A
+0x4003713c,Timer Flag Register (PIT_TFLG3)32R/W0000_0000,SR,Hybrid it could be write to generate an interrupt,#N/A
+0x4003d000,RTC Time Seconds Register (RTC_TSR),DR,,RTC
+0x4003d008,RTC Time Alarm Register (RTC_TAR),CR,,RTC
+0x4003d010,RTC Control Register (RTC_CR),CR,,RTC
+0x4003d014,RTC Status Register (RTC_SR),SR,,RTC
+0x4003d01c,RTC Interrupt Enable Register (RTC_IER),CR,,RTC
+0x4007e000,Power Mode Protection register,CR,HYBRID REGISTER,SMC

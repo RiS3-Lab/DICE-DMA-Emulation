@@ -1,0 +1,178 @@
+address,description,category,comments,peripheral
+0x40008000,SPI Control Register,CR,,SPI0
+0x40008004,SPI Mode Register,CR,,SPI0
+0x40008008,SPI Receive Data Register,DR,,SPI0
+0x4000800c,SPI Transmit Data Register,DR,,SPI0
+0x40008010,SPI Status Register,SR,,SPI0
+0x40008030,SPI Chip Select Register,CR,,SPI0
+0x40080000,TC Channel Control Register,CR,,TC0
+0x40080004,TC Channel Mode Register: Capture Mode,CR,,TC0
+0x40080010,TC Counter Value Register,DR,,TC0
+0x40080018,TC Register B,CR,,TC0
+0x40080024,TC Interrupt Enable Register,CR,,TC0
+0x40080040,TC Channel Control Register,CR,,TC0
+0x40080044,TC Channel Mode Register: Capture Mode,CR,,TC0
+0x4008005c,TC Register C,CR,,TC0
+0x400800c4,TC Block Mode Register,CR,,TC0
+0x40080020,TC Status Register,SR,,TC0
+0x40080028,TC Interrupt Disable Register,CR,,TC0
+0x40094000,PWM Disable Register,CR,,PWM
+0x40094004,PWM Enable Register,CR,,PWM
+0x40094008,PWM Disable Register,CR,,PWM
+0x40094280,PWM Channel Mode Register,CR,,PWM
+0x40094284,PWM Channel Duty Cycle Register,CR,,PWM
+0x4009428c,PWM Channel Period Register,CR,,PWM
+0x400942a0,PWM Channel Mode Register,CR,,PWM
+0x400942a4,PWM Channel Duty Cycle Register,CR,,PWM
+0x400942a8,PWM Channel Duty Cycle Update Register,CR,,PWM
+0x400942ac,PWM Channel Period Register,CR,,PWM
+0x400942c0,PWM Channel Mode Register,CR,,PWM
+0x400942c4,PWM Channel Duty Cycle Register,CR,,PWM
+0x400942cc,PWM Channel Period Register,CR,,PWM
+0x400942e0,PWM Channel Mode Register,CR,,PWM
+0x400942e4,PWM Channel Duty Cycle Register,CR,,PWM
+0x400942ec,PWM Channel Period Register,CR,,PWM
+0x400c0014,ADC Channel Disable Register,CR,,ADC
+0x400c00e4,ADC Write Protect Mode Register,CR,,ADC
+0x400c8004,DACC Mode Register,CR,,DACC
+0x400c8010,DACC Channel Enable Register,CR,,DACC
+0x400c8020,DACC Conversion Data Register,DR,,DACC
+0x400c80e4,DACC Write Protect Mode Register,CR,,DACC
+0x400e0620,PMC Clock Generator Main Oscillator Register,CR,,PMC
+0x400e0628,PMC Clock Generator PLLA Register,CR,,PMC
+0x400e0630,PMC Master Clock Register,CR,,PMC
+0x400e0668,PMC Status Register,SR,,PMC
+0x400e06e4,PMC Write Protect Mode Register,CR,,PMC
+0x400e0700,PMC Peripheral Clock Enable Register 1,CR,,PMC
+0x400e0704,PMC Peripheral Clock Disable Register 1,CR,,PMC
+0x400e0800,UART Control Register,CR,,UART
+0x400e0804,UART Mode Register,CR,,UART
+0x400e0808,UART Interrupt Enable Register,CR,,UART
+0x400e080c,UART Interrupt Disable Register,CR,,UART
+0x400e0814,UART Status Register,SR,,UART
+0x400e081c,UART Transmit Holding Register,DR,,UART
+0x400e0820,UART Baud Rate Generator Register,CR,,UART
+0x400e0a00,EEFC Flash Mode Register,CR,,EFC0
+0x400e0c00,EEFC Flash Mode Register,CR,,EFC1
+0x400e0e00,PIO Controller PIO Enable Register,CR,,PIOA
+0x400e0e04,PIO Controller PIO Disable Register,CR,,PIOA
+0x400e0e10,PIO Controller Output Enable Register,CR,,PIOA
+0x400e0e14,PIO Controller Output Disable Register,CR,,PIOA
+0x400e0e44,PIO Controller Interrupt Disable Register,CR,,PIOA
+0x400e0e54,PIO Multi-driver Disable Register,CR,,PIOA
+0x400e0e60,PIO Pull Up Disable Register,CR,,PIOA
+0x400e1000,PIO Controller PIO Enable Register,CR,,PIOB
+0x400e1010,PIO Controller Output Enable Register,CR,,PIOB
+0x400e1044,PIO Controller Interrupt Disable Register,CR,,PIOB
+0x400e1054,PIO Multi-driver Disable Register,CR,,PIOB
+0x400e1060,PIO Pull Up Disable Register,CR,,PIOB
+0x400e1204,PIO Controller PIO Disable Register,CR,,PIOC
+0x400e0818,UART Receiver Holding Register,DR,,UART
+0x400e0610,PMC Peripheral Clock Enable Register 0,CR,,PMC
+0x400e1a54,Watchdog Timer Mode Register,CR,,WDT
+0x400e0e70,PIO Peripheral AB Select Register,CR,,PIOA
+0x400e1270,PIO Peripheral AB Select Register,CR,,PIOC
+0x400c0000,ADC Control Register,CR,,ADC
+0x400c0004,ADC Mode Register,CR,,ADC
+0x400c0010,ADC Channel Enable Register,CR,,ADC
+0x400c0020,ADC Last Converted Data Register,DR,,ADC
+0x400c0030,ADC Interrupt Status Register,SR,,ADC
+0x400e1014,PIO Controller Output Disable Register,CR,,PIOC
+0x400e1018,PIO Controller Output Status Register,SR,checks if pin is configured as input or output,PIOB
+0x400e103c,PIO Controller Pin Data Status Register,SR,this is not a SR of peripheral. It is the actual DR which get state 1/0 of each PIN. However DUE use it as status,PIOB
+0x400e1200,PIO Controller PIO Enable Register,CR,,PIOC
+0x400e1210,PIO Controller Output Enable Register,CR,,PIOC
+0x400e1244,PIO Controller Interrupt Disable Register,CR,,PIOC
+0x400e1254,PIO Multi-driver Disable Register,CR,,PIOC
+0x400e1260,PIO Pull Up Disable Register,CR,,PIOC
+0x400e1040,PIO Controller Interrupt Enable Register,CR,,PIOB
+0x400e1048,PIO Controller Interrupt Mask Register,CR,,PIOB
+0x400e104c,PIO Controller Interrupt Status Register,SR,,PIOB
+0x400e10b0,Additional Interrupt Modes Enable Register,CR,,PIOB
+0x400e10c0,Edge Select Register,CR,,PIOB
+0x400e10d4,Rising Edge/High Level Select Register,CR,,PIOB
+0x400ac000,Device General Control Register,CR,,UOTGHS
+0x400ac800,General Control Register,CR,,UOTGHS
+0x400e0600,PMC System Clock Enable Register,CR,,PMC
+0x400e061c,PMC UTMI Clock Configuration Register,CR,,PMC
+0x400e0638,PMC USB Clock Register,CR,,PMC
+0x400e0708,PMC Peripheral Clock Status Register 1,SR,,PMC
+0x400e0e08,PIO Controller PIO Status Register (PIOA),SR,,PIO
+0x400e0e18,PIO Controller Output Status Register (PIOA),SR,,PIO
+0x400e0e64,PIO Pull Up Enable Register (PIOA),CR,,PIO
+0x400e0ea0,PIO Output Write Enable Register (PIOA),CR,,PIO
+0x400e1008,PIO Controller PIO Status Register (PIOB),SR,,PIO
+0x400e1070,PIO Peripheral AB Select Register (PIOB),CR,,PIO
+0x400e10a0,PIO Output Write Enable Register (PIOB),CR,,PIO
+0x400e1208,PIO Controller PIO Status Register (PIOC),SR,,PIO
+0x400e1218,PIO Controller Output Status Register (PIOC),SR,,PIO
+0x400e12a0,PIO Output Write Enable Register (PIOC),CR,,PIO
+0x400e1404,PIO Controller PIO Disable Register (PIOD),CR,,PIO
+0x400e1408,PIO Controller PIO Status Register (PIOD),SR,,PIO
+0x400e1418,PIO Controller Output Status Register (PIOD),SR,,PIO
+0x400e1444,PIO Controller Interrupt Disable Register (PIOD),CR,,PIO
+0x400e1460,PIO Pull Up Disable Register (PIOD),CR,,PIO
+0x400e1470,PIO Peripheral AB Select Register (PIOD),CR,,PIO
+0x400e14a0,PIO Output Write Enable Register (PIOD),CR,,PIO
+0x400c0018,ADC Channel Status Register,SR,,ADC
+0x400c0028,ADC Interrupt Disable Register,CR,,ADC
+0x400c0104,Peripheral DMA Controller (PDC) Receive Counter Register,CR,,PDC/ADC
+0x400c0114,Peripheral DMA Controller (PDC) Receive Next Counter Register,CR,,PDC/ADC
+0x400c0120,Peripheral DMA Controller (PDC) Transfer Control Register,CR,,PDC/ADC
+0x400e0618,PMC Peripheral Clock Status Register 0,SR,,PMC
+0x400e0920,unknown,SR,,unknown
+0x400e1004,PIO Controller PIO Disable Register,CR,,PIOB
+0x400e0a04,EEFC Flash Command Register (0),CR,,EEFC
+0x400e0a08,EEFC Flash Status Register (0),SR,,EEFC
+0x400e0e24,PIO Controller Input Filter Disable Register (PIOA),CR,,PIOA
+0x400e1024,PIO Controller Input Filter Disable Register (PIOB),CR,,PIOB
+0x400e1224,PIO Controller Input Filter Disable Register (PIOC),CR,,PIOC
+0x400e1400,PIO Controller PIO Enable Register (PIOD),CR,,PIOD
+0x400e1410,PIO Controller Output Enable Register (PIOD),CR,,PIOD
+0x400e1424,PIO Controller Input Filter Disable Register (PIOD),CR,,PIOD
+0x400e1454,PIO Multi-driver Disable Register (PIOD),CR,,PIOD
+0x4000803c,SPI Chip Select Register,CR,,SPI
+0x400e1214,PIO Controller Output Disable Register (PIOC),CR,,PIOC
+0x400e1234,PIO Controller Clear Output Data Register (PIOC),DR,,PIOC
+0x400e1264,PIO Pull Up Enable Register (PIOC),CR,,PIOC
+0x40090000,TWI Control Register,CR,,TWI
+0x40090004,TWI Master Mode Register,CR,,TWI
+0x4009000c,TWI Internal Address Register,CR,,TWI
+0x40090010,TWI Clock Waveform Generator Register,CR,,TWI
+0x40090020,TWI Status Register,SR,,TWI
+0x40090030,TWI Receive Holding Register,DR,,TWI
+0x40090120,Transfer Control Register (TWI/DMA),CR,,TWI/DMA
+0x400c8000,DACC Control Register,CR,,DACC
+0x400c8018,DACC Channel Disable Register,CR,,DACC
+0x400c8030,DACC Interrupt Mask Register,CR,,DACC
+0x400c8094,DACC Interrupt Status Register,SR,,DACC
+0x40080014,TC Counter Value Register,DR,,TC
+0x4008001c,TC Register A,CR,,TC
+0x400e1034,PIO Controller Clear Output Data Register (PIOB),DR,,PIOB
+0x400e123c,PIO Controller Pin Data Status Register (PIOC),DR,,PIOC
+0x400e0e4c,PIO Controller Interrupt Mask Register (PIOA),CR,,PIOA
+0x400e1240,PIO Controller Interrupt Enable Register (PIOC),CR,,PIOC
+0x400e124c,PIO Controller Interrupt Mask Register (PIOC),CR,,PIOC
+0x400e12b4,Additional Interrupt Modes Disable Register (PIOC),CR,,PIOC
+0x400e144c,PIO Controller Interrupt Status Register (PIOC),SR,,PIOC
+0x4009400c,PWM Status Register,SR,,PWM
+0x40094200,PWM Channel Mode Register,CR,,PWM
+0x400e1038,PIO Controller Output Data Status Register(PIOB),DR,,PIOB
+0x400e1230,PIO Controller Set Output Data Register (PIOC),DR,,PIOC
+0x400ac004,Device Global Interrupt Status Register,SR,,UOTGHS
+0x400ac018,Device Global Interrupt Enable Register,CR,,UOTGHS
+0x400ac01c,Device Endpoint Register,CR,,UOTGHS
+0x400ac100,Device Endpoint x Configuration Register,CR,,UOTGHS
+0x400ac130,Device Endpoint x Status Register,SR,,UOTGHS
+0x400ac804,General Status Register,SR,,UOTGHS
+0x400e0e30,PIO Controller Set Output Data Register,DR,,PIOA
+0x400e0e34,PIO Controller Clear Output Data Register,DR,,PIOA
+0x400e1434,PIO Controller Clear Output Data Register,DR,,PIOD
+0x40084000,TC Channel Control Register,CR,,TC
+0x40084004,TC Channel Mode Register: Capture Mode,CR,,TC
+0x40084010,TC Counter Value Register,DR,,TC
+0x40084014,TC Register A,DR,,TC
+0x40084020,TC Status Register,SR,,TC
+0x40084024,TC Interrupt Enable Register,CR,,TC
+0x40084028,TC Interrupt Disable Register,CR,,TC
+0x400e1064,PIO Pull Up Enable Register,CR,,GPIOB

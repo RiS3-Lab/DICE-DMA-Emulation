@@ -1,0 +1,1556 @@
+address,Reg Name,category,Comments,peripheral
+0x50060800,RNG control register (RNG_CR)  ,CR,,RNG
+0x50060804,RNG status register (RNG_SR) ,SR,,RNG
+0x50060808,RNG data register (RNG_DR)  ,DR,,RNG
+0x50060400,HASH control register (HASH_CR) for STM32F415/417xx ,CR,,HASH
+0x50060404,HASH data input register (HASH_DIN)  ,DR,,HASH
+0x50060408,HASH start register (HASH_STR)  ,CR,,HASH
+0x5006040c,HASH digest registers (HASH_HR0..4/5/6/7)  ,DR,,HASH
+0x50060410,,,,HASH
+0x50060414,,,,HASH
+0x50060418,,,,HASH
+0x5006041c,,,,HASH
+0x50060420,HASH interrupt enable register (HASH_IMR)  ,CR,,HASH
+0x50060424,HASH status register (HASH_SR) ,SR,,HASH
+0x500604f8,,,,HASH
+0x500604fc,,,,HASH
+0x50060500,,,,HASH
+0x50060504,,,,HASH
+0x50060508,,,,HASH
+0x5006050c,,,,HASH
+0x50060510,,,,HASH
+0x50060514,,,,HASH
+0x50060518,,,,HASH
+0x5006051c,,,,HASH
+0x50060520,,,,HASH
+0x50060524,,,,HASH
+0x50060528,,,,HASH
+0x5006052c,,,,HASH
+0x50060530,,,,HASH
+0x50060534,,,,HASH
+0x50060538,,,,HASH
+0x5006053c,,,,HASH
+0x50060540,,,,HASH
+0x50060544,,,,HASH
+0x50060548,,,,HASH
+0x5006054c,,,,HASH
+0x50060550,,,,HASH
+0x50060554,,,,HASH
+0x50060558,,,,HASH
+0x5006055c,,,,HASH
+0x50060560,,,,HASH
+0x50060564,,,,HASH
+0x50060568,,,,HASH
+0x5006056c,,,,HASH
+0x50060570,,,,HASH
+0x50060574,,,,HASH
+0x50060578,,,,HASH
+0x5006057c,,,,HASH
+0x50060580,,,,HASH
+0x50060584,,,,HASH
+0x50060588,,,,HASH
+0x5006058c,,,,HASH
+0x50060590,,,,HASH
+0x50060594,,,,HASH
+0x50060598,,,,HASH
+0x5006059c,,,,HASH
+0x500605a0,,,,HASH
+0x500605a4,,,,HASH
+0x500605a8,,,,HASH
+0x500605ac,,,,HASH
+0x500605b0,,,,HASH
+0x500605b4,,,,HASH
+0x500605b8,,,,HASH
+0x500605bc,,,,HASH
+0x500605c0,,,,HASH
+0x500605c4,,,,HASH
+0x500605c8,,,,HASH
+0x500605cc,,,,HASH
+0x50060710,,,,HASH
+0x50060714,,,,HASH
+0x50060718,,,,HASH
+0x5006071c,,,,HASH
+0x50060720,,,,HASH
+0x50060724,,,,HASH
+0x50060728,,,,HASH
+0x5006072c,,,,HASH
+0x50060000,23.6.1CRYP control register (CRYP_CR) for STM32F415/417xx  ,CR,,CRYP
+0x50060004,23.6.3CRYP status register (CRYP_SR)  ,SR,,CRYP
+0x50060008,23.6.4CRYP data input register (CRYP_DIN)  ,DR,,CRYP
+0x5006000c,23.6.5CRYP data output register (CRYP_DOUT)  ,DR,,CRYP
+0x50060010,23.6.6CRYP DMA control register (CRYP_DMACR) ,CR,,CRYP
+0x50060014,23.6.7CRYP interrupt mask set/clear register (CRYP_IMSCR) ,CR,,CRYP
+0x50060018,23.6.8CRYP raw interrupt status register (CRYP_RISR)   ,SR,,CRYP
+0x5006001c,23.6.9CRYP masked interrupt status register (CRYP_MISR)  ,SR,,CRYP
+0x50060020,,,,CRYP
+0x50060024,,,,CRYP
+0x50060028,,,,CRYP
+0x5006002c,,,,CRYP
+0x50060030,,,,CRYP
+0x50060034,,,,CRYP
+0x50060038,,,,CRYP
+0x5006003c,,,,CRYP
+0x50060040,,,,CRYP
+0x50060044,,,,CRYP
+0x50060048,,,,CRYP
+0x5006004c,,,,CRYP
+0x50060050,,,,CRYP
+0x50060054,,,,CRYP
+0x50060058,,,,CRYP
+0x5006005c,,,,CRYP
+0x50060060,,,,CRYP
+0x50060064,,,,CRYP
+0x50060068,,,,CRYP
+0x5006006c,,,,CRYP
+0x50060070,,,,CRYP
+0x50060074,,,,CRYP
+0x50060078,,,,CRYP
+0x5006007c,,,,CRYP
+0x50060080,,,,CRYP
+0x50060084,,,,CRYP
+0x50060088,,,,CRYP
+0x5006008c,,,,CRYP
+0x50050000,DCMI control register 1 (DCMI_CR)   ,CR,,DCMI
+0x50050004,15.8.1DCMI status register (DCMI_SR)   ,SR,,DCMI
+0x50050008,15.8.2DCMI raw interrupt status register (DCMI_RIS) ,SR,,DCMI
+0x5005000c,15.8.3DCMI interrupt enable register (DCMI_IER)   ,CR,,DCMI
+0x50050010,15.8.4DCMI masked interrupt status register (DCMI_MIS)  ,SR,,DCMI
+0x50050014,15.8.5DCMI interrupt clear register (DCMI_ICR) ,CR,,DCMI
+0x50050018,15.8.6DCMI embedded synchronization code register (DCMI_ESCR)  ,CR,,DCMI
+0x5005001c,DCMI embedded synchronization unmask register (DCMI_ESUR)   . . 474,CR,,DCMI
+0x50050020,15.8.8DCMI crop window start (DCMI_CWSTRT) ,CR,,DCMI
+0x50050024,15.8.915.8.10 DCMI crop window size (DCMI_CWSIZE) ,CR,,DCMI
+0x50050028,15.8.11 DCMI data register (DCMI_DR) ,DR,,DCMI
+0xa0000000,,,,FMC
+0xa0000004,,,,FMC
+0xa0000008,,,,FMC
+0xa000000c,,,,FMC
+0xa0000010,,,,FMC
+0xa0000014,,,,FMC
+0xa0000018,,,,FMC
+0xa000001c,,,,FMC
+0xa0000060,,,,FMC
+0xa0000064,,,,FMC
+0xa0000068,,,,FMC
+0xa000006c,,,,FMC
+0xa0000074,,,,FMC
+0xa0000080,,,,FMC
+0xa0000084,,,,FMC
+0xa0000088,,,,FMC
+0xa000008c,,,,FMC
+0xa0000094,,,,FMC
+0xa00000a0,,,,FMC
+0xa00000a4,,,,FMC
+0xa00000a8,,,,FMC
+0xa00000ac,,,,FMC
+0xa00000b0,,,,FMC
+0xa0000104,,,,FMC
+0xa000010c,,,,FMC
+0xa0000140,,,,FMC
+0xa0000144,,,,FMC
+0xa0000148,,,,FMC
+0xa000014c,,,,FMC
+0xa0000150,,,,FMC
+0xa0000154,,,,FMC
+0xa0000158,,,,FMC
+0xe0042000,,,,DBG
+0xe0042004,,,,DBG
+0xe0042008,,,,DBG
+0xe004200c,,,,DBG
+0x40026400,DMA low interrupt status register (DMA_LISR)  ,SR,,DMA2
+0x40026404,10.5.1DMA high interrupt status register (DMA_HISR)  ,SR,,DMA2
+0x40026408,10.5.2DMA low interrupt flag clear register (DMA_LIFCR)  ,CR,,DMA2
+0x4002640c,10.5.3DMA high interrupt flag clear register (DMA_HIFCR)  ,CR,,DMA2
+0x40026410,,,,DMA2
+0x40026414,,,,DMA2
+0x40026418,,,,DMA2
+0x4002641c,,,,DMA2
+0x40026420,,,,DMA2
+0x40026424,,,,DMA2
+0x40026428,,,,DMA2
+0x4002642c,,,,DMA2
+0x40026430,,,,DMA2
+0x40026434,,,,DMA2
+0x40026438,,,,DMA2
+0x4002643c,,,,DMA2
+0x40026440,,,,DMA2
+0x40026444,,,,DMA2
+0x40026448,,,,DMA2
+0x4002644c,,,,DMA2
+0x40026450,,,,DMA2
+0x40026454,,,,DMA2
+0x40026458,,,,DMA2
+0x4002645c,,,,DMA2
+0x40026460,,,,DMA2
+0x40026464,,,,DMA2
+0x40026468,,,,DMA2
+0x4002646c,,,,DMA2
+0x40026470,,,,DMA2
+0x40026474,,,,DMA2
+0x40026478,,,,DMA2
+0x4002647c,,,,DMA2
+0x40026480,,,,DMA2
+0x40026484,,,,DMA2
+0x40026488,,,,DMA2
+0x4002648c,,,,DMA2
+0x40026490,,,,DMA2
+0x40026494,,,,DMA2
+0x40026498,,,,DMA2
+0x4002649c,,,,DMA2
+0x400264a0,,,,DMA2
+0x400264a4,,,,DMA2
+0x400264a8,,,,DMA2
+0x400264ac,,,,DMA2
+0x400264b0,,,,DMA2
+0x400264b4,,,,DMA2
+0x400264b8,,,,DMA2
+0x400264bc,,,,DMA2
+0x400264c0,,,,DMA2
+0x400264c4,,,,DMA2
+0x400264c8,,,,DMA2
+0x400264cc,,,,DMA2
+0x40026000,DMA low interrupt status register (DMA_LISR)  ,SR,,DMA1
+0x40026004,10.5.1DMA high interrupt status register (DMA_HISR)  ,SR,,DMA1
+0x40026008,10.5.2DMA low interrupt flag clear register (DMA_LIFCR)  ,CR,,DMA1
+0x4002600c,10.5.3DMA high interrupt flag clear register (DMA_HIFCR)  ,CR,,DMA1
+0x40026010,,,,DMA1
+0x40026014,,,,DMA1
+0x40026018,,,,DMA1
+0x4002601c,,,,DMA1
+0x40026020,,,,DMA1
+0x40026024,,,,DMA1
+0x40026028,,,,DMA1
+0x4002602c,,,,DMA1
+0x40026030,,,,DMA1
+0x40026034,,,,DMA1
+0x40026038,,,,DMA1
+0x4002603c,,,,DMA1
+0x40026040,,,,DMA1
+0x40026044,,,,DMA1
+0x40026048,,,,DMA1
+0x4002604c,,,,DMA1
+0x40026050,,,,DMA1
+0x40026054,,,,DMA1
+0x40026058,,,,DMA1
+0x4002605c,,,,DMA1
+0x40026060,,,,DMA1
+0x40026064,,,,DMA1
+0x40026068,,,,DMA1
+0x4002606c,,,,DMA1
+0x40026070,,,,DMA1
+0x40026074,,,,DMA1
+0x40026078,,,,DMA1
+0x4002607c,,,,DMA1
+0x40026080,,,,DMA1
+0x40026084,,,,DMA1
+0x40026088,,,,DMA1
+0x4002608c,,,,DMA1
+0x40026090,,,,DMA1
+0x40026094,,,,DMA1
+0x40026098,,,,DMA1
+0x4002609c,,,,DMA1
+0x400260a0,,,,DMA1
+0x400260a4,,,,DMA1
+0x400260a8,,,,DMA1
+0x400260ac,,,,DMA1
+0x400260b0,,,,DMA1
+0x400260b4,,,,DMA1
+0x400260b8,,,,DMA1
+0x400260bc,,,,DMA1
+0x400260c0,,,,DMA1
+0x400260c4,,,,DMA1
+0x400260c8,,,,DMA1
+0x400260cc,,,,DMA1
+0x40023800,RCC clock control register (RCC_CR) ,CR,,RCC
+0x40023804,6.3.2RCC PLL configuration register (RCC_PLLCFGR)  ,CR,,RCC
+0x40023808,RCC clock configuration register (RCC_CFGR)  ,CR,,RCC
+0x4002380c,6.3.3RCC clock interrupt register (RCC_CIR)  ,CR,,RCC
+0x40023810,6.3.5RCC AHB1 peripheral reset register (RCC_AHB1RSTR)  ,CR,,RCC
+0x40023814,RCC AHB2 peripheral reset register (RCC_AHB2RSTR)  ,CR,,RCC
+0x40023818,6.3.6RCC AHB3 peripheral reset register (RCC_AHB3RSTR)  ,CR,,RCC
+0x40023820,6.3.8RCC APB1 peripheral reset register (RCC_APB1RSTR)  ,CR,,RCC
+0x40023824,RCC APB2 peripheral reset register (RCC_APB2RSTR)  ,CR,,RCC
+0x40023830,6.3.9RCC AHB1 peripheral clock register (RCC_AHB1ENR)  ,CR,,RCC
+0x40023834,6.3.11RCC AHB2 peripheral clock enable register (RCC_AHB2ENR)  ,CR,,RCC
+0x40023838,RCC AHB3 peripheral clock enable register (RCC_AHB3ENR)  ,CR,,RCC
+0x40023840,6.3.12RCC APB1 peripheral clock enable register (RCC_APB1ENR)  ,CR,,RCC
+0x40023844,6.3.14RCC APB2 peripheral clock enable register (RCC_APB2ENR)  ,CR,,RCC
+0x40023850,6.3.15(RCC_AHB1LPENR)  ,CR,,RCC
+0x40023854,RCC AHB2 peripheral clock enable in low power mode register(RCC_AHB2LPENR)  ,CR,,RCC
+0x40023858,RCC AHB3 peripheral clock enable in low power mode register(RCC_AHB3LPENR)  ,CR,,RCC
+0x40023860,RCC APB1 peripheral clock enable in low power mode register(RCC_APB1LPENR)  ,CR,,RCC
+0x40023864,RCC APB2 peripheral clock enabled in low power mode register(RCC_APB2LPENR)  ,CR,,RCC
+0x40023870,RCC Backup domain control register (RCC_BDCR)  ,CR,,RCC
+0x40023874,RCC clock control & status register (RCC_CSR)   ,SR,HYBRID,RCC
+0x40023880,RCC spread spectrum clock generation register (RCC_SSCGR)  ,CR,,RCC
+0x40023884,RCC PLLI2S configuration register (RCC_PLLI2SCFGR)   ,CR,,RCC
+0x4002388c,RCC Dedicated Clock Configuration Register (RCC_DCKCFGR)   ,CR,,RCC
+0x40023888,RCC PLL configuration register (RCC_PLLSAICFGR)  ,CR,,RCC
+0x40022800,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOK
+0x40022804,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOK
+0x40022808,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOK
+0x4002280c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOK
+0x40022810,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOK
+0x40022814,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOK
+0x40022818,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOK
+0x4002281c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOK
+0x40022820,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOK
+0x40022824,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOK
+0x40022400,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOJ
+0x40022404,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOJ
+0x40022408,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOJ
+0x4002240c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOJ
+0x40022410,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOJ
+0x40022414,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOJ
+0x40022418,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOJ
+0x4002241c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOJ
+0x40022420,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOJ
+0x40022424,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOJ
+0x40022000,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOI
+0x40022004,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOI
+0x40022008,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOI
+0x4002200c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOI
+0x40022010,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOI
+0x40022014,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOI
+0x40022018,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOI
+0x4002201c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOI
+0x40022020,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOI
+0x40022024,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOI
+0x40021c00,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOH
+0x40021c04,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOH
+0x40021c08,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOH
+0x40021c0c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOH
+0x40021c10,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOH
+0x40021c14,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOH
+0x40021c18,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOH
+0x40021c1c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOH
+0x40021c20,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOH
+0x40021c24,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOH
+0x40021800,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOG
+0x40021804,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOG
+0x40021808,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOG
+0x4002180c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOG
+0x40021810,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOG
+0x40021814,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOG
+0x40021818,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOG
+0x4002181c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOG
+0x40021820,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOG
+0x40021824,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOG
+0x40021400,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOF
+0x40021404,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOF
+0x40021408,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOF
+0x4002140c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOF
+0x40021410,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOF
+0x40021414,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOF
+0x40021418,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOF
+0x4002141c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOF
+0x40021420,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOF
+0x40021424,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOF
+0x40021000,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOE
+0x40021004,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOE
+0x40021008,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOE
+0x4002100c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOE
+0x40021010,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOE
+0x40021014,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOE
+0x40021018,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOE
+0x4002101c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOE
+0x40021020,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOE
+0x40021024,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOE
+0x40020c00,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOD
+0x40020c04,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOD
+0x40020c08,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOD
+0x40020c0c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOD
+0x40020c10,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOD
+0x40020c14,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOD
+0x40020c18,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOD
+0x40020c1c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOD
+0x40020c20,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOD
+0x40020c24,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOD
+0x40020800,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOC
+0x40020804,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOC
+0x40020808,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOC
+0x4002080c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOC
+0x40020810,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOC
+0x40020814,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOC
+0x40020818,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOC
+0x4002081c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOC
+0x40020820,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOC
+0x40020824,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOC
+0x40020400,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOB
+0x40020404,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOB
+0x40020408,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOB
+0x4002040c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOB
+0x40020410,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOB
+0x40020414,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOB
+0x40020418,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOB
+0x4002041c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOB
+0x40020420,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOB
+0x40020424,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOB
+0x40020000,GPIO port mode register (GPIOx_MODER) (x = A..I/J/K)  ,CR,,GPIOA
+0x40020004,GPIO port output type register (GPIOx_OTYPER)(x = A..I/J/K) ,CR,,GPIOA
+0x40020008,GPIO port output speed register (GPIOx_OSPEEDR)(x = A..I/J/K) ,CR,,GPIOA
+0x4002000c,GPIO port pull-up/pull-down register (GPIOx_PUPDR)(x = A..I/J/K) ,CR,,GPIOA
+0x40020010,GPIO port input data register (GPIOx_IDR) (x = A..I/J/K)  ,DR,,GPIOA
+0x40020014,GPIO port output data register (GPIOx_ODR) (x = A..I/J/K)  ,DR,,GPIOA
+0x40020018,GPIO port bit set/reset register (GPIOx_BSRR) (x = A..I/J/K) ,DR,,GPIOA
+0x4002001c,GPIO port configuration lock register (GPIOx_LCKR)(x = A..I/J/K) ,CR,,GPIOA
+0x40020020,GPIO alternate function low register (GPIOx_AFRL) (x = A..I/J/K)  ,CR,,GPIOA
+0x40020024,8.4.10 GPIO alternate function high register (GPIOx_AFRH),CR,,GPIOA
+0x40013800,9.2.1SYSCFG memory remap register (SYSCFG_MEMRMP)  ,CR,,SYSCFG
+0x40013804,SYSCFG peripheral mode configuration register (SYSCFG_PMC)   . . 290,CR,,SYSCFG
+0x40013808,9.2.3(SYSCFG_EXTICR1)   ,CR,,SYSCFG
+0x4001380c,SYSCFG external interrupt configuration register 2(SYSCFG_EXTICR2)   ,CR,,SYSCFG
+0x40013810,SYSCFG external interrupt configuration register 3(SYSCFG_EXTICR3)   ,CR,,SYSCFG
+0x40013814,SYSCFG external interrupt configuration register 4(SYSCFG_EXTICR4)   ,CR,,SYSCFG
+0x40013820,9.2.8Compensation cell control register (SYSCFG_CMPCR)  ,CR,,SYSCFG
+0x40013000,SPI control register 1 (SPI_CR1) (not used in I2S mode)  ,CR,,SPI1
+0x40013004,SPI control register 2 (SPI_CR2) ,CR,,SPI1
+0x40013008,SPI status register (SPI_SR)  ,SR,,SPI1
+0x4001300c,SPI data register (SPI_DR)  ,DR,,SPI1
+0x40013010,SPI CRC polynomial register (SPI_CRCPR) (not used in I2Smode) ,CR,,SPI1
+0x40013014,SPI RX CRC register (SPI_RXCRCR) (not used in I2S mode)  ,DR,,SPI1
+0x40013018,SPI TX CRC register (SPI_TXCRCR) (not used in I2S mode)   ,DR,,SPI1
+0x4001301c,SPI_I2S configuration register (SPI_I2SCFGR) ,CR,,SPI1
+0x40013020,SPI_I2S prescaler register (SPI_I2SPR)  ,CR,,SPI1
+0x40003800,SPI control register 1 (SPI_CR1) (not used in I2S mode)  ,CR,,SPI2
+0x40003804,SPI control register 2 (SPI_CR2) ,CR,,SPI2
+0x40003808,SPI status register (SPI_SR)  ,SR,,SPI2
+0x4000380c,SPI data register (SPI_DR)  ,DR,,SPI2
+0x40003810,SPI CRC polynomial register (SPI_CRCPR) (not used in I2Smode) ,CR,,SPI2
+0x40003814,SPI RX CRC register (SPI_RXCRCR) (not used in I2S mode)  ,DR,,SPI2
+0x40003818,SPI TX CRC register (SPI_TXCRCR) (not used in I2S mode)   ,DR,,SPI2
+0x4000381c,SPI_I2S configuration register (SPI_I2SCFGR) ,CR,,SPI2
+0x40003820,SPI_I2S prescaler register (SPI_I2SPR)  ,CR,,SPI2
+0x40003c00,SPI control register 1 (SPI_CR1) (not used in I2S mode)  ,CR,,SPI3
+0x40003c04,SPI control register 2 (SPI_CR2) ,CR,,SPI3
+0x40003c08,SPI status register (SPI_SR)  ,SR,,SPI3
+0x40003c0c,SPI data register (SPI_DR)  ,DR,,SPI3
+0x40003c10,SPI CRC polynomial register (SPI_CRCPR) (not used in I2Smode) ,CR,,SPI3
+0x40003c14,SPI RX CRC register (SPI_RXCRCR) (not used in I2S mode)  ,CR,,SPI3
+0x40003c18,SPI TX CRC register (SPI_TXCRCR) (not used in I2S mode)   ,CR,,SPI3
+0x40003c1c,SPI_I2S configuration register (SPI_I2SCFGR) ,CR,,SPI3
+0x40003c20,SPI_I2S prescaler register (SPI_I2SPR)  ,CR,,SPI3
+0x40003400,,,,I2S2ext
+0x40003404,,,,I2S2ext
+0x40003408,,,,I2S2ext
+0x4000340c,,,,I2S2ext
+0x40003410,,,,I2S2ext
+0x40003414,,,,I2S2ext
+0x40003418,,,,I2S2ext
+0x4000341c,,,,I2S2ext
+0x40003420,,,,I2S2ext
+0x40004000,,,,I2S3ext
+0x40004004,,,,I2S3ext
+0x40004008,,,,I2S3ext
+0x4000400c,,,,I2S3ext
+0x40004010,,,,I2S3ext
+0x40004014,,,,I2S3ext
+0x40004018,,,,I2S3ext
+0x4000401c,,,,I2S3ext
+0x40004020,,,,I2S3ext
+0x40013400,SPI control register 1 (SPI_CR1) (not used in I2S mode)  ,CR,,SPI4
+0x40013404,SPI control register 2 (SPI_CR2) ,CR,,SPI4
+0x40013408,SPI status register (SPI_SR)  ,SR,,SPI4
+0x4001340c,SPI data register (SPI_DR)  ,DR,,SPI4
+0x40013410,SPI CRC polynomial register (SPI_CRCPR) (not used in I2Smode) ,CR,,SPI4
+0x40013414,SPI RX CRC register (SPI_RXCRCR) (not used in I2S mode)  ,DR,,SPI4
+0x40013418,SPI TX CRC register (SPI_TXCRCR) (not used in I2S mode)   ,DR,,SPI4
+0x4001341c,SPI_I2S configuration register (SPI_I2SCFGR) ,CR,,SPI4
+0x40013420,SPI_I2S prescaler register (SPI_I2SPR)  ,CR,,SPI4
+0x40015000,SPI control register 1 (SPI_CR1) (not used in I2S mode)  ,CR,,SPI5
+0x40015004,SPI control register 2 (SPI_CR2) ,CR,,SPI5
+0x40015008,SPI status register (SPI_SR)  ,SR,,SPI5
+0x4001500c,SPI data register (SPI_DR)  ,DR,,SPI5
+0x40015010,SPI CRC polynomial register (SPI_CRCPR) (not used in I2Smode) ,CR,,SPI5
+0x40015014,SPI RX CRC register (SPI_RXCRCR) (not used in I2S mode)  ,DR,,SPI5
+0x40015018,SPI TX CRC register (SPI_TXCRCR) (not used in I2S mode)   ,DR,,SPI5
+0x4001501c,SPI_I2S configuration register (SPI_I2SCFGR) ,CR,,SPI5
+0x40015020,SPI_I2S prescaler register (SPI_I2SPR)  ,CR,,SPI5
+0x40015400,SPI control register 1 (SPI_CR1) (not used in I2S mode)  ,CR,,SPI6
+0x40015404,SPI control register 2 (SPI_CR2) ,CR,,SPI6
+0x40015408,SPI status register (SPI_SR)  ,SR,,SPI6
+0x4001540c,SPI data register (SPI_DR)  ,DR,,SPI6
+0x40015410,SPI CRC polynomial register (SPI_CRCPR) (not used in I2Smode) ,CR,,SPI6
+0x40015414,SPI RX CRC register (SPI_RXCRCR) (not used in I2S mode)  ,DR,,SPI6
+0x40015418,SPI TX CRC register (SPI_TXCRCR) (not used in I2S mode)   ,DR,,SPI6
+0x4001541c,SPI_I2S configuration register (SPI_I2SCFGR) ,CR,,SPI6
+0x40015420,SPI_I2S prescaler register (SPI_I2SPR)  ,CR,,SPI6
+0x40012c00,SDIO power control register (SDIO_POWER) ,CR,,SDIO
+0x40012c04,31.9.1SDI clock control register (SDIO_CLKCR)   ,CR,,SDIO
+0x40012c08,31.9.2SDIO argument register (SDIO_ARG) ,CR,,SDIO
+0x40012c0c,31.9.3SDIO command register (SDIO_CMD)  ,CR,,SDIO
+0x40012c10,31.9.4SDIO command response register (SDIO_RESPCMD)   ,CR,,SDIO
+0x40012c14,,,,SDIO
+0x40012c18,,,,SDIO
+0x40012c1c,,,,SDIO
+0x40012c20,,,,SDIO
+0x40012c24,31.9.6SDIO data timer register (SDIO_DTIMER)   ,DR,,SDIO
+0x40012c28,31.9.7SDIO data length register (SDIO_DLEN)   ,DR,,SDIO
+0x40012c2c,31.9.9SDIO data control register (SDIO_DCTRL)  ,CR,,SDIO
+0x40012c30,31.9.10 SDIO data counter register (SDIO_DCOUNT) ,SR,,SDIO
+0x40012c34,31.9.11 SDIO status register (SDIO_STA)  ,SR,,SDIO
+0x40012c38,31.9.12 SDIO interrupt clear register (SDIO_ICR)  ,CR,,SDIO
+0x40012c3c,31.9.13 SDIO mask register (SDIO_MASK)  ,CR,,SDIO
+0x40012c48,31.9.14 SDIO FIFO counter register (SDIO_FIFOCNT)  ,SR,,SDIO
+0x40012c80,31.9.14 SDIO FIFO counter register (SDIO_FIFOCNT)  ,SR,,SDIO
+0x40012000,13.13.1 ADC status register (ADC_SR)  ,SR,,ADC1
+0x40012004,13.13.2 ADC control register 1 (ADC_CR1)  ,CR,,ADC1
+0x40012008,13.13.3 ADC control register 2 (ADC_CR2)  ,CR,,ADC1
+0x4001200c,13.13.4 ADC sample time register 1 (ADC_SMPR1)  ,CR,,ADC1
+0x40012010,13.13.5 ADC sample time register 2 (ADC_SMPR2)  ,CR,,ADC1
+0x40012014,,,,ADC1
+0x40012018,,,,ADC1
+0x4001201c,,,,ADC1
+0x40012020,,,,ADC1
+0x40012024,13.13.6 ADC injected channel data offset register x (ADC_JOFRx) (x=1..4)  . . 42113.13.7 ADC watchdog higher threshold register (ADC_HTR) ,DR,,ADC1
+0x40012028,13.13.8 ADC watchdog lower threshold register (ADC_LTR) ,CR,,ADC1
+0x4001202c,13.13.9 ADC regular sequence register 1 (ADC_SQR1)  ,CR,,ADC1
+0x40012030,13.13.10 ADC regular sequence register 2 (ADC_SQR2)  ,CR,,ADC1
+0x40012034,13.13.11 ADC regular sequence register 3 (ADC_SQR3)  ,CR,,ADC1
+0x40012038,13.13.12 ADC injected sequence register (ADC_JSQR)  ,CR,,ADC1
+0x4001203c,,,,ADC1
+0x40012040,,,,ADC1
+0x40012044,,,,ADC1
+0x40012048,,,,ADC1
+0x4001204c,13.13.14 ADC regular data register (ADC_DR)  ,DR,,ADC1
+0x40012100,13.13.1 ADC status register (ADC_SR)  ,SR,,ADC2
+0x40012104,13.13.2 ADC control register 1 (ADC_CR1)  ,CR,,ADC2
+0x40012108,13.13.3 ADC control register 2 (ADC_CR2)  ,CR,,ADC2
+0x4001210c,13.13.4 ADC sample time register 1 (ADC_SMPR1)  ,CR,,ADC2
+0x40012110,13.13.5 ADC sample time register 2 (ADC_SMPR2)  ,CR,,ADC2
+0x40012114,,,,ADC2
+0x40012118,,,,ADC2
+0x4001211c,,,,ADC2
+0x40012120,,,,ADC2
+0x40012124,13.13.6 ADC injected channel data offset register x (ADC_JOFRx) (x=1..4)  . . 42113.13.7 ADC watchdog higher threshold register (ADC_HTR) ,DR,,ADC2
+0x40012128,13.13.8 ADC watchdog lower threshold register (ADC_LTR) ,CR,,ADC2
+0x4001212c,13.13.9 ADC regular sequence register 1 (ADC_SQR1)  ,CR,,ADC2
+0x40012130,13.13.10 ADC regular sequence register 2 (ADC_SQR2)  ,CR,,ADC2
+0x40012134,13.13.11 ADC regular sequence register 3 (ADC_SQR3)  ,CR,,ADC2
+0x40012138,13.13.12 ADC injected sequence register (ADC_JSQR)  ,CR,,ADC2
+0x4001213c,,,,ADC2
+0x40012140,,,,ADC2
+0x40012144,,,,ADC2
+0x40012148,,,,ADC2
+0x4001214c,13.13.14 ADC regular data register (ADC_DR)  ,DR,,ADC2
+0x40012200,13.13.1 ADC status register (ADC_SR)  ,SR,,ADC3
+0x40012204,13.13.2 ADC control register 1 (ADC_CR1)  ,CR,,ADC3
+0x40012208,13.13.3 ADC control register 2 (ADC_CR2)  ,CR,,ADC3
+0x4001220c,13.13.4 ADC sample time register 1 (ADC_SMPR1)  ,CR,,ADC3
+0x40012210,13.13.5 ADC sample time register 2 (ADC_SMPR2)  ,CR,,ADC3
+0x40012214,,,,ADC3
+0x40012218,,,,ADC3
+0x4001221c,,,,ADC3
+0x40012220,,,,ADC3
+0x40012224,13.13.6 ADC injected channel data offset register x (ADC_JOFRx) (x=1..4)  . . 42113.13.7 ADC watchdog higher threshold register (ADC_HTR) ,DR,,ADC3
+0x40012228,13.13.8 ADC watchdog lower threshold register (ADC_LTR) ,CR,,ADC3
+0x4001222c,13.13.9 ADC regular sequence register 1 (ADC_SQR1)  ,CR,,ADC3
+0x40012230,13.13.10 ADC regular sequence register 2 (ADC_SQR2)  ,CR,,ADC3
+0x40012234,13.13.11 ADC regular sequence register 3 (ADC_SQR3)  ,CR,,ADC3
+0x40012238,13.13.12 ADC injected sequence register (ADC_JSQR)  ,CR,,ADC3
+0x4001223c,,,,ADC3
+0x40012240,,,,ADC3
+0x40012244,,,,ADC3
+0x40012248,,,,ADC3
+0x4001224c,13.13.14 ADC regular data register (ADC_DR)  ,DR,,ADC3
+0x40011400,Status register (USART_SR)  ,SR,,USART6
+0x40011404,Data register (USART_DR)  ,DR,,USART6
+0x40011408,Baud rate register (USART_BRR)  ,CR,,USART6
+0x4001140c,Control register 1 (USART_CR1) ,CR,,USART6
+0x40011410,Control register 2 (USART_CR2) ,CR,,USART6
+0x40011414,Control register 3 (USART_CR3) ,CR,,USART6
+0x40011418,3130.6.7 Guard time and prescaler register (USART_GTPR)  ,CR,,USART6
+0x40011000,Status register (USART_SR)  ,SR,,USART1
+0x40011004,Data register (USART_DR)  ,DR,,USART1
+0x40011008,Baud rate register (USART_BRR)  ,CR,,USART1
+0x4001100c,Control register 1 (USART_CR1) ,CR,,USART1
+0x40011010,Control register 2 (USART_CR2) ,CR,,USART1
+0x40011014,Control register 3 (USART_CR3) ,CR,,USART1
+0x40011018,3130.6.7 Guard time and prescaler register (USART_GTPR)  ,CR,,USART1
+0x40004400,Status register (USART_SR)  ,SR,,USART2
+0x40004404,Data register (USART_DR)  ,DR,,USART2
+0x40004408,Baud rate register (USART_BRR)  ,CR,,USART2
+0x4000440c,Control register 1 (USART_CR1) ,CR,,USART2
+0x40004410,Control register 2 (USART_CR2) ,CR,,USART2
+0x40004414,Control register 3 (USART_CR3) ,CR,,USART2
+0x40004418,3130.6.7 Guard time and prescaler register (USART_GTPR)  ,CR,,USART2
+0x40004800,Status register (USART_SR)  ,SR,,USART3
+0x40004804,Data register (USART_DR)  ,DR,,USART3
+0x40004808,Baud rate register (USART_BRR)  ,CR,,USART3
+0x4000480c,Control register 1 (USART_CR1) ,CR,,USART3
+0x40004810,Control register 2 (USART_CR2) ,CR,,USART3
+0x40004814,Control register 3 (USART_CR3) ,CR,,USART3
+0x40004818,3130.6.7 Guard time and prescaler register (USART_GTPR)  ,CR,,USART3
+0x40007800,,,,UART7
+0x40007804,,,,UART7
+0x40007808,,,,UART7
+0x4000780c,,,,UART7
+0x40007810,,,,UART7
+0x40007814,,,,UART7
+0x40007818,,,,UART7
+0x40007c00,,,,UART8
+0x40007c04,,,,UART8
+0x40007c08,,,,UART8
+0x40007c0c,,,,UART8
+0x40007c10,,,,UART8
+0x40007c14,,,,UART8
+0x40007c18,,,,UART8
+0x40007400,DAC control register (DAC_CR)   ,CR,,DAC
+0x40007404,DAC software trigger register (DAC_SWTRIGR) ,CR,,DAC
+0x40007408,DAC channel1 12-bit right-aligned data holding register(DAC_DHR12R1)   ,DR,,DAC
+0x4000740c,DAC channel1 12-bit left aligned data holding register(DAC_DHR12L1)  ,DR,,DAC
+0x40007410,DAC channel1 8-bit right aligned data holding register(DAC_DHR8R1)   ,DR,,DAC
+0x40007414,DAC channel2 12-bit right aligned data holding register(DAC_DHR12R2)   ,DR,,DAC
+0x40007418,DAC channel2 12-bit left aligned data holding register(DAC_DHR12L2)  ,DR,,DAC
+0x4000741c,DAC channel2 8-bit right-aligned data holding register(DAC_DHR8R2)   ,DR,,DAC
+0x40007420,Dual DAC 12-bit right-aligned data holding register(DAC_DHR12RD)  ,DR,,DAC
+0x40007424,14.5.10 DUAL DAC 12-bit left aligned data holding register(DAC_DHR12LD)   ,DR,,DAC
+0x40007428,14.5.11 DUAL DAC 8-bit right aligned data holding register(DAC_DHR8RD)  ,DR,,DAC
+0x4000742c,14.5.12 DAC channel1 data output register (DAC_DOR1) ,DR,,DAC
+0x40007430,14.5.13 DAC channel2 data output register (DAC_DOR2) ,DR,,DAC
+0x40007434,14.5.14 DAC status register (DAC_SR)  ,SR,,DAC
+0x40007000,PWR power control register (PWR_CR)for STM32F405xx/07xx and STM32F415xx/17xx  ,CR,,PWR
+0x40007004,PWR power control/status register (PWR_CSR)for STM32F405xx/07xx and STM32F415xx/17xx  ,SR,HYBRID,PWR
+0x40003000,Key register (IWDG_KR)  ,CR,,IWDG
+0x40003004,21.4.2Prescaler register (IWDG_PR)   ,CR,,IWDG
+0x40003008,Reload register (IWDG_RLR)   ,CR,,IWDG
+0x4000300c,21.4.3Status register (IWDG_SR)  ,SR,,IWDG
+0x40002c00,Control register (WWDG_CR)  ,CR,,WWDG
+0x40002c04,22.6.1Configuration register (WWDG_CFR)  ,CR,,WWDG
+0x40002c08,22.6.3Status register (WWDG_SR)  ,SR,,WWDG
+0x40002800,RTC time register (RTC_TR)  ,DR,,RTC
+0x40002804,26.6.1RTC date register (RTC_DR) ,CR,,RTC
+0x40002808,26.6.2RTC control register (RTC_CR) ,CR,,RTC
+0x4000280c,26.6.3RTC initialization and status register (RTC_ISR) ,SR,,RTC
+0x40002810,26.6.4RTC prescaler register (RTC_PRER)   ,CR,,RTC
+0x40002814,26.6.5RTC wakeup timer register (RTC_WUTR) ,CR,,RTC
+0x40002818,26.6.6RTC calibration register (RTC_CALIBR)  ,CR,,RTC
+0x4000281c,26.6.7RTC alarm A register (RTC_ALRMAR)  ,CR,,RTC
+0x40002820,26.6.8RTC alarm B register (RTC_ALRMBR)  ,CR,,RTC
+0x40002824,26.6.926.6.10 RTC write protection register (RTC_WPR)   ,CR,,RTC
+0x40002828,26.6.11 RTC sub second register (RTC_SSR)  ,DR,,RTC
+0x4000282c,26.6.12 RTC shift control register (RTC_SHIFTR)  ,CR,,RTC
+0x40002830,26.6.13 RTC time stamp time register (RTC_TSTR)   ,DR,,RTC
+0x40002834,26.6.14 RTC time stamp date register (RTC_TSDR)  ,DR,,RTC
+0x40002838,26.6.15 RTC timestamp sub second register (RTC_TSSSR) ,DR,,RTC
+0x4000283c,26.6.16 RTC calibration register (RTC_CALR) ,CR,,RTC
+0x40002840,26.6.17 RTC tamper and alternate function configuration register(RTC_TAFCR)  ,CR,,RTC
+0x40002844,26.6.18 RTC alarm A sub second register (RTC_ALRMASSR)  ,CR,,RTC
+0x40002848,26.6.19 RTC alarm B sub second register (RTC_ALRMBSSR)  ,CR,,RTC
+0x40002850,,,,RTC
+0x40002854,,,,RTC
+0x40002858,,,,RTC
+0x4000285c,,,,RTC
+0x40002860,,,,RTC
+0x40002864,,,,RTC
+0x40002868,,,,RTC
+0x4000286c,,,,RTC
+0x40002870,,,,RTC
+0x40002874,,,,RTC
+0x40002878,,,,RTC
+0x4000287c,,,,RTC
+0x40002880,,,,RTC
+0x40002884,,,,RTC
+0x40002888,,,,RTC
+0x4000288c,,,,RTC
+0x40002890,,,,RTC
+0x40002894,,,,RTC
+0x40002898,,,,RTC
+0x4000289c,,,,RTC
+0x40004c00,,,,UART4
+0x40004c04,,,,UART4
+0x40004c08,,,,UART4
+0x40004c0c,,,,UART4
+0x40004c10,,,,UART4
+0x40004c14,,,,UART4
+0x40005000,,,,UART5
+0x40005004,,,,UART5
+0x40005008,,,,UART5
+0x4000500c,,,,UART5
+0x40005010,,,,UART5
+0x40005014,,,,UART5
+0x40012300,ADC Common status register (ADC_CSR),SR,,C_ADC
+0x40012304,ADC common control register (ADC_CCR),CR,,C_ADC
+0x40012308,"ADC common regular data register for dual and triple modes
+(ADC_CDR)",DR,,C_ADC
+0x40010000,TIM1&TIM8 control register 1 (TIMx_CR1)  ,CR,,TIM1
+0x40010004,17.4.2TIM1&TIM8 control register 2 (TIMx_CR2)  ,CR,,TIM1
+0x40010008,TIM1&TIM8 slave mode control register (TIMx_SMCR)  ,CR,,TIM1
+0x4001000c,17.4.4TIM1&TIM8 DMA/interrupt enable register (TIMx_DIER)   ,CR,,TIM1
+0x40010010,18TIM1&TIM8 status register (TIMx_SR)   ,SR,,TIM1
+0x40010014,17.4.5TIM1&TIM8 event generation register (TIMx_EGR)   ,CR,,TIM1
+0x40010018,17.4.6TIM1&TIM8 capture/compare mode register 1 (TIMx_CCMR1)  ,CR,,TIM1
+0x4001001c,17.4.7TIM1&TIM8 capture/compare mode register 2 (TIMx_CCMR2)  ,CR,,TIM1
+0x40010020,17.4.9TIM1&TIM8 capture/compare enable register (TIMx_CCER)  ,CR,,TIM1
+0x40010024,17.4.10 TIM1&TIM8 counter (TIMx_CNT)   ,DR,,TIM1
+0x40010028,17.4.11 TIM1&TIM8 prescaler (TIMx_PSC)  ,CR,,TIM1
+0x4001002c,17.4.12 TIM1&TIM8 auto-reload register (TIMx_ARR) ,CR,,TIM1
+0x40010034,17.4.14 TIM1&TIM8 capture/compare register 1 (TIMx_CCR1) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM1
+0x40010038,17.4.15 TIM1&TIM8 capture/compare register 2 (TIMx_CCR2) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM1
+0x4001003c,17.4.16 TIM1&TIM8 capture/compare register 3 (TIMx_CCR3) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM1
+0x40010040,17.4.17 TIM1&TIM8 capture/compare register 4 (TIMx_CCR4) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM1
+0x40010048,17.4.19 TIM1&TIM8 DMA control register (TIMx_DCR)  ,CR,,TIM1
+0x4001004c,17.4.20 TIM1&TIM8 DMA address for full transfer (TIMx_DMAR)  ,CR,,TIM1
+0x40010030,17.4.13 TIM1&TIM8 repetition counter register (TIMx_RCR)  ,CR,,TIM1
+0x40010044,17.4.18 TIM1&TIM8 break and dead-time register (TIMx_BDTR)  ,CR,,TIM1
+0x40010400,TIM1&TIM8 control register 1 (TIMx_CR1)  ,CR,,TIM8
+0x40010404,17.4.2TIM1&TIM8 control register 2 (TIMx_CR2)  ,CR,,TIM8
+0x40010408,TIM1&TIM8 slave mode control register (TIMx_SMCR)  ,CR,,TIM8
+0x4001040c,17.4.4TIM1&TIM8 DMA/interrupt enable register (TIMx_DIER)   ,CR,,TIM8
+0x40010410,18TIM1&TIM8 status register (TIMx_SR)   ,SR,,TIM8
+0x40010414,17.4.5TIM1&TIM8 event generation register (TIMx_EGR)   ,CR,,TIM8
+0x40010418,17.4.6TIM1&TIM8 capture/compare mode register 1 (TIMx_CCMR1)  ,CR,,TIM8
+0x4001041c,17.4.7TIM1&TIM8 capture/compare mode register 2 (TIMx_CCMR2)  ,CR,,TIM8
+0x40010420,17.4.9TIM1&TIM8 capture/compare enable register (TIMx_CCER)  ,CR,,TIM8
+0x40010424,17.4.10 TIM1&TIM8 counter (TIMx_CNT)   ,DR,,TIM8
+0x40010428,17.4.11 TIM1&TIM8 prescaler (TIMx_PSC)  ,CR,,TIM8
+0x4001042c,17.4.12 TIM1&TIM8 auto-reload register (TIMx_ARR) ,CR,,TIM8
+0x40010434,17.4.14 TIM1&TIM8 capture/compare register 1 (TIMx_CCR1) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM8
+0x40010438,17.4.15 TIM1&TIM8 capture/compare register 2 (TIMx_CCR2) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM8
+0x4001043c,17.4.16 TIM1&TIM8 capture/compare register 3 (TIMx_CCR3) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM8
+0x40010440,17.4.17 TIM1&TIM8 capture/compare register 4 (TIMx_CCR4) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM8
+0x40010448,17.4.19 TIM1&TIM8 DMA control register (TIMx_DCR)  ,CR,,TIM8
+0x4001044c,17.4.20 TIM1&TIM8 DMA address for full transfer (TIMx_DMAR)  ,CR,,TIM8
+0x40010430,17.4.13 TIM1&TIM8 repetition counter register (TIMx_RCR)  ,CR,,TIM8
+0x40010444,17.4.18 TIM1&TIM8 break and dead-time register (TIMx_BDTR)  ,CR,,TIM8
+0x40000000,TIM1&TIM8 control register 1 (TIMx_CR1)  ,CR,,TIM2
+0x40000004,17.4.2TIM1&TIM8 control register 2 (TIMx_CR2)  ,CR,,TIM2
+0x40000008,TIM1&TIM8 slave mode control register (TIMx_SMCR)  ,CR,,TIM2
+0x4000000c,17.4.4TIM1&TIM8 DMA/interrupt enable register (TIMx_DIER)   ,CR,,TIM2
+0x40000010,18TIM1&TIM8 status register (TIMx_SR)   ,SR,,TIM2
+0x40000014,17.4.5TIM1&TIM8 event generation register (TIMx_EGR)   ,CR,,TIM2
+0x40000018,17.4.6TIM1&TIM8 capture/compare mode register 1 (TIMx_CCMR1)  ,CR,,TIM2
+0x4000001c,17.4.7TIM1&TIM8 capture/compare mode register 2 (TIMx_CCMR2)  ,CR,,TIM2
+0x40000020,17.4.9TIM1&TIM8 capture/compare enable register (TIMx_CCER)  ,CR,,TIM2
+0x40000024,17.4.10 TIM1&TIM8 counter (TIMx_CNT)   ,DR,,TIM2
+0x40000028,17.4.11 TIM1&TIM8 prescaler (TIMx_PSC)  ,CR,,TIM2
+0x4000002c,17.4.12 TIM1&TIM8 auto-reload register (TIMx_ARR) ,CR,,TIM2
+0x40000034,17.4.14 TIM1&TIM8 capture/compare register 1 (TIMx_CCR1) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM2
+0x40000038,17.4.15 TIM1&TIM8 capture/compare register 2 (TIMx_CCR2) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM2
+0x4000003c,17.4.16 TIM1&TIM8 capture/compare register 3 (TIMx_CCR3) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM2
+0x40000040,17.4.17 TIM1&TIM8 capture/compare register 4 (TIMx_CCR4) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM2
+0x40000048,17.4.19 TIM1&TIM8 DMA control register (TIMx_DCR)  ,CR,,TIM2
+0x4000004c,17.4.20 TIM1&TIM8 DMA address for full transfer (TIMx_DMAR)  ,CR,,TIM2
+0x40000050,18.4.19 TIM2 option register (TIM2_OR)  ,CR,,TIM2
+0x40000400,TIM1&TIM8 control register 1 (TIMx_CR1)  ,CR,,TIM3
+0x40000404,17.4.2TIM1&TIM8 control register 2 (TIMx_CR2)  ,CR,,TIM3
+0x40000408,TIM1&TIM8 slave mode control register (TIMx_SMCR)  ,CR,,TIM3
+0x4000040c,17.4.4TIM1&TIM8 DMA/interrupt enable register (TIMx_DIER)   ,CR,,TIM3
+0x40000410,18TIM1&TIM8 status register (TIMx_SR)   ,SR,,TIM3
+0x40000414,17.4.5TIM1&TIM8 event generation register (TIMx_EGR)   ,CR,,TIM3
+0x40000418,17.4.6TIM1&TIM8 capture/compare mode register 1 (TIMx_CCMR1)  ,CR,,TIM3
+0x4000041c,17.4.7TIM1&TIM8 capture/compare mode register 2 (TIMx_CCMR2)  ,CR,,TIM3
+0x40000420,17.4.9TIM1&TIM8 capture/compare enable register (TIMx_CCER)  ,CR,,TIM3
+0x40000424,17.4.10 TIM1&TIM8 counter (TIMx_CNT)   ,DR,,TIM3
+0x40000428,17.4.11 TIM1&TIM8 prescaler (TIMx_PSC)  ,CR,,TIM3
+0x4000042c,17.4.12 TIM1&TIM8 auto-reload register (TIMx_ARR) ,CR,,TIM3
+0x40000434,17.4.14 TIM1&TIM8 capture/compare register 1 (TIMx_CCR1) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM3
+0x40000438,17.4.15 TIM1&TIM8 capture/compare register 2 (TIMx_CCR2) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM3
+0x4000043c,17.4.16 TIM1&TIM8 capture/compare register 3 (TIMx_CCR3) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM3
+0x40000440,17.4.17 TIM1&TIM8 capture/compare register 4 (TIMx_CCR4) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM3
+0x40000448,17.4.19 TIM1&TIM8 DMA control register (TIMx_DCR)  ,CR,,TIM3
+0x4000044c,17.4.20 TIM1&TIM8 DMA address for full transfer (TIMx_DMAR)  ,CR,,TIM3
+0x40000800,TIM1&TIM8 control register 1 (TIMx_CR1)  ,CR,,TIM4
+0x40000804,17.4.2TIM1&TIM8 control register 2 (TIMx_CR2)  ,CR,,TIM4
+0x40000808,TIM1&TIM8 slave mode control register (TIMx_SMCR)  ,CR,,TIM4
+0x4000080c,17.4.4TIM1&TIM8 DMA/interrupt enable register (TIMx_DIER)   ,CR,,TIM4
+0x40000810,18TIM1&TIM8 status register (TIMx_SR)   ,SR,,TIM4
+0x40000814,17.4.5TIM1&TIM8 event generation register (TIMx_EGR)   ,CR,,TIM4
+0x40000818,17.4.6TIM1&TIM8 capture/compare mode register 1 (TIMx_CCMR1)  ,CR,,TIM4
+0x4000081c,17.4.7TIM1&TIM8 capture/compare mode register 2 (TIMx_CCMR2)  ,CR,,TIM4
+0x40000820,17.4.9TIM1&TIM8 capture/compare enable register (TIMx_CCER)  ,CR,,TIM4
+0x40000824,17.4.10 TIM1&TIM8 counter (TIMx_CNT)   ,DR,,TIM4
+0x40000828,17.4.11 TIM1&TIM8 prescaler (TIMx_PSC)  ,CR,,TIM4
+0x4000082c,17.4.12 TIM1&TIM8 auto-reload register (TIMx_ARR) ,CR,,TIM4
+0x40000834,17.4.14 TIM1&TIM8 capture/compare register 1 (TIMx_CCR1) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM4
+0x40000838,17.4.15 TIM1&TIM8 capture/compare register 2 (TIMx_CCR2) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM4
+0x4000083c,17.4.16 TIM1&TIM8 capture/compare register 3 (TIMx_CCR3) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM4
+0x40000840,17.4.17 TIM1&TIM8 capture/compare register 4 (TIMx_CCR4) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM4
+0x40000848,17.4.19 TIM1&TIM8 DMA control register (TIMx_DCR)  ,CR,,TIM4
+0x4000084c,17.4.20 TIM1&TIM8 DMA address for full transfer (TIMx_DMAR)  ,CR,,TIM4
+0x40000c00,TIM1&TIM8 control register 1 (TIMx_CR1)  ,CR,,TIM5
+0x40000c04,17.4.2TIM1&TIM8 control register 2 (TIMx_CR2)  ,CR,,TIM5
+0x40000c08,TIM1&TIM8 slave mode control register (TIMx_SMCR)  ,CR,,TIM5
+0x40000c0c,17.4.4TIM1&TIM8 DMA/interrupt enable register (TIMx_DIER)   ,CR,,TIM5
+0x40000c10,18TIM1&TIM8 status register (TIMx_SR)   ,SR,,TIM5
+0x40000c14,17.4.5TIM1&TIM8 event generation register (TIMx_EGR)   ,CR,,TIM5
+0x40000c18,17.4.6TIM1&TIM8 capture/compare mode register 1 (TIMx_CCMR1)  ,CR,,TIM5
+0x40000c1c,17.4.7TIM1&TIM8 capture/compare mode register 2 (TIMx_CCMR2)  ,CR,,TIM5
+0x40000c20,17.4.9TIM1&TIM8 capture/compare enable register (TIMx_CCER)  ,CR,,TIM5
+0x40000c24,17.4.10 TIM1&TIM8 counter (TIMx_CNT)   ,DR,,TIM5
+0x40000c28,17.4.11 TIM1&TIM8 prescaler (TIMx_PSC)  ,CR,,TIM5
+0x40000c2c,17.4.12 TIM1&TIM8 auto-reload register (TIMx_ARR) ,CR,,TIM5
+0x40000c34,17.4.14 TIM1&TIM8 capture/compare register 1 (TIMx_CCR1) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM5
+0x40000c38,17.4.15 TIM1&TIM8 capture/compare register 2 (TIMx_CCR2) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM5
+0x40000c3c,17.4.16 TIM1&TIM8 capture/compare register 3 (TIMx_CCR3) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM5
+0x40000c40,17.4.17 TIM1&TIM8 capture/compare register 4 (TIMx_CCR4) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM5
+0x40000c48,17.4.19 TIM1&TIM8 DMA control register (TIMx_DCR)  ,CR,,TIM5
+0x40000c4c,17.4.20 TIM1&TIM8 DMA address for full transfer (TIMx_DMAR)  ,CR,,TIM5
+0x40000c50,18.4.20 TIM5 option register (TIM5_OR)  ,CR,,TIM5
+0x40014000,TIM1&TIM8 control register 1 (TIMx_CR1)  ,CR,,TIM9
+0x40014004,17.4.2TIM1&TIM8 control register 2 (TIMx_CR2)  ,CR,,TIM9
+0x40014008,TIM1&TIM8 slave mode control register (TIMx_SMCR)  ,CR,,TIM9
+0x4001400c,17.4.4TIM1&TIM8 DMA/interrupt enable register (TIMx_DIER)   ,CR,,TIM9
+0x40014010,18TIM1&TIM8 status register (TIMx_SR)   ,SR,,TIM9
+0x40014014,17.4.5TIM1&TIM8 event generation register (TIMx_EGR)   ,CR,,TIM9
+0x40014018,17.4.6TIM1&TIM8 capture/compare mode register 1 (TIMx_CCMR1)  ,CR,,TIM9
+0x40014020,17.4.9TIM1&TIM8 capture/compare enable register (TIMx_CCER)  ,CR,,TIM9
+0x40014024,17.4.10 TIM1&TIM8 counter (TIMx_CNT)   ,DR,,TIM9
+0x40014028,17.4.11 TIM1&TIM8 prescaler (TIMx_PSC)  ,CR,,TIM9
+0x4001402c,17.4.12 TIM1&TIM8 auto-reload register (TIMx_ARR) ,CR,,TIM9
+0x40014034,17.4.14 TIM1&TIM8 capture/compare register 1 (TIMx_CCR1) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM9
+0x40014038,17.4.15 TIM1&TIM8 capture/compare register 2 (TIMx_CCR2) ,DR,"Hybrid, for capturing is read only DR, for comparison is CR",TIM9
+0x40001800,,,,TIM12
+0x40001804,,,,TIM12
+0x40001808,,,,TIM12
+0x4000180c,,,,TIM12
+0x40001810,,,,TIM12
+0x40001814,,,,TIM12
+0x40001818,,,,TIM12
+0x40001820,,,,TIM12
+0x40001824,,,,TIM12
+0x40001828,,,,TIM12
+0x4000182c,,,,TIM12
+0x40001834,,,,TIM12
+0x40001838,,,,TIM12
+0x40014400,,,,TIM10
+0x4001440c,,,,TIM10
+0x40014410,,,,TIM10
+0x40014414,,,,TIM10
+0x40014418,,,,TIM10
+0x40014420,,,,TIM10
+0x40014424,,,,TIM10
+0x40014428,,,,TIM10
+0x4001442c,,,,TIM10
+0x40014434,,,,TIM10
+0x40001c00,,,,TIM13
+0x40001c0c,,,,TIM13
+0x40001c10,,,,TIM13
+0x40001c14,,,,TIM13
+0x40001c18,,,,TIM13
+0x40001c20,,,,TIM13
+0x40001c24,,,,TIM13
+0x40001c28,,,,TIM13
+0x40001c2c,,,,TIM13
+0x40001c34,,,,TIM13
+0x40002000,,,,TIM14
+0x4000200c,,,,TIM14
+0x40002010,,,,TIM14
+0x40002014,,,,TIM14
+0x40002018,,,,TIM14
+0x40002020,,,,TIM14
+0x40002024,,,,TIM14
+0x40002028,,,,TIM14
+0x4000202c,,,,TIM14
+0x40002034,,,,TIM14
+0x40014800,,,,TIM11
+0x4001480c,,,,TIM11
+0x40014810,,,,TIM11
+0x40014814,,,,TIM11
+0x40014818,,,,TIM11
+0x40014820,,,,TIM11
+0x40014824,,,,TIM11
+0x40014828,,,,TIM11
+0x4001482c,,,,TIM11
+0x40014834,,,,TIM11
+0x40014850,19.5.11 TIM11 option register 1 (TIM11_OR)  ,CR,,TIM11
+0x40001000,TIM1&TIM8 control register 1 (TIMx_CR1)  ,CR,,TIM6
+0x40001004,17.4.2TIM1&TIM8 control register 2 (TIMx_CR2)  ,CR,,TIM6
+0x4000100c,17.4.4TIM1&TIM8 DMA/interrupt enable register (TIMx_DIER)   ,CR,,TIM6
+0x40001010,18TIM1&TIM8 status register (TIMx_SR)   ,SR,,TIM6
+0x40001014,17.4.5TIM1&TIM8 event generation register (TIMx_EGR)   ,CR,,TIM6
+0x40001024,17.4.10 TIM1&TIM8 counter (TIMx_CNT)   ,DR,,TIM6
+0x40001028,17.4.11 TIM1&TIM8 prescaler (TIMx_PSC)  ,CR,,TIM6
+0x4000102c,17.4.12 TIM1&TIM8 auto-reload register (TIMx_ARR) ,CR,,TIM6
+0x40001400,TIM1&TIM8 control register 1 (TIMx_CR1)  ,CR,,TIM7
+0x40001404,17.4.2TIM1&TIM8 control register 2 (TIMx_CR2)  ,CR,,TIM7
+0x4000140c,17.4.4TIM1&TIM8 DMA/interrupt enable register (TIMx_DIER)   ,CR,,TIM7
+0x40001410,18TIM1&TIM8 status register (TIMx_SR)   ,SR,,TIM7
+0x40001414,17.4.5TIM1&TIM8 event generation register (TIMx_EGR)   ,CR,,TIM7
+0x40001424,17.4.10 TIM1&TIM8 counter (TIMx_CNT)   ,DR,,TIM7
+0x40001428,17.4.11 TIM1&TIM8 prescaler (TIMx_PSC)  ,CR,,TIM7
+0x4000142c,17.4.12 TIM1&TIM8 auto-reload register (TIMx_ARR) ,CR,,TIM7
+0x40028000,,,,Ethernet_MAC
+0x40028004,,,,Ethernet_MAC
+0x40028008,,,,Ethernet_MAC
+0x4002800c,,,,Ethernet_MAC
+0x40028010,,,,Ethernet_MAC
+0x40028014,,,,Ethernet_MAC
+0x40028018,,,,Ethernet_MAC
+0x4002801c,,,,Ethernet_MAC
+0x4002802c,,,,Ethernet_MAC
+0x40028034,,,,Ethernet_MAC
+0x40028038,,,,Ethernet_MAC
+0x4002803c,,,,Ethernet_MAC
+0x40028040,,,,Ethernet_MAC
+0x40028044,,,,Ethernet_MAC
+0x40028048,,,,Ethernet_MAC
+0x4002804c,,,,Ethernet_MAC
+0x40028050,,,,Ethernet_MAC
+0x40028054,,,,Ethernet_MAC
+0x40028058,,,,Ethernet_MAC
+0x4002805c,,,,Ethernet_MAC
+0x40028100,,,,Ethernet_MMC
+0x40028104,,,,Ethernet_MMC
+0x40028108,,,,Ethernet_MMC
+0x4002810c,,,,Ethernet_MMC
+0x40028110,,,,Ethernet_MMC
+0x4002814c,,,,Ethernet_MMC
+0x40028150,,,,Ethernet_MMC
+0x40028168,,,,Ethernet_MMC
+0x40028194,,,,Ethernet_MMC
+0x40028198,,,,Ethernet_MMC
+0x400281c4,,,,Ethernet_MMC
+0x40028700,,,,Ethernet_PTP
+0x40028704,,,,Ethernet_PTP
+0x40028708,,,,Ethernet_PTP
+0x4002870c,,,,Ethernet_PTP
+0x40028710,,,,Ethernet_PTP
+0x40028714,,,,Ethernet_PTP
+0x40028718,,,,Ethernet_PTP
+0x4002871c,,,,Ethernet_PTP
+0x40028720,,,,Ethernet_PTP
+0x40028728,,,,Ethernet_PTP
+0x4002872c,,,,Ethernet_PTP
+0x40029000,,,,Ethernet_DMA
+0x40029004,,,,Ethernet_DMA
+0x40029008,,,,Ethernet_DMA
+0x4002900c,,,,Ethernet_DMA
+0x40029010,,,,Ethernet_DMA
+0x40029014,,,,Ethernet_DMA
+0x40029018,,,,Ethernet_DMA
+0x4002901c,,,,Ethernet_DMA
+0x40029020,,,,Ethernet_DMA
+0x40029024,,,,Ethernet_DMA
+0x40029048,,,,Ethernet_DMA
+0x4002904c,,,,Ethernet_DMA
+0x40029050,,,,Ethernet_DMA
+0x40029054,,,,Ethernet_DMA
+0x40023000,4.4.1Data register (CRC_DR)  ,DR,,CRC
+0x40023004,Independent data register (CRC_IDR)   ,DR,,CRC
+0x40023008,4.4.2Control register (CRC_CR)  ,CR,,CRC
+0x50000000,,,,OTG_FS_GLOBAL
+0x50000004,,,,OTG_FS_GLOBAL
+0x50000008,,,,OTG_FS_GLOBAL
+0x5000000c,,,,OTG_FS_GLOBAL
+0x50000010,,,,OTG_FS_GLOBAL
+0x50000014,,,,OTG_FS_GLOBAL
+0x50000018,,,,OTG_FS_GLOBAL
+0x5000001c,,,,OTG_FS_GLOBAL
+0x5000001c,,,,OTG_FS_GLOBAL
+0x50000024,,,,OTG_FS_GLOBAL
+0x50000028,,,,OTG_FS_GLOBAL
+0x5000002c,,,,OTG_FS_GLOBAL
+0x50000038,,,,OTG_FS_GLOBAL
+0x5000003c,,,,OTG_FS_GLOBAL
+0x50000100,,,,OTG_FS_GLOBAL
+0x50000104,,,,OTG_FS_GLOBAL
+0x50000108,,,,OTG_FS_GLOBAL
+0x5000010c,,,,OTG_FS_GLOBAL
+0x50000400,,,,OTG_FS_HOST
+0x50000404,,,,OTG_FS_HOST
+0x50000408,,,,OTG_FS_HOST
+0x50000410,,,,OTG_FS_HOST
+0x50000414,,,,OTG_FS_HOST
+0x50000418,,,,OTG_FS_HOST
+0x50000440,,,,OTG_FS_HOST
+0x50000500,,,,OTG_FS_HOST
+0x50000520,,,,OTG_FS_HOST
+0x50000540,,,,OTG_FS_HOST
+0x50000560,,,,OTG_FS_HOST
+0x50000580,,,,OTG_FS_HOST
+0x500005a0,,,,OTG_FS_HOST
+0x500005c0,,,,OTG_FS_HOST
+0x500005e0,,,,OTG_FS_HOST
+0x50000508,,,,OTG_FS_HOST
+0x50000528,,,,OTG_FS_HOST
+0x50000548,,,,OTG_FS_HOST
+0x50000568,,,,OTG_FS_HOST
+0x50000588,,,,OTG_FS_HOST
+0x500005a8,,,,OTG_FS_HOST
+0x500005c8,,,,OTG_FS_HOST
+0x500005e8,,,,OTG_FS_HOST
+0x5000050c,,,,OTG_FS_HOST
+0x5000052c,,,,OTG_FS_HOST
+0x5000054c,,,,OTG_FS_HOST
+0x5000056c,,,,OTG_FS_HOST
+0x5000058c,,,,OTG_FS_HOST
+0x500005ac,,,,OTG_FS_HOST
+0x500005cc,,,,OTG_FS_HOST
+0x500005ec,,,,OTG_FS_HOST
+0x50000510,,,,OTG_FS_HOST
+0x50000530,,,,OTG_FS_HOST
+0x50000550,,,,OTG_FS_HOST
+0x50000570,,,,OTG_FS_HOST
+0x50000590,,,,OTG_FS_HOST
+0x500005b0,,,,OTG_FS_HOST
+0x500005d0,,,,OTG_FS_HOST
+0x500005f0,,,,OTG_FS_HOST
+0x50000800,,,,OTG_FS_DEVICE
+0x50000804,,,,OTG_FS_DEVICE
+0x50000808,,,,OTG_FS_DEVICE
+0x50000810,,,,OTG_FS_DEVICE
+0x50000814,,,,OTG_FS_DEVICE
+0x50000818,,,,OTG_FS_DEVICE
+0x5000081c,,,,OTG_FS_DEVICE
+0x50000828,,,,OTG_FS_DEVICE
+0x5000082c,,,,OTG_FS_DEVICE
+0x50000834,,,,OTG_FS_DEVICE
+0x50000900,,,,OTG_FS_DEVICE
+0x50000920,,,,OTG_FS_DEVICE
+0x50000940,,,,OTG_FS_DEVICE
+0x50000960,,,,OTG_FS_DEVICE
+0x50000b00,,,,OTG_FS_DEVICE
+0x50000b20,,,,OTG_FS_DEVICE
+0x50000b40,,,,OTG_FS_DEVICE
+0x50000b60,,,,OTG_FS_DEVICE
+0x50000908,,,,OTG_FS_DEVICE
+0x50000928,,,,OTG_FS_DEVICE
+0x50000948,,,,OTG_FS_DEVICE
+0x50000968,,,,OTG_FS_DEVICE
+0x50000b08,,,,OTG_FS_DEVICE
+0x50000b28,,,,OTG_FS_DEVICE
+0x50000b48,,,,OTG_FS_DEVICE
+0x50000b68,,,,OTG_FS_DEVICE
+0x50000910,,,,OTG_FS_DEVICE
+0x50000b10,,,,OTG_FS_DEVICE
+0x50000930,,,,OTG_FS_DEVICE
+0x50000950,,,,OTG_FS_DEVICE
+0x50000970,,,,OTG_FS_DEVICE
+0x50000918,,,,OTG_FS_DEVICE
+0x50000938,,,,OTG_FS_DEVICE
+0x50000958,,,,OTG_FS_DEVICE
+0x50000978,,,,OTG_FS_DEVICE
+0x50000b30,,,,OTG_FS_DEVICE
+0x50000b50,,,,OTG_FS_DEVICE
+0x50000b70,,,,OTG_FS_DEVICE
+0x50000e00,,,,OTG_FS_PWRCLK
+0x40006400,,,,CAN1
+0x40006404,,,,CAN1
+0x40006408,,,,CAN1
+0x4000640c,,,,CAN1
+0x40006410,,,,CAN1
+0x40006414,,,,CAN1
+0x40006418,,,,CAN1
+0x4000641c,,,,CAN1
+0x40006580,,,,CAN1
+0x40006584,,,,CAN1
+0x40006588,,,,CAN1
+0x4000658c,,,,CAN1
+0x40006590,,,,CAN1
+0x40006594,,,,CAN1
+0x40006598,,,,CAN1
+0x4000659c,,,,CAN1
+0x400065a0,,,,CAN1
+0x400065a4,,,,CAN1
+0x400065a8,,,,CAN1
+0x400065ac,,,,CAN1
+0x400065b0,,,,CAN1
+0x400065b4,,,,CAN1
+0x400065b8,,,,CAN1
+0x400065bc,,,,CAN1
+0x400065c0,,,,CAN1
+0x400065c4,,,,CAN1
+0x400065c8,,,,CAN1
+0x400065cc,,,,CAN1
+0x40006600,,,,CAN1
+0x40006604,,,,CAN1
+0x4000660c,,,,CAN1
+0x40006614,,,,CAN1
+0x4000661c,,,,CAN1
+0x40006640,,,,CAN1
+0x40006644,,,,CAN1
+0x40006648,,,,CAN1
+0x4000664c,,,,CAN1
+0x40006650,,,,CAN1
+0x40006654,,,,CAN1
+0x40006658,,,,CAN1
+0x4000665c,,,,CAN1
+0x40006660,,,,CAN1
+0x40006664,,,,CAN1
+0x40006668,,,,CAN1
+0x4000666c,,,,CAN1
+0x40006670,,,,CAN1
+0x40006674,,,,CAN1
+0x40006678,,,,CAN1
+0x4000667c,,,,CAN1
+0x40006680,,,,CAN1
+0x40006684,,,,CAN1
+0x40006688,,,,CAN1
+0x4000668c,,,,CAN1
+0x40006690,,,,CAN1
+0x40006694,,,,CAN1
+0x40006698,,,,CAN1
+0x4000669c,,,,CAN1
+0x400066a0,,,,CAN1
+0x400066a4,,,,CAN1
+0x400066a8,,,,CAN1
+0x400066ac,,,,CAN1
+0x400066b0,,,,CAN1
+0x400066b4,,,,CAN1
+0x400066b8,,,,CAN1
+0x400066bc,,,,CAN1
+0x400066c0,,,,CAN1
+0x400066c4,,,,CAN1
+0x400066c8,,,,CAN1
+0x400066cc,,,,CAN1
+0x400066d0,,,,CAN1
+0x400066d4,,,,CAN1
+0x400066d8,,,,CAN1
+0x400066dc,,,,CAN1
+0x400066e0,,,,CAN1
+0x400066e4,,,,CAN1
+0x400066e8,,,,CAN1
+0x400066ec,,,,CAN1
+0x400066f0,,,,CAN1
+0x400066f4,,,,CAN1
+0x400066f8,,,,CAN1
+0x400066fc,,,,CAN1
+0x40006700,,,,CAN1
+0x40006704,,,,CAN1
+0x40006708,,,,CAN1
+0x4000670c,,,,CAN1
+0x40006710,,,,CAN1
+0x40006714,,,,CAN1
+0x40006718,,,,CAN1
+0x4000671c,,,,CAN1
+0x40006800,,,,CAN2
+0x40006804,,,,CAN2
+0x40006808,,,,CAN2
+0x4000680c,,,,CAN2
+0x40006810,,,,CAN2
+0x40006814,,,,CAN2
+0x40006818,,,,CAN2
+0x4000681c,,,,CAN2
+0x40006980,,,,CAN2
+0x40006984,,,,CAN2
+0x40006988,,,,CAN2
+0x4000698c,,,,CAN2
+0x40006990,,,,CAN2
+0x40006994,,,,CAN2
+0x40006998,,,,CAN2
+0x4000699c,,,,CAN2
+0x400069a0,,,,CAN2
+0x400069a4,,,,CAN2
+0x400069a8,,,,CAN2
+0x400069ac,,,,CAN2
+0x400069b0,,,,CAN2
+0x400069b4,,,,CAN2
+0x400069b8,,,,CAN2
+0x400069bc,,,,CAN2
+0x400069c0,,,,CAN2
+0x400069c4,,,,CAN2
+0x400069c8,,,,CAN2
+0x400069cc,,,,CAN2
+0x40006a00,,,,CAN2
+0x40006a04,,,,CAN2
+0x40006a0c,,,,CAN2
+0x40006a14,,,,CAN2
+0x40006a1c,,,,CAN2
+0x40006a40,,,,CAN2
+0x40006a44,,,,CAN2
+0x40006a48,,,,CAN2
+0x40006a4c,,,,CAN2
+0x40006a50,,,,CAN2
+0x40006a54,,,,CAN2
+0x40006a58,,,,CAN2
+0x40006a5c,,,,CAN2
+0x40006a60,,,,CAN2
+0x40006a64,,,,CAN2
+0x40006a68,,,,CAN2
+0x40006a6c,,,,CAN2
+0x40006a70,,,,CAN2
+0x40006a74,,,,CAN2
+0x40006a78,,,,CAN2
+0x40006a7c,,,,CAN2
+0x40006a80,,,,CAN2
+0x40006a84,,,,CAN2
+0x40006a88,,,,CAN2
+0x40006a8c,,,,CAN2
+0x40006a90,,,,CAN2
+0x40006a94,,,,CAN2
+0x40006a98,,,,CAN2
+0x40006a9c,,,,CAN2
+0x40006aa0,,,,CAN2
+0x40006aa4,,,,CAN2
+0x40006aa8,,,,CAN2
+0x40006aac,,,,CAN2
+0x40006ab0,,,,CAN2
+0x40006ab4,,,,CAN2
+0x40006ab8,,,,CAN2
+0x40006abc,,,,CAN2
+0x40006ac0,,,,CAN2
+0x40006ac4,,,,CAN2
+0x40006ac8,,,,CAN2
+0x40006acc,,,,CAN2
+0x40006ad0,,,,CAN2
+0x40006ad4,,,,CAN2
+0x40006ad8,,,,CAN2
+0x40006adc,,,,CAN2
+0x40006ae0,,,,CAN2
+0x40006ae4,,,,CAN2
+0x40006ae8,,,,CAN2
+0x40006aec,,,,CAN2
+0x40006af0,,,,CAN2
+0x40006af4,,,,CAN2
+0x40006af8,,,,CAN2
+0x40006afc,,,,CAN2
+0x40006b00,,,,CAN2
+0x40006b04,,,,CAN2
+0x40006b08,,,,CAN2
+0x40006b0c,,,,CAN2
+0x40006b10,,,,CAN2
+0x40006b14,,,,CAN2
+0x40006b18,,,,CAN2
+0x40006b1c,,,,CAN2
+0xe000e100,,,,NVIC
+0xe000e104,,,,NVIC
+0xe000e108,,,,NVIC
+0xe000e180,,,,NVIC
+0xe000e184,,,,NVIC
+0xe000e188,,,,NVIC
+0xe000e200,,,,NVIC
+0xe000e204,,,,NVIC
+0xe000e208,,,,NVIC
+0xe000e280,,,,NVIC
+0xe000e284,,,,NVIC
+0xe000e288,,,,NVIC
+0xe000e300,,,,NVIC
+0xe000e304,,,,NVIC
+0xe000e308,,,,NVIC
+0xe000e400,,,,NVIC
+0xe000e404,,,,NVIC
+0xe000e408,,,,NVIC
+0xe000e40c,,,,NVIC
+0xe000e410,,,,NVIC
+0xe000e414,,,,NVIC
+0xe000e418,,,,NVIC
+0xe000e41c,,,,NVIC
+0xe000e420,,,,NVIC
+0xe000e424,,,,NVIC
+0xe000e428,,,,NVIC
+0xe000e42c,,,,NVIC
+0xe000e430,,,,NVIC
+0xe000e434,,,,NVIC
+0xe000e438,,,,NVIC
+0xe000e43c,,,,NVIC
+0xe000e440,,,,NVIC
+0xe000e444,,,,NVIC
+0xe000e448,,,,NVIC
+0xe000e44c,,,,NVIC
+0xe000e450,,,,NVIC
+0x40023c00,Flash access control register (FLASH_ACR)for STM32F405xx/07xx and STM32F415xx/17xx  ,CR,,FLASH
+0x40023c04,Flash key register (FLASH_KEYR)  ,CR,,FLASH
+0x40023c08,Flash option key register (FLASH_OPTKEYR)  ,CR,,FLASH
+0x40023c0c,Flash status register (FLASH_SR) forSTM32F405xx/07xx and STM32F415xx/17xx ,SR,,FLASH
+0x40023c10,Flash control register (FLASH_CR) forSTM32F405xx/07xx and STM32F415xx/17xx ,CR,,FLASH
+0x40023c14,Flash option control register (FLASH_OPTCR) forSTM32F405xx/07xx and STM32F415xx/17xx ,CR,,FLASH
+0x40023c18,Flash option control register (FLASH_OPTCR1)for STM32F42xxx and STM32F43xxx  ,CR,,FLASH
+0x40013c00,Interrupt mask register (EXTI_IMR) ,CR,,EXTI
+0x40013c04,12.3.7Event mask register (EXTI_EMR)  ,CR,,EXTI
+0x40013c08,Rising trigger selection register (EXTI_RTSR)   ,CR,,EXTI
+0x40013c0c,Falling trigger selection register (EXTI_FTSR)   ,CR,,EXTI
+0x40013c10,Software interrupt event register (EXTI_SWIER)   ,CR,,EXTI
+0x40013c14,Pending register (EXTI_PR)   ,SR,,EXTI
+0x40040000,,,,OTG_HS_GLOBAL
+0x40040004,,,,OTG_HS_GLOBAL
+0x40040008,,,,OTG_HS_GLOBAL
+0x4004000c,,,,OTG_HS_GLOBAL
+0x40040010,,,,OTG_HS_GLOBAL
+0x40040014,,,,OTG_HS_GLOBAL
+0x40040018,,,,OTG_HS_GLOBAL
+0x4004001c,,,,OTG_HS_GLOBAL
+0x40040020,,,,OTG_HS_GLOBAL
+0x40040024,,,,OTG_HS_GLOBAL
+0x40040028,,,,OTG_HS_GLOBAL
+0x4004002c,,,,OTG_HS_GLOBAL
+0x40040038,,,,OTG_HS_GLOBAL
+0x4004003c,,,,OTG_HS_GLOBAL
+0x40040100,,,,OTG_HS_GLOBAL
+0x40040104,,,,OTG_HS_GLOBAL
+0x40040108,,,,OTG_HS_GLOBAL
+0x4004011c,,,,OTG_HS_GLOBAL
+0x40040120,,,,OTG_HS_GLOBAL
+0x40040124,,,,OTG_HS_GLOBAL
+0x40040128,,,,OTG_HS_GLOBAL
+0x4004012c,,,,OTG_HS_GLOBAL
+0x40040400,,,,OTG_HS_HOST
+0x40040404,,,,OTG_HS_HOST
+0x40040408,,,,OTG_HS_HOST
+0x40040410,,,,OTG_HS_HOST
+0x40040414,,,,OTG_HS_HOST
+0x40040418,,,,OTG_HS_HOST
+0x40040440,,,,OTG_HS_HOST
+0x40040500,,,,OTG_HS_HOST
+0x40040520,,,,OTG_HS_HOST
+0x40040540,,,,OTG_HS_HOST
+0x40040560,,,,OTG_HS_HOST
+0x40040580,,,,OTG_HS_HOST
+0x400405a0,,,,OTG_HS_HOST
+0x400405c0,,,,OTG_HS_HOST
+0x400405e0,,,,OTG_HS_HOST
+0x40040600,,,,OTG_HS_HOST
+0x40040620,,,,OTG_HS_HOST
+0x40040640,,,,OTG_HS_HOST
+0x40040660,,,,OTG_HS_HOST
+0x40040504,,,,OTG_HS_HOST
+0x40040524,,,,OTG_HS_HOST
+0x40040544,,,,OTG_HS_HOST
+0x40040564,,,,OTG_HS_HOST
+0x40040584,,,,OTG_HS_HOST
+0x400405a4,,,,OTG_HS_HOST
+0x400405c4,,,,OTG_HS_HOST
+0x400405e4,,,,OTG_HS_HOST
+0x40040604,,,,OTG_HS_HOST
+0x40040624,,,,OTG_HS_HOST
+0x40040644,,,,OTG_HS_HOST
+0x40040664,,,,OTG_HS_HOST
+0x40040508,,,,OTG_HS_HOST
+0x40040528,,,,OTG_HS_HOST
+0x40040548,,,,OTG_HS_HOST
+0x40040568,,,,OTG_HS_HOST
+0x40040588,,,,OTG_HS_HOST
+0x400405a8,,,,OTG_HS_HOST
+0x400405c8,,,,OTG_HS_HOST
+0x400405e8,,,,OTG_HS_HOST
+0x40040608,,,,OTG_HS_HOST
+0x40040628,,,,OTG_HS_HOST
+0x40040648,,,,OTG_HS_HOST
+0x40040668,,,,OTG_HS_HOST
+0x4004050c,,,,OTG_HS_HOST
+0x4004052c,,,,OTG_HS_HOST
+0x4004054c,,,,OTG_HS_HOST
+0x4004056c,,,,OTG_HS_HOST
+0x4004058c,,,,OTG_HS_HOST
+0x400405ac,,,,OTG_HS_HOST
+0x400405cc,,,,OTG_HS_HOST
+0x400405ec,,,,OTG_HS_HOST
+0x4004060c,,,,OTG_HS_HOST
+0x4004062c,,,,OTG_HS_HOST
+0x4004064c,,,,OTG_HS_HOST
+0x4004066c,,,,OTG_HS_HOST
+0x40040510,,,,OTG_HS_HOST
+0x40040530,,,,OTG_HS_HOST
+0x40040550,,,,OTG_HS_HOST
+0x40040570,,,,OTG_HS_HOST
+0x40040590,,,,OTG_HS_HOST
+0x400405b0,,,,OTG_HS_HOST
+0x400405d0,,,,OTG_HS_HOST
+0x400405f0,,,,OTG_HS_HOST
+0x40040610,,,,OTG_HS_HOST
+0x40040630,,,,OTG_HS_HOST
+0x40040650,,,,OTG_HS_HOST
+0x40040670,,,,OTG_HS_HOST
+0x40040514,,,,OTG_HS_HOST
+0x40040534,,,,OTG_HS_HOST
+0x40040554,,,,OTG_HS_HOST
+0x40040574,,,,OTG_HS_HOST
+0x40040594,,,,OTG_HS_HOST
+0x400405b4,,,,OTG_HS_HOST
+0x400405d4,,,,OTG_HS_HOST
+0x400405f4,,,,OTG_HS_HOST
+0x40040614,,,,OTG_HS_HOST
+0x40040634,,,,OTG_HS_HOST
+0x40040654,,,,OTG_HS_HOST
+0x40040674,,,,OTG_HS_HOST
+0x40040800,,,,OTG_HS_DEVICE
+0x40040804,,,,OTG_HS_DEVICE
+0x40040808,,,,OTG_HS_DEVICE
+0x40040810,,,,OTG_HS_DEVICE
+0x40040814,,,,OTG_HS_DEVICE
+0x40040818,,,,OTG_HS_DEVICE
+0x4004081c,,,,OTG_HS_DEVICE
+0x40040828,,,,OTG_HS_DEVICE
+0x4004082c,,,,OTG_HS_DEVICE
+0x40040830,,,,OTG_HS_DEVICE
+0x40040834,,,,OTG_HS_DEVICE
+0x40040838,,,,OTG_HS_DEVICE
+0x4004083c,,,,OTG_HS_DEVICE
+0x40040840,,,,OTG_HS_DEVICE
+0x40040880,,,,OTG_HS_DEVICE
+0x40040900,,,,OTG_HS_DEVICE
+0x40040920,,,,OTG_HS_DEVICE
+0x40040940,,,,OTG_HS_DEVICE
+0x40040960,,,,OTG_HS_DEVICE
+0x40040980,,,,OTG_HS_DEVICE
+0x400409a0,,,,OTG_HS_DEVICE
+0x400409c0,,,,OTG_HS_DEVICE
+0x400409e0,,,,OTG_HS_DEVICE
+0x40040908,,,,OTG_HS_DEVICE
+0x40040928,,,,OTG_HS_DEVICE
+0x40040948,,,,OTG_HS_DEVICE
+0x40040968,,,,OTG_HS_DEVICE
+0x40040988,,,,OTG_HS_DEVICE
+0x400409a8,,,,OTG_HS_DEVICE
+0x400409c8,,,,OTG_HS_DEVICE
+0x400409e8,,,,OTG_HS_DEVICE
+0x40040910,,,,OTG_HS_DEVICE
+0x40040914,,,,OTG_HS_DEVICE
+0x40040934,,,,OTG_HS_DEVICE
+0x40040954,,,,OTG_HS_DEVICE
+0x40040974,,,,OTG_HS_DEVICE
+0x40040994,,,,OTG_HS_DEVICE
+0x40040918,,,,OTG_HS_DEVICE
+0x40040938,,,,OTG_HS_DEVICE
+0x40040958,,,,OTG_HS_DEVICE
+0x40040978,,,,OTG_HS_DEVICE
+0x40040998,,,,OTG_HS_DEVICE
+0x400409b8,,,,OTG_HS_DEVICE
+0x40040930,,,,OTG_HS_DEVICE
+0x40040950,,,,OTG_HS_DEVICE
+0x40040970,,,,OTG_HS_DEVICE
+0x40040990,,,,OTG_HS_DEVICE
+0x400409b0,,,,OTG_HS_DEVICE
+0x40040b00,,,,OTG_HS_DEVICE
+0x40040b20,,,,OTG_HS_DEVICE
+0x40040b40,,,,OTG_HS_DEVICE
+0x40040b60,,,,OTG_HS_DEVICE
+0x40040b08,,,,OTG_HS_DEVICE
+0x40040b28,,,,OTG_HS_DEVICE
+0x40040b48,,,,OTG_HS_DEVICE
+0x40040b68,,,,OTG_HS_DEVICE
+0x40040b88,,,,OTG_HS_DEVICE
+0x40040ba8,,,,OTG_HS_DEVICE
+0x40040bc8,,,,OTG_HS_DEVICE
+0x40040be8,,,,OTG_HS_DEVICE
+0x40040b10,,,,OTG_HS_DEVICE
+0x40040b30,,,,OTG_HS_DEVICE
+0x40040b50,,,,OTG_HS_DEVICE
+0x40040b70,,,,OTG_HS_DEVICE
+0x40040b90,,,,OTG_HS_DEVICE
+0x40040e00,,,,OTG_HS_PWRCLK
+0x40016808,LTDC Synchronization Size Configuration Register (LTDC_SSCR)  . . 491,CR,,LTDC
+0x4001680c,16.7.2LTDC Back Porch Configuration Register (LTDC_BPCR)  ,CR,,LTDC
+0x40016810,LTDC Active Width Configuration Register (LTDC_AWCR) ,CR,,LTDC
+0x40016814,16.7.3LTDC Total Width Configuration Register (LTDC_TWCR) ,CR,,LTDC
+0x40016818,16.7.5LTDC Global Control Register (LTDC_GCR) ,CR,,LTDC
+0x40016824,LTDC Shadow Reload Configuration Register (LTDC_SRCR)  ,CR,,LTDC
+0x4001682c,16.7.6LTDC Background Color Configuration Register (LTDC_BCCR)   ,CR,,LTDC
+0x40016834,16.7.8LTDC Interrupt Enable Register (LTDC_IER)   ,CR,,LTDC
+0x40016838,16.7.9LTDC Interrupt Status Register (LTDC_ISR)  ,SR,,LTDC
+0x4001683c,16.7.10 LTDC Interrupt Clear Register (LTDC_ICR) ,CR,,LTDC
+0x40016840,16.7.11 LTDC Line Interrupt Position Configuration Register (LTDC_LIPCR)  . 49816.7.12 LTDC Current Position Status Register (LTDC_CPSR)  ,CR,,LTDC
+0x40016844,16.7.11 LTDC Line Interrupt Position Configuration Register (LTDC_LIPCR)  . 49816.7.12 LTDC Current Position Status Register (LTDC_CPSR)  ,CR,,LTDC
+0x40016848,16.7.13 LTDC Current Display Status Register (LTDC_CDSR)  ,SR,,LTDC
+0x40016884,,,,LTDC
+0x40016888,,,,LTDC
+0x4001688c,,,,LTDC
+0x40016890,,,,LTDC
+0x40016894,,,,LTDC
+0x40016898,,,,LTDC
+0x4001689c,,,,LTDC
+0x400168a0,,,,LTDC
+0x400168ac,,,,LTDC
+0x400168b0,,,,LTDC
+0x400168b4,,,,LTDC
+0x400168c4,,,,LTDC
+0x40016904,,,,LTDC
+0x40016908,,,,LTDC
+0x4001690c,,,,LTDC
+0x40016910,,,,LTDC
+0x40016914,,,,LTDC
+0x40016918,,,,LTDC
+0x4001691c,,,,LTDC
+0x40016920,,,,LTDC
+0x4001692c,,,,LTDC
+0x40016930,,,,LTDC
+0x40016934,,,,LTDC
+0x40016944,,,,LTDC
+0x40015824,,,,SAI
+0x40015828,,,,SAI
+0x4001582c,,,,SAI
+0x40015830,,,,SAI
+0x40015834,,,,SAI
+0x40015838,,,,SAI
+0x4001583c,,,,SAI
+0x40015840,,,,SAI
+0x40015804,,,,SAI
+0x40015808,,,,SAI
+0x4001580c,,,,SAI
+0x40015810,,,,SAI
+0x40015814,,,,SAI
+0x40015818,,,,SAI
+0x4001581c,,,,SAI
+0x40015820,,,,SAI
+0x4002b000,11.5.1DMA2D control register (DMA2D_CR)   ,CR,,DMA2D
+0x4002b004,11.5.2DMA2D Interrupt Status Register (DMA2D_ISR)   ,SR,,DMA2D
+0x4002b008,11.5.3DMA2D interrupt flag clear register (DMA2D_IFCR)  ,CR,,DMA2D
+0x4002b00c,11.5.4DMA2D foreground memory address register (DMA2D_FGMAR)   ,CR,,DMA2D
+0x4002b010,11.5.5DMA2D foreground offset register (DMA2D_FGOR) ,CR,,DMA2D
+0x4002b014,DMA2D background memory address register (DMA2D_BGMAR)   . . 357,CR,,DMA2D
+0x4002b018,11.5.7DMA2D background offset register (DMA2D_BGOR)  ,CR,CHECK,DMA2D
+0x4002b01c,11.5.8DMA2D foreground PFC control register (DMA2D_FGPFCCR)  ,CR,,DMA2D
+0x4002b020,11.5.9DMA2D foreground color register (DMA2D_FGCOLR)  ,CR,,DMA2D
+0x4002b024,11.5.10 DMA2D background PFC control register (DMA2D_BGPFCCR)  ,CR,,DMA2D
+0x4002b028,11.5.11 DMA2D background color register (DMA2D_BGCOLR)  ,CR,,DMA2D
+0x4002b02c,11.5.12 DMA2D foreground CLUT memory address register(DMA2D_FGCMAR)   ,CR,,DMA2D
+0x4002b030,11.5.13 DMA2D background CLUT memory address register(DMA2D_BGCMAR)   ,CR,,DMA2D
+0x4002b034,11.5.14 DMA2D output PFC control register (DMA2D_OPFCCR)  ,CR,,DMA2D
+0x4002b038,11.5.15 DMA2D output color register (DMA2D_OCOLR) ,CR,,DMA2D
+0x4002b03c,11.5.16 DMA2D output memory address register (DMA2D_OMAR)  ,CR,,DMA2D
+0x4002b040,11.5.17 DMA2D output offset register (DMA2D_OOR)   ,CR,CHECK,DMA2D
+0x4002b044,11.5.18 DMA2D number of line register (DMA2D_NLR)   ,CR,,DMA2D
+0x4002b048,11.5.19 DMA2D line watermark register (DMA2D_LWR)  ,CR,,DMA2D
+0x4002b04c,11.5.20 DMA2D AHB master timer configuration register (DMA2D_AMTCR)  . 36811.5.21 DMA2D register map  ,CR,,DMA2D
+0x4002b400,,,,DMA2D
+0x4002b800,,,,DMA2D
+0x40005c00,I2C Control register 1 (I2C_CR1) ,CR,,I2C3
+0x40005c04,27.6.1I2C Control register 2 (I2C_CR2) ,CR,,I2C3
+0x40005c08,27.6.2I2C Own address register 1 (I2C_OAR1) ,CR,,I2C3
+0x40005c0c,27.6.3I2C Own address register 2 (I2C_OAR2) ,CR,,I2C3
+0x40005c10,27.6.4I2C Data register (I2C_DR)  ,DR,,I2C3
+0x40005c14,27.6.5I2C Status register 1 (I2C_SR1) ,SR,,I2C3
+0x40005c18,27.6.6I2C Status register 2 (I2C_SR2) ,SR,,I2C3
+0x40005c1c,27.6.7I2C Clock control register (I2C_CCR)   ,CR,,I2C3
+0x40005c20,27.6.8I2C TRISE register (I2C_TRISE)  ,CR,,I2C3
+0x40005c24,27.6.927.6.10 I2C FLTR register (I2C_FLTR)  ,CR,,I2C3
+0x40005800,I2C Control register 1 (I2C_CR1) ,CR,,I2C2
+0x40005804,27.6.1I2C Control register 2 (I2C_CR2) ,CR,,I2C2
+0x40005808,27.6.2I2C Own address register 1 (I2C_OAR1) ,CR,,I2C2
+0x4000580c,27.6.3I2C Own address register 2 (I2C_OAR2) ,CR,,I2C2
+0x40005810,27.6.4I2C Data register (I2C_DR)  ,DR,,I2C2
+0x40005814,27.6.5I2C Status register 1 (I2C_SR1) ,SR,,I2C2
+0x40005818,27.6.6I2C Status register 2 (I2C_SR2) ,SR,,I2C2
+0x4000581c,27.6.7I2C Clock control register (I2C_CCR)   ,CR,,I2C2
+0x40005820,27.6.8I2C TRISE register (I2C_TRISE)  ,CR,,I2C2
+0x40005824,27.6.927.6.10 I2C FLTR register (I2C_FLTR)  ,CR,,I2C2
+0x40005400,I2C Control register 1 (I2C_CR1) ,CR,,I2C1
+0x40005404,27.6.1I2C Control register 2 (I2C_CR2) ,CR,,I2C1
+0x40005408,27.6.2I2C Own address register 1 (I2C_OAR1) ,CR,,I2C1
+0x4000540c,27.6.3I2C Own address register 2 (I2C_OAR2) ,CR,,I2C1
+0x40005410,27.6.4I2C Data register (I2C_DR)  ,DR,,I2C1
+0x40005414,27.6.5I2C Status register 1 (I2C_SR1) ,SR,,I2C1
+0x40005418,27.6.6I2C Status register 2 (I2C_SR2) ,SR,,I2C1
+0x4000541c,27.6.7I2C Clock control register (I2C_CCR)   ,CR,,I2C1
+0x40005420,27.6.8I2C TRISE register (I2C_TRISE)  ,CR,,I2C1
+0x40005424,27.6.927.6.10 I2C FLTR register (I2C_FLTR)  ,CR,,I2C1
+0xe000ef34,,,,FPU
+0xe000ef38,,,,FPU
+0xe000ef3c,,,,FPU
+0xe000ed90,,,,MPU
+0xe000ed94,,,,MPU
+0xe000ed98,,,,MPU
+0xe000ed9c,,,,MPU
+0xe000eda0,,,,MPU
+0xe000e010,,,,STK
+0xe000e014,,,,STK
+0xe000e018,,,,STK
+0xe000e01c,,,,STK
+0xe000ed00,,,,SCB
+0xe000ed04,,,,SCB
+0xe000ed08,,,,SCB
+0xe000ed0c,,,,SCB
+0xe000ed10,,,,SCB
+0xe000ed14,,,,SCB
+0xe000ed18,,,,SCB
+0xe000ed1c,,,,SCB
+0xe000ed20,,,,SCB
+0xe000ed24,,,,SCB
+0xe000ed28,,,,SCB
+0xe000ed2c,,,,SCB
+0xe000ed34,,,,SCB
+0xe000ed38,,,,SCB
+0xe000ed3c,,,,SCB
+0xe000ef00,,,,NVIC_STIR
+0xe000ed88,,,,FPU_CPACR
+0xe000e008,,,,SCB_ACTRL

@@ -1,0 +1,1941 @@
+diff --git a/hw/arm/cortexm-mcu.c b/hw/arm/cortexm-mcu.c
+index 8f56c709ac..d023f11478 100644
+--- a/hw/arm/cortexm-mcu.c
++++ b/hw/arm/cortexm-mcu.c
+@@ -261,6 +261,9 @@ static void cortexm_mcu_realize_callback(DeviceState *dev, Error **errp)
+ 
+     cm_state->flash_base = capabilities->flash_base;
+ 
++    //MCU name used for patches on memory access
++    cm_state->mcu_name=object_get_typename(OBJECT(dev));
++
+ #if defined(CONFIG_VERBOSE)
+     if (verbosity_level >= VERBOSITY_COMMON) {
+         const char *cmdline;
+diff --git a/hw/arm/pm_interrupt.c b/hw/arm/pm_interrupt.c
+index 01a4f3be0f..d159b22fba 100644
+--- a/hw/arm/pm_interrupt.c
++++ b/hw/arm/pm_interrupt.c
+@@ -1,5 +1,7 @@
+ #include "peri-mod/peri-mod.h"
+ #include "peri-mod/interrupt.h"
++#include "peri-mod/dma.h"
++
+ 
+ void pm_enable_interrupt(int excp_num) {
+     int i;
+@@ -49,7 +51,7 @@ void pm_disable_interrupt(int excp_num) {
+ }
+ 
+ // Round robin interrupt firing
+-void pm_fire_interrupt(void) {
++void  pm_fire_interrupt(void) {
+     int excp_num;
+     int i, idx;
+ 
+diff --git a/hw/arm/stm32-boards.c b/hw/arm/stm32-boards.c
+index 2cb5a42338..2513264c84 100644
+--- a/hw/arm/stm32-boards.c
++++ b/hw/arm/stm32-boards.c
+@@ -214,6 +214,7 @@ static GPIOLEDInfo nxp_lpc4330_leds_info[] = {
+ };
+ #endif
+ 
++
+ static void nxp_lpc4330_board_init_callback(MachineState *machine)
+ {
+     cm_board_greeting(machine);
+@@ -413,6 +414,215 @@ static void stm32vl_discovery_init_callback(MachineState *machine)
+ }
+ #endif
+ 
++
++static void Nordic_NRF52832_board_init_callback(MachineState *machine)
++{
++    cm_board_greeting(machine);
++
++    {
++        /* Create the MCU */
++        Object *mcu = cm_object_new_mcu(machine, TYPE_NRF52832);
++
++        /* Set the board specific oscillator frequencies. */
++        cm_object_property_set_int(mcu, 320000000, "hse-freq-hz"); /* 8.0 MHz */
++        cm_object_property_set_int(mcu, 32768, "lse-freq-hz"); /* 32 kHz */
++
++        cm_object_realize(mcu);
++    }
++
++    void *board_surface = cm_board_init_image("STM32F429I-Discovery.jpg",
++            cm_board_get_desc(machine));
++
++    Object *peripheral = cm_container_get_peripheral();
++    //gpio_led_create_from_info(peripheral, arduino_due_leds_info,
++    //        board_surface);
++}
++
++static QEMUMachine Nordic_NRF52832_machine = {
++    .name = "Nordic_NRF52832",
++    .desc = "Nordic NRF52832 minimum development board",
++    .init = Nordic_NRF52832_board_init_callback };
++
++
++
++static void Generic_SAMD21_board_init_callback(MachineState *machine)
++{
++    cm_board_greeting(machine);
++
++    {
++        /* Create the MCU */
++        Object *mcu = cm_object_new_mcu(machine, TYPE_SAMD21);
++
++        /* Set the board specific oscillator frequencies. */
++        cm_object_property_set_int(mcu, 48000000, "hse-freq-hz"); /* 48.0 MHz */
++        cm_object_property_set_int(mcu, 32768, "lse-freq-hz"); /* 32 kHz */
++
++        cm_object_realize(mcu);
++    }
++
++    void *board_surface = cm_board_init_image("STM32F429I-Discovery.jpg",
++            cm_board_get_desc(machine));
++
++    Object *peripheral = cm_container_get_peripheral();
++    //gpio_led_create_from_info(peripheral, arduino_due_leds_info,
++    //        board_surface);
++}
++
++static QEMUMachine Generic_SAMD21_machine = {
++    .name = "Generic_SAMD21",
++    .desc = "Generic SAMD21 minimum development board",
++    .init = Generic_SAMD21_board_init_callback };
++
++
++
++
++static void NUCLEO_F303RE_board_init_callback(MachineState *machine)
++{
++    cm_board_greeting(machine);
++
++    {
++        /* Create the MCU */
++        Object *mcu = cm_object_new_mcu(machine, TYPE_STM32F303RE);
++
++        /* Set the board specific oscillator frequencies. */
++        cm_object_property_set_int(mcu, 800000, "hse-freq-hz"); /* 8.0 MHz */
++        cm_object_property_set_int(mcu, 32768, "lse-freq-hz"); /* 32 kHz */
++        cm_object_realize(mcu);
++    }
++
++    void *board_surface = cm_board_init_image("STM32F429I-Discovery.jpg",
++            cm_board_get_desc(machine));
++
++    Object *peripheral = cm_container_get_peripheral();
++    //gpio_led_create_from_info(peripheral, stm32f429i_discovery_leds_info,
++    //        board_surface);
++}
++
++static QEMUMachine NUCLEO_F303RE_machine = {
++    .name = "NUCLEO_F303RE",
++    .desc = "NUCLEO64 F303RE ",
++    .init = NUCLEO_F303RE_board_init_callback };
++
++
++
++static void LISA_F105RC_board_init_callback(MachineState *machine)
++{
++    cm_board_greeting(machine);
++
++    {
++        /* Create the MCU */
++        Object *mcu = cm_object_new_mcu(machine, TYPE_STM32F105RC);
++
++        /* Set the board specific oscillator frequencies. */
++        cm_object_property_set_int(mcu, 800000, "hse-freq-hz"); /* 8.0 MHz */
++        cm_object_property_set_int(mcu, 32768, "lse-freq-hz"); /* 32 kHz */
++        cm_object_realize(mcu);
++    }
++
++    void *board_surface = cm_board_init_image("STM32F429I-Discovery.jpg",
++            cm_board_get_desc(machine));
++
++    Object *peripheral = cm_container_get_peripheral();
++    //gpio_led_create_from_info(peripheral, stm32f429i_discovery_leds_info,
++    //        board_surface);
++}
++
++static QEMUMachine LISA_F105RC_machine = {
++    .name = "LISA_F105RC",
++    .desc = "Lisa/M v2.0",
++    .init = LISA_F105RC_board_init_callback };
++
++
++
++static void NUVOTON_nuc123_board_init_callback(MachineState *machine)
++{
++    cm_board_greeting(machine);
++
++    {
++        /* Create the MCU */
++        Object *mcu = cm_object_new_mcu(machine, TYPE_NUC123);
++
++        /* Set the board specific oscillator frequencies. */
++        cm_object_property_set_int(mcu, 8000000, "hse-freq-hz"); /* 8.0 MHz */
++        cm_object_property_set_int(mcu, 32768, "lse-freq-hz"); /* 32 kHz */
++
++        cm_object_realize(mcu);
++    }
++
++    void *board_surface = cm_board_init_image("STM32F429I-Discovery.jpg",
++            cm_board_get_desc(machine));
++
++    Object *peripheral = cm_container_get_peripheral();
++}
++
++static QEMUMachine NUVOTON_nuc123_machine = {
++    .name = "NUVOTON_nuc123",
++    .desc = "Nuvoton generic NUC123 MCU",
++    .init = NUVOTON_nuc123_board_init_callback };
++
++
++static void  NXP_LPC1837_board_init_callback(MachineState *machine)
++{
++    cm_board_greeting(machine);
++
++    {
++        /* Create the MCU */
++        Object *mcu = cm_object_new_mcu(machine, TYPE_LPC1837);
++
++        /* Set the board specific oscillator frequencies. */
++        cm_object_property_set_int(mcu, 8000000, "hse-freq-hz"); /* 8.0 MHz */
++        cm_object_property_set_int(mcu, 32768, "lse-freq-hz"); /* 32 kHz */
++
++        cm_object_realize(mcu);
++    }
++
++    void *board_surface = cm_board_init_image("STM32F429I-Discovery.jpg",
++            cm_board_get_desc(machine));
++
++    Object *peripheral = cm_container_get_peripheral();
++}
++
++
++
++static QEMUMachine NXP_LPC1837_machine = {
++    .name = "NXP_LPC1837",
++    .desc = "NXP LPC1837 MCU",
++    .init =  NXP_LPC1837_board_init_callback };
++
++
++// Bo: copy and slightly modified from STM32F429I-Discovery
++// defines board
++/* ----- FRDM-K64F ----- */
++
++#if 0
++static GPIOLEDInfo frdm_k64f_leds_info[] = {
++    {
++        .name = "green-led",
++        .active_low = false,
++        .colour_message = "Green",
++        .x = 519,
++        .y = 109,
++        .w = 10,
++        .h = 8,
++        .gpio_path = "/machine/mcu/stm32/gpio[g]",
++        .port_bit = 13, },
++    {
++        .name = "red-led",
++        .active_low = false,
++        .colour_message = "Red",
++        .x = 519,
++        .y = 130,
++        .w = 10,
++        .h = 8,
++        .gpio_path = "/machine/mcu/stm32/gpio[g]",
++        .port_bit = 14, },
++    { }, /**/
++};
++#endif
++
++
++
++
+ /* ----- Boards inits ----- */
+ static void stm32_machines_init(void)
+ {
+@@ -423,6 +633,15 @@ static void stm32_machines_init(void)
+     qemu_register_machine(&nxp_lpc4330_machine);
+     qemu_register_machine(&arduino_due_machine);
+     qemu_register_machine(&frdm_k64f_machine);
++    // Alejandro
++    qemu_register_machine(&Nordic_NRF52832_machine);
++    qemu_register_machine(&Generic_SAMD21_machine);
++    qemu_register_machine(&NUCLEO_F303RE_machine);
++    qemu_register_machine(&LISA_F105RC_machine);
++    qemu_register_machine(&NUVOTON_nuc123_machine);
++    qemu_register_machine(&NXP_LPC1837_machine);
++
++
+ #if 0
+     qemu_register_machine(&stm32f3_discovery_machine);
+     qemu_register_machine(&stm32f0_discovery_machine);
+diff --git a/hw/arm/stm32-mcus.c b/hw/arm/stm32-mcus.c
+index 20c387cd87..0b70d69939 100644
+--- a/hw/arm/stm32-mcus.c
++++ b/hw/arm/stm32-mcus.c
+@@ -137,6 +137,52 @@ static const STM32Capabilities stm32f103x8b = {
+     .has_ts = 1, /* ADC12_IN16 */
+ };
+ 
++static const STM32Capabilities stm32f105xx = {
++
++    .family = STM32_FAMILY_F1,
++    .f1 = {
++        .is_md = true },
++
++    .hsi_freq_hz = 8000000,
++    .lsi_freq_hz = 40000,
++    .has_rcc = true,
++    .has_pwr = true,
++    .has_rtc = true,
++    .num_back_bytes = 20,
++    .has_periph_bitband = true,
++
++    .has_crc = true,
++    .has_exti = true,
++    .has_dma1 = true,
++    .num_dma1 = 7,
++    .has_ac_tim1 = true,
++    .has_gp_tim2 = true,
++    .has_gp_tim3 = true,
++    .has_gp_tim4 = true,
++    .has_iwdg = true,
++    .has_wwdg = true,
++    .has_i2c1 = true,
++    .has_i2c2 = true,
++    .has_usart1 = true, /* 4.5Mb/s */
++    .has_usart2 = true, /* 2.25 Mb/s */
++    .has_usart3 = true, /* 2.25 Mb/s */
++    .has_spi1 = true,
++    .has_spi2 = true,
++    .has_bx_can1 = true,
++    .has_usb_fs = true,
++
++    .has_gpioa = true,
++    .has_gpiob = true,
++    .has_gpioc = true,
++    .has_gpiod = true,
++    .has_gpioe = true,
++
++    .has_adc1 = true, /* 12-bits, 16-ch */
++    .has_adc2 = true, /* 12-bits, 16-ch */
++
++    .has_ts = 1, /* ADC12_IN16 */
++};
++
+ static const STM32Capabilities stm32f10_57_xx = {
+ 
+     .family = STM32_FAMILY_F1,
+@@ -574,6 +620,94 @@ static const STM32Capabilities stm32f429xx = {
+     .has_dac1 = true, /* 12-bits */
+     .has_dac2 = true, };
+ 
++
++
++static const STM32Capabilities stm32f303xx = {
++
++    .family = STM32_FAMILY_F4,
++    .f4 = {
++        .is_23_xxx = true },
++
++    .hsi_freq_hz = 72000000,
++    .lsi_freq_hz = 32000,
++    .has_rcc = true,
++    .has_pwr = true,
++    .has_rtc = true,
++    .num_back_bytes = 80,
++    .has_periph_bitband = true,
++
++    .ccm_size_kb = 64,
++    .back_sram_size_kb = 4,
++
++    .has_crc = true,
++    .has_dma1 = true,
++    .num_dma1 = 8,
++    .has_dma2 = true,
++    .num_dma2 = 8,
++    .has_fsmc = true,
++    .has_exti = true,
++    .num_exti = 23,
++
++    .has_ac_tim1 = true,
++    .has_ac_tim8 = true,
++    .has_gp_tim2 = true,
++    .has_gp_tim3 = true,
++    .has_gp_tim4 = true,
++    .has_gp_tim5 = true,
++    .has_gp_tim9 = true,
++    .has_gp_tim10 = true,
++    .has_gp_tim11 = true,
++    .has_gp_tim12 = true,
++    .has_gp_tim13 = true,
++    .has_gp_tim14 = true,
++    .has_bc_tim6 = true,
++    .has_bc_tim7 = true,
++    .has_iwdg = true,
++    .has_wwdg = true,
++    .has_i2c1 = true,
++    .has_i2c2 = true,
++    .has_i2c3 = true,
++    .has_usart1 = true,
++    .has_usart2 = true,
++    .has_usart3 = true,
++    .has_usart6 = true,
++    .has_uart4 = true,
++    .has_uart5 = true,
++    .has_spi1 = true,
++    .has_spi2 = true,
++    .has_spi3 = true,
++    .has_i2s1 = true,
++    .has_i2s2 = true,
++    .has_plli2s = true,
++    .has_sdio = true,
++
++  //  .has_eth = true,
++    .has_bx_can1 = true,
++    .has_bx_can2 = true,
++ //   .has_usb_otg_fs = true,
++ //   .has_usb_otg_hs = true,
++    .has_dcmi = true, /* Only 407, not 405 */
++    .has_rng = true,
++
++    .has_gpioa = true,
++    .has_gpiob = true,
++    .has_gpioc = true,
++    .has_gpiod = true,
++    .has_gpioe = true,
++    .has_gpiof = true,
++    .has_gpiog = true,
++    .has_gpioh = true,
++    .has_gpioi = true,
++
++    .has_adc1 = true, /* 12-bits, 16 channels */
++    .has_adc2 = true,
++  //  .has_adc3 = true,
++    .has_ts = true, /* ADC1_IN16 */
++
++    .has_dac1 = true, /* 12-bits */
++    .has_dac2 = true, };
++
++
+ /* ------------------------------------------------------------------------- */
+ 
+ #if 0
+@@ -618,6 +752,15 @@ static const CortexMCoreCapabilities stm32f152_core = {
+     .nvic_bits = 4, /**/
+ };
+ 
++
++static const CortexMCoreCapabilities stm32f3xx_core = {
++    .cpu_model = "cortex-m4",
++    .has_mpu = true,
++    .has_itm = true,
++    .num_irq = 73,
++    .nvic_bits = 4, /**/
++};
++
+ #if 0
+ static const CortexMCoreCapabilities stm32f2xx_core = {
+     .cpu_model = "cortex-m3",
+@@ -816,6 +959,27 @@ static const STM32PartInfo stm32_mcus[] = {
+         .stm32 = &stm32f429xx // borrow from STM32F429ZI
+ 
+     },
++
++  {
++        .name = TYPE_LPC1837,
++        .cortexm = {
++            .flash_base = 0x1a000000,
++            .flash_size_kb = 512,
++
++            .sram_base = 0x10000000,
++            .sram_size_kb = 32,
++            .sram_base2 = 0x10080000,
++            .sram_size_kb2 = 40,
++            .sram_base3 = 0x20000000,
++            .sram_size_kb3 = 48,
++            .core = &stm32f4_23_xxx_core, // borrow from STM32F429ZI
++        },
++        .stm32 = &stm32f429xx // borrow from STM32F429ZI
++
++    },
++
++
++
+     {
+         .name = TYPE_SAM3X8E,
+         .cortexm = {
+@@ -845,11 +1009,103 @@ static const STM32PartInfo stm32_mcus[] = {
+ 
+             .sram_base = 0x1FFF0000,
+             .sram_size_kb = 256,
++            
++            .core = &stm32f4_23_xxx_core, // borrow from STM32F429ZI
++        },
++        .stm32 = &stm32f429xx // borrow from STM32F429ZI
++
++    },
++
++    {
++        .name = TYPE_NRF52832,
++        .cortexm = {
++            .flash_base = 0x0,
++            .flash_size_kb = 512,
++
++            .sram_base = 0x20000000,
++            .sram_size_kb = 64,
++             //code RAM, it is a mirror of RAM in FLASH MEMORY space
++            .sram_base2 = 0x00800000,
++            .sram_size_kb2 =64,
++            // "secret" registers of NRF52832 for initialization not related to RAM but nedded no documentation available 
++            .sram_base3 = 0xF0000FE0,
++            .sram_size_kb3 =1,
++
++            .core = &stm32f4_23_xxx_core, // borrow from STM32F429ZI
++        },
++        .stm32 = &stm32f429xx // borrow from STM32F429ZI
++
++    },
++
++
++
++ {
++        .name = TYPE_SAMD21,
++        .cortexm = {
++            .flash_base = 0x0,
++            .flash_size_kb = 256,  
++
++            .sram_base = 0x20000000,
++            .sram_size_kb = 32,
++  
++            .sram_base2 = 0x00800000, //not real flash this area contain calubration and vendor specific parameters
++            .sram_size_kb2 =64,
++
++
+             .core = &stm32f4_23_xxx_core, // borrow from STM32F429ZI
+         },
+         .stm32 = &stm32f429xx // borrow from STM32F429ZI
+ 
+     },
++
++   {
++        .name = TYPE_NUC123,
++        .cortexm = {
++            .flash_base = 0x0,
++            .flash_size_kb = 64,  
++
++            .sram_base = 0x20000000,
++            .sram_size_kb = 20,
++            .core = &stm32f1xx_core,
++  
++         
++        },
++        .stm32 = &stm32f105xx // borrow from STM32F105
++
++    },
++
++
++    {
++        .name = TYPE_STM32F303RE,
++        .cortexm = {
++            .flash_base = 0x08000000,
++            .flash_size_kb = 512,  
++
++            .sram_base = 0x20000000,
++            .sram_size_kb = 64,
++
++            .sram_base2 = 0x10004000,
++            .sram_size_kb2 = 16,
++            
++            .core = &stm32f3xx_core, // borrow from STM32F429ZI
++        },
++        .stm32 = &stm32f303xx // borrow from STM32F429ZI
++
++    },
++
++      {
++        .name = TYPE_STM32F105RC, /* STM32F103x[8B] */
++        .cortexm = {
++            .flash_base = 0x08000000,
++            .flash_size_kb = 256,
++
++            .sram_base = 0x20000000,
++            .sram_size_kb = 64,
++            .core = &stm32f1xx_core, /**/
++        },
++        .stm32 = &stm32f105xx, /**/
++    },
++
+     {
+         .name = 0 /* End of array. */
+     } /**/
+diff --git a/include/afl/afl-qemu-cpu-inl.h b/include/afl/afl-qemu-cpu-inl.h
+index 737ac3375c..bb25482b98 100644
+--- a/include/afl/afl-qemu-cpu-inl.h
++++ b/include/afl/afl-qemu-cpu-inl.h
+@@ -79,6 +79,7 @@ int aflGotLog = 0;              /* we've seen dmesg logging */
+ 
+ /* from command line options */
+ const char *aflFile = NULL;
++const char *DMAFile = NULL;
+ unsigned long aflPanicAddr = (unsigned long)-1;
+ unsigned long aflDmesgAddr = (unsigned long)-1;
+ 
+diff --git a/include/hw/arm/cortexm-mcu.h b/include/hw/arm/cortexm-mcu.h
+index 23f2181900..2aab1eb011 100644
+--- a/include/hw/arm/cortexm-mcu.h
++++ b/include/hw/arm/cortexm-mcu.h
+@@ -191,6 +191,8 @@ typedef struct {
+     /* Optional */
+     DeviceState *itm;
+ 
++    const char *mcu_name; // name of MCU
++
+ } CortexMState;
+ 
+ /* ------------------------------------------------------------------------- */
+diff --git a/include/hw/arm/stm32-mcus.h b/include/hw/arm/stm32-mcus.h
+index a4485906a8..8478301456 100644
+--- a/include/hw/arm/stm32-mcus.h
++++ b/include/hw/arm/stm32-mcus.h
+@@ -42,10 +42,17 @@
+ #define TYPE_STM32F411RE "STM32F411RE"
+ #define TYPE_STM32F429ZI "STM32F429ZI"
+ 
++#define TYPE_STM32F303RE "STM32F303RE"
++#define TYPE_STM32F105RC "STM32F105RC"
+ #define TYPE_NXPLPC4330 "NXPLPC4330"
+ #define TYPE_SAM3X8E "SAM3X8E"
+ #define TYPE_MK64FN1M0VLL12 "MK64FN1M0VLL12"
+ 
++#define TYPE_NRF52832 "NRF52832"
++#define TYPE_SAMD21 "SAMD21"
++#define TYPE_NUC123 "NUC123"
++#define TYPE_LPC1837 "LPC1837"
++
+ /* ------------------------------------------------------------------------- */
+ 
+ /* Parent definitions. */
+diff --git a/include/peri-mod/dma.h b/include/peri-mod/dma.h
+new file mode 100644
+index 0000000000..4c075f4f55
+--- /dev/null
++++ b/include/peri-mod/dma.h
+@@ -0,0 +1,197 @@
++#ifndef _DMA_H
++#define _DMA_H
++
++#include <stdio.h>
++#include "cpu.h" // target_ulong
++#include "../include/hw/arm/cortexm-mcu.h"
++
++//STM32F103RB
++/*
++#define RAM_START 0x20000000
++#define RAM_END 0x20005400
++#define RAM_START_ALT 0x20000000
++#define RAM_END_ALT 0x20005400
++
++#define FLASH_START 0x08000000
++#define FLASH_END 0x0801FFFF
++#define FLASH_START_ALT 0x08000000
++#define FLASH_END_ALT 0x0801FFFF
++
++#define PERI_START 0x40000000
++#define PERI_END 0x60000000
++#define PERI_START_ALT 0x40000000
++#define PERI_END_ALT 0x60000000
++*/
++
++ //SAM3X Arduino DUE
++ //this constants are deprecated we do not need them
++#define RAM_START 0x20000000
++#define RAM_END 0x200FFFFF
++#define RAM_START_ALT 0x20000000
++#define RAM_END_ALT 0x200FFFFF
++
++#define FLASH_START 0x08000000
++#define FLASH_END 0x0801FFFF
++#define FLASH_START_ALT 0x08000000
++#define FLASH_END_ALT 0x0801FFFF
++
++#define PERI_START 0x40000000
++#define PERI_END 0x400FFFFF
++#define PERI_START_ALT 0x40000000
++#define PERI_END_ALT 0x400FFFFF
++
++
++
++#define MAX_POINTERS 64
++#define MAX_DMA_DESC MAX_POINTERS/2
++// beat address should be at least 16kb stepper firmware uses 4kb
++#define MAX_DMA_BEAT_ADDRESS 2048 
++//#define DMA_SPAN_BUFFER 64
++#define DMA_SPAN_BUFFER 4
++
++#define NONUM 255
++
++#define NUMCANARIES 20
++
++// enum DMA transfer direction
++typedef enum {
++    MEMTOPERI = 0,
++    PERITOMEM,
++    NODIR
++}pm_dma_transfer_dir_t;
++
++// enum type of access to descriptor pointers (dereference)
++typedef enum {
++    READ = 0,
++    WRITE,
++    READWRITE,
++    NOACCESS
++}pm_dma_access_type_t;
++
++
++typedef struct {
++    target_ulong address;
++    pm_dma_access_type_t access;
++    int exc_num_dma;
++}pm_dma_buffer_beat;
++
++// enum for DMA pointer type
++typedef enum {
++    TRAM = 0,
++    TFLASH,
++    TPERIPHERAL,
++    TUNKNOWN
++} pm_pointer_type_t;
++
++
++typedef struct {
++   target_ulong address;
++   int size;
++}pm_dma_canary;
++
++typedef struct 
++{
++    int id; //unique id for each DMA pointer identified
++    int id_ctp; // id of DMA pointer counterpart
++    target_ulong base; //base of peripheral
++    target_ulong register_addr; //address of CR register that was written
++    target_ulong value; // value to be written on CR
++    target_ulong ordinal; // ordinal number at wich the write operation happened
++    pm_pointer_type_t type; // type of pointer according to major memory areas Peripheral, RAM, Flash
++
++}pm_DMA_pointers;
++
++
++typedef struct {  
++    int id_pointer_mem; //first
++    int id_pointer_peri; //second
++    
++    pm_DMA_pointers pointer_mem;
++    pm_DMA_pointers pointer_peri;
++
++    int beat_size;   //number of "beats" to be transfered  a beat could be 8, 16, 32 bit 
++    int number_beats;   //beat_size x number_beats= transfer size in bytes       
++    pm_dma_access_type_t  t_access_mem; 
++    pm_dma_access_type_t  t_access_peri;
++    pm_dma_transfer_dir_t direction;
++    int exc_num_dma; //exception number IRQ
++    int version; //1: single pointer (NRF52832) , 2: Double pointer (F103, F429)
++} pm_DMA_desc;
++
++
++//Global variable
++extern CortexMState *cs_g;
++
++// Function prototypes
++//Returns the corresponding pointer type according to memory range
++static pm_pointer_type_t get_pointer_type(target_ulong value);
++static pm_pointer_type_t get_pointer_type(target_ulong value){
++    if  ((value >= cs_g->sram_base && value < (cs_g->sram_base+cs_g->sram_size_kb*1024)) 
++    || (value >=cs_g->sram_base2  && value < (cs_g->sram_base2+cs_g->sram_size_kb2*1024))
++    || (value >=cs_g->sram_base3  && value < (cs_g->sram_base3+cs_g->sram_size_kb3*1024)))            
++    {
++        return TRAM;
++    }
++    if  ((value >= cs_g->flash_base && value < cs_g->flash_size_kb*1024))            
++    {
++        return TFLASH;
++    }
++    if (value >= 0x40000000  && value < 0x60000000)            
++    {
++        return TPERIPHERAL;
++    }
++    return TUNKNOWN;
++}
++
++static bool valid_descriptor_pointers(target_ulong p1, target_ulong p2);
++static bool valid_descriptor_pointers(target_ulong p1, target_ulong p2 )
++{
++    pm_pointer_type_t pt1, pt2;
++
++    pt1= get_pointer_type(p1);
++    pt2= get_pointer_type(p2);
++    
++    if( pt1==TUNKNOWN || pt2==TUNKNOWN) return false;
++
++    if( pt1==TFLASH && pt2==TFLASH) return false;
++    if( pt1==TFLASH && pt2==TRAM) return false; //this should be true but generates too many false positives
++    if( pt1==TFLASH && pt2==TPERIPHERAL) return false;
++
++    if( pt1==TRAM && pt2==TFLASH) return false; //this should be true but generates too many false positives
++    if( pt1==TRAM && pt2==TRAM) return true;  //this should be true but generates too many false positives
++    if( pt1==TRAM && pt2==TPERIPHERAL) return true;
++
++    if( pt1==TPERIPHERAL && pt2==TFLASH) return false;
++    if( pt1==TPERIPHERAL && pt2==TRAM) return true;
++    if( pt1==TPERIPHERAL && pt2==TPERIPHERAL) return false; //this should be true but we are not able to emulate this type of DMA transfer
++   
++}
++
++static int  cmp_address_DMA(const void *a, const void *b);
++static int  cmp_address_DMA(const void *a, const void *b)
++{
++ pm_dma_buffer_beat *aa; 
++ pm_dma_buffer_beat *bb;
++ aa=(pm_dma_buffer_beat *)a;
++ bb=(pm_dma_buffer_beat *)b;
++return(aa->address-bb->address);
++
++}
++
++
++extern int number_dma_descriptors;
++extern pm_DMA_desc dma_descriptors[MAX_DMA_DESC];
++
++static int  delete_dma_descriptor(int descriptor_id);
++static int delete_dma_descriptor(int descriptor_id)
++{
++   int i;
++   
++   for(i=descriptor_id; i<(number_dma_descriptors-1); i++)
++   {
++       dma_descriptors[i]=dma_descriptors[i+1];
++   }
++   number_dma_descriptors--;
++}
++
++#endif //_DMA_H
+\ No newline at end of file
+diff --git a/include/peri-mod/interrupt.h b/include/peri-mod/interrupt.h
+index e13a2023c4..20fa9779a2 100644
+--- a/include/peri-mod/interrupt.h
++++ b/include/peri-mod/interrupt.h
+@@ -10,7 +10,7 @@ typedef struct {
+ } pm_Int;
+ 
+ 
+-#define PM_MAX_INT_EN_NUM 16
++#define PM_MAX_INT_EN_NUM 64
+ typedef struct {
+     // CortexMNVICState */nvic_state *
+     void *s;
+@@ -29,10 +29,10 @@ void pm_disable_interrupt(int);
+ void pm_fire_interrupt(void);
+ 
+ // pm_stage ME
+-#define INT_ROUND 1
++#define INT_ROUND 2
+ extern volatile int int_round;
+ 
+ // pm_stage FUZZING
+-#define FUZZING_INT_FREQ 1000
++#define FUZZING_INT_FREQ 100
+ 
+ #endif /* _INTERRUPT_H */
+diff --git a/include/peri-mod/peri-mod.h b/include/peri-mod/peri-mod.h
+index 4c3f5c9cd3..f526f528ed 100644
+--- a/include/peri-mod/peri-mod.h
++++ b/include/peri-mod/peri-mod.h
+@@ -40,7 +40,7 @@ target_ulong doneWork(target_ulong);
+ 
+ // Data structure for Level 4
+ #define PM_MAX_CR_VAL_BYTE 256
+-#define PM_MAX_SATISFY_NUM 16
++#define PM_MAX_SATISFY_NUM 32 //16 doubled because of USB firmware
+ #define PM_MAX_BIT_COMB_SZ 3 // assume at most 3 SR
+ #define PM_SET_BITS 3 // assume set at most 2=3-1 bits: set/clear, bitx, bity
+ // per srr_site
+@@ -105,7 +105,8 @@ typedef struct {
+ 
+ // Data structure for Level 2
+ // TODO 1kb or 4kb, which is better?
+-#define PM_PERI_ADDR_RANGE (1 << 9)
++//#define PM_PERI_ADDR_RANGE (1 << 9)
++#define PM_PERI_ADDR_RANGE 512
+ #define PM_MAX_REG_NUM (PM_PERI_ADDR_RANGE >> 2)
+ #define PM_MAX_EVT_NUM 32
+ 
+@@ -198,6 +199,7 @@ extern int CR_SR_r_idx_in_bbl; // 1-started index, 0 if not used
+ 
+ // FUZZING
+ extern const char *aflFile;
++extern const char *DMAFile; // this option is only for testing
+ #define PM_UNCAT_REG 0x40
+ #define PM_UNMOD_SRRS 0x41
+ #define PM_ME_EXIT 0x50
+diff --git a/memory.c b/memory.c
+index ef5c0141a0..3c11702fe8 100644
+--- a/memory.c
++++ b/memory.c
+@@ -29,6 +29,7 @@
+ #if defined(CONFIG_GNU_ARM_ECLIPSE)
+ #include "qemu/log.h"
+ #include "peri-mod/peri-mod.h"
++#include "peri-mod/dma.h"
+ #include <sys/mman.h>
+ #endif
+ 
+@@ -1143,6 +1144,25 @@ pm_reg_pa_t pa = REG_NEVER;
+ pm_reg_type_t preg_type = UC;
+ target_ulong pbbl_e = 0x0;
+ 
++
++//DMA descriptor identification varibles
++
++pm_DMA_desc descriptor_test={0,0,0,NOACCESS,NOACCESS,NODIR,0};
++pm_DMA_desc dma_descriptors[MAX_DMA_DESC];
++pm_DMA_pointers dma_pointers[MAX_POINTERS];
++pm_dma_buffer_beat dma_buffer_addresses[MAX_DMA_BEAT_ADDRESS];
++
++
++// canaries
++pm_dma_canary canaries[NUMCANARIES];
++int number_canaries=0;
++
++
++int number_dma_buff_addreses=0;
++int number_dma_pointers=0;
++int number_dma_descriptors=0;
++pm_pointer_type_t pointer_type;
++
+ /*
+  * Indeed, it's # of read on real SR(UC->SR->CR is not real SR)
+  * Since we assume no multiple read on same SR in same bbl,
+@@ -1163,6 +1183,7 @@ static uint64_t unassigned_mem_read(void *opaque, hwaddr addr,
+                                     unsigned size)
+ {
+     static int cnt = 0, pm_cnt = 0;
++    int i;
+ //#ifdef DEBUG_UNASSIGNED
+ //    printf("Unassigned mem read " TARGET_FMT_plx "\n", addr);
+ //#endif
+@@ -1176,9 +1197,11 @@ static uint64_t unassigned_mem_read(void *opaque, hwaddr addr,
+  * Same to syscall no/param, we don't care whether AFL is attached or not, 
+  * as long as we have the input file generated by AFL
+  */
+-
++    
+     cnt ++;
+-    if(pm_ena && (addr >= 0x40000000 && addr < 0x60000000)) {
++    if(pm_ena && (addr >= 0x40000000 && addr < 0x60000000)) 
++    {
++
+         // TODO peripheral region. Need to include internal peri
+ 
+         pm_cnt ++;
+@@ -1201,8 +1224,10 @@ static uint64_t unassigned_mem_read(void *opaque, hwaddr addr,
+ 
+         pm_reg_type_t prev_type = reg->type;
+ 
+-        if (pm_me_ena) {
+-            // reg_cat
++        if (pm_me_ena) 
++        {
++           
++
+             reg->read = 1;
+ 
+             if (reg->type == UC) {
+@@ -1212,11 +1237,10 @@ static uint64_t unassigned_mem_read(void *opaque, hwaddr addr,
+                 } else {
+                     reg->type = DR;
+                 }
+-            //} else if (paddr == addr32 && pa == REG_R && pbbl_e == cur_bbl_e) {
+-                // last cond is not presented in flowchart
++            
+             } else if (paddr == addr32 && pa == REG_R) {
+               consec_same_reg_r ++;
+-              if (consec_same_reg_r > CONSEC_NON_SR_R_THRESHOLD) {
++              if (consec_same_reg_r > CONSEC_NON_SR_R_THRESHOLD) { //check for consecutive reads at the same register
+                 // waiting for bit set/cleared on a reg
+                 switch (reg->type) {
+                   case CR:
+@@ -1251,13 +1275,84 @@ static uint64_t unassigned_mem_read(void *opaque, hwaddr addr,
+             if (!(paddr == addr32 && pa == REG_R))
+                 consec_same_reg_r = 0;
+ 
+-            paddr = addr32;
+-            pa = REG_R;
++            paddr = addr32; //update previous address
++            pa = REG_R;     //update previous type of access, i.e. read
+             preg_type = reg->type;
+             pbbl_e = cur_bbl_e;
+         }
+ 
+-        int i;
++        //Alejandro: here implement patches for register categories that must be forced
++        //patch for DR of GPIO on NRF52832
++        if((addr32==0x50000510 ||addr32==0x50000504 || addr32==0x50000508 || addr32==0x5000050C )  && strcmp( cs_g->mcu_name, "NRF52832")==0)
++        {
++            reg->type = DR;
++            // reg->sr_locked = true;
++        } 
++
++        //Alejandro: here implement patches for register categories that must be forced
++        //patch for "EVENTS" of  NRF52832
++        if(((addr32 - peri->base_addr)>=0x100 ||  (addr32 - peri->base_addr)<=0x168) && strcmp( cs_g->mcu_name, "NRF52832")==0 )
++        {
++                reg->type = SR;
++                reg->sr_locked = true;
++        }
++
++
++          //patch USB on F103
++        if(addr32==0x40005c44 && strcmp( cs_g->mcu_name, "STM32F103RB")==0)
++            {
++                  reg->type = SR;
++                  reg->sr_locked = true;
++            }
++
++        //patch for DR of GPIO on F103
++        if((addr32==0x40012008 || addr32==0x40011c08 || addr32==0x40011808
++        	|| addr32==0x40011408 || addr32==0x40011008 || addr32==0x40010c08
++            || addr32==0x50000508 || addr32==0x5000050C ) && strcmp( cs_g->mcu_name, "STM32F103RB")==0     )
++            {
++                  reg->type = DR;
++                 // reg->sr_locked = true;
++            }
++        //patch for Injected DR registers of ADC for F103      
++         if((addr32 >= 0x4001243c && addr32 <= 0x40012448
++          || addr32 >= 0x4001283c && addr32 <= 0x40012848)  && strcmp( cs_g->mcu_name, "STM32F103RB")==0)
++            {
++                  reg->type = DR;            
++            }
++
++            //patches f303
++          if((addr32 == 0x40000024 
++          ||addr32 == 0x48000010 
++          ||addr32 == 0x48000410 
++          ||addr32 == 0x48000810 
++          ||addr32 == 0x48000c10 
++          ||addr32 == 0x48001010 
++          ||addr32 == 0x48001410)  && strcmp( cs_g->mcu_name, "STM32F303RE")==0)
++            {
++                  reg->type = DR;            
++            }
++
++
++          if((   addr32 == 0x40010800 || addr32 == 0x40010804
++              || addr32 == 0x40010C00 || addr32 == 0x40010C04
++              || addr32 == 0x40011000 || addr32 == 0x40011004
++              || addr32 == 0x40011400 || addr32 == 0x40011404
++              || addr32 == 0x40011C00 || addr32 == 0x40011C04
++              || addr32 == 0x40012000 || addr32 == 0x40012004) 
++          && strcmp( cs_g->mcu_name, "STM32F105RC")==0)
++          {
++                reg->type = CR; 
++          }
++
++            /*
++          if((addr32==0x40012008 || addr32==0x40011c08 || addr32==0x40011808
++        	|| addr32==0x40011408 || addr32==0x40011008 || addr32==0x40010c08
++            || addr32==0x50000508 || addr32==0x5000050C ) &&   strcmp( cs_g->mcu_name, "STM32F303RE")==0 )
++            {
++                  reg->type = DR;
++                 // reg->sr_locked = true;
++            }*/
++
+         pm_Event *e;
+         int doneWork_p = 0;
+         char err_msg[80] = {0};
+@@ -1524,6 +1619,22 @@ static uint64_t unassigned_mem_read(void *opaque, hwaddr addr,
+     } else {
+         printf("[%x, %x] %3d-th(total %3d-th) \tunassigned mem_r *0x%x\n", 
+             cur_bbl_s, cur_bbl_e, cnt-pm_cnt, cnt, addr);
++        
++
++        //check if DMA pointers are dereference from a valid ram address
++        if(pm_ena && (  cs_g->sram_base <= addr && addr < (cs_g->sram_base+(cs_g->sram_size_kb<<10))
++        || cs_g->sram_size_kb2 && cs_g->sram_base2 <= addr && addr < (cs_g->sram_base2+(cs_g->sram_size_kb2<<10))
++        || cs_g->sram_size_kb3 && cs_g->sram_base3 <= addr && addr < (cs_g->sram_base3+(cs_g->sram_size_kb3<<10) ) ))
++        {
++            for(i=0; i<number_dma_descriptors; i++)
++            {
++                if(addr==dma_pointers[ dma_descriptors[i].id_pointer_mem].value  || dma_pointers[ dma_descriptors[i].id_pointer_peri].value   )
++                {
++                    printf("DMA pointer dereferenced from RAM: address *0x%x \n", addr );
++                }              
++            }
++        }
++    
+     }
+     return 0;
+ }
+@@ -1532,6 +1643,7 @@ static void unassigned_mem_write(void *opaque, hwaddr addr,
+                                  uint64_t val, unsigned size)
+ {
+     static int cnt = 0, pm_cnt = 0;
++    int i,j,k;
+ //#ifdef DEBUG_UNASSIGNED
+ //    printf("Unassigned mem write " TARGET_FMT_plx " = 0x%"PRIx64"\n", addr, val);
+ //#endif
+@@ -1556,19 +1668,171 @@ static void unassigned_mem_write(void *opaque, hwaddr addr,
+         unsigned int reg_idx = (addr32 % PM_PERI_ADDR_RANGE) / peri->reg_size;
+         if (reg_idx > peri->max_reg_idx) peri->max_reg_idx = reg_idx;
+         pm_MMIORegister *reg = &peri->regs[reg_idx];
+-       
++
++        bool pointer_exist=false;
++        pointer_type = get_pointer_type(val);
++
++        // this part should be implemented on soft_mmu template
++        if(pointer_type==TRAM) // descriptors with a single pointer e.g. NRF52832
++        {          
++             printf("Potential DMA Descriptor V1: base *0x%x p_A:*0x%x->*0x%x \n", peri->base_addr ,addr32, val);
++        }
++        
++        if(pointer_type != TUNKNOWN && pointer_type != TFLASH) // look for descriptors on peripherals (two pointers) e.g. F103, F429
++        {
++            for (i=0; (i<MAX_POINTERS &&  i < number_dma_pointers ); i++) //check for already observed pointers
++            {
++               
++                if(dma_pointers[i].base==peri->base_addr &&  dma_pointers[i].register_addr==addr32)                
++                {   
++                    pointer_exist=true;
++                    if(dma_pointers[i].id_ctp == 0) // if pointer has not been associated, update it
++                    {                      
++                        printf("Pointer updated: address: 0x%x preval: 0x%x val: 0x%x \n", addr32,dma_pointers[i].value,val);
++                        dma_pointers[i].value=val;
++                        dma_pointers[i].ordinal=pm_cnt;             
++                        dma_pointers[i].type=pointer_type;                       
++                    }
++                    else
++                    {   // if pointer has been associated, update it and remove association of pointers associated
++                        //TODO: if this pointer was used on a previously identified descriptor, this desctriptor should be invalidated and deleted from the list
++                        // the sencond pointer associated with this descriptor should be updated as well (id_ctp=0)
++                                                                                                       
++                        
++                        for(j=0;j<number_dma_descriptors;j++)
++                        {
++                            if(dma_descriptors[j].pointer_mem.id==dma_pointers[i].id || dma_descriptors[j].pointer_peri.id==dma_pointers[i].id)
++                            {
++                                delete_dma_descriptor(j); //delete descriptor
++                                dma_pointers[i].id_ctp=0; // remove pointer association 
++                                dma_pointers[i].value=val;
++                                dma_pointers[i].ordinal=pm_cnt;             
++                                dma_pointers[i].type=pointer_type;     
++
++                                printf("Pointer on 0x%x already used for Descriptor ID: %d, invalidating descriptor...\n",addr32, j);
++
++
++                                for(j=0;j<number_dma_pointers;j++)
++                                {
++                                    if(dma_pointers[i].id==dma_pointers[j].id_ctp)
++                                    {
++                                        dma_pointers[j].id_ctp=0; //remove pointer association 
++                                        printf("Removed asociation of Pointers  0x%x  and 0x%x\n",dma_pointers[i].value,dma_pointers[j].value);
++                                        
++                                        break;
++                                    }
++                                }
++
++                                break;
++                            }
++                        }
++                                      
++                    }
++                                             
++                    break;
++                }
++            }
++            // if pointer does not exist add to the list
++            if (pointer_exist == false && number_dma_pointers < MAX_POINTERS){
++                dma_pointers[number_dma_pointers].id=pm_cnt; //is this useful?
++                dma_pointers[number_dma_pointers].id_ctp=0;
++                dma_pointers[number_dma_pointers].value=val;
++                dma_pointers[number_dma_pointers].base=peri->base_addr;
++                dma_pointers[number_dma_pointers].register_addr=addr32;
++                dma_pointers[number_dma_pointers].ordinal=pm_cnt;   
++                dma_pointers[number_dma_pointers].type=pointer_type;             
++                number_dma_pointers++;
++            }
++                              
++            bool descriptor_found=false;
++
++            if (number_dma_pointers>=2 ) // requirement for descriptor with 2 pointers
++            {                
++                for (i=0; i < (number_dma_pointers -1);i++)
++                {
++                    for (j=i+1; j < (number_dma_pointers);j++)
++                    {
++                        if(dma_pointers[i].base==dma_pointers[j].base //pointers that share the same base
++                        && dma_pointers[i].id_ctp==0 && dma_pointers[j].id_ctp==0  // pointers that have not been used before
++                        && abs(dma_pointers[i].register_addr - dma_pointers[j].register_addr)==4 // source and destination are in contiguous adrresses, this is necessary for multiple descriptors/channels per DMA controller
++                        &&  dma_pointers[i].value !=  dma_pointers[j].value  
++                        && valid_descriptor_pointers(dma_pointers[i].value, dma_pointers[j].value)  ) 
++                        {
++                            printf("DMA Descriptor pair V2: *0x%x p_A:*0x%x->*0x%x p_B:*0x%x->*0x%x \n", 
++                            dma_pointers[i].base,dma_pointers[i].register_addr, dma_pointers[i].value, dma_pointers[j].register_addr, dma_pointers[j].value);
++                            dma_pointers[j].id_ctp=dma_pointers[i].id;
++                            dma_pointers[i].id_ctp=dma_pointers[j].id;
++                            //number_dma_pointers=0; // This is necessary to avoid false positives on consecutive DMA descriptor configuration. TODO: double check when this was observed   
++                            //F103 does not require this change                   
++                            descriptor_found=true;
++                            
++                            // create a DMA descriptor
++                            if(number_dma_descriptors<MAX_DMA_DESC)
++                            {
++                                //arbitrary assigment to peri or mem not necessarily represents a pripheral or memory address, 
++                                //it is just a differentition of names between pointers. This is similar to STM32F103 DMA hardware implementation                               
++                                if(dma_pointers[i].type==TPERIPHERAL) 
++                                {    
++                                    dma_descriptors[number_dma_descriptors].id_pointer_peri=i;
++                                    dma_descriptors[number_dma_descriptors].pointer_peri=dma_pointers[i];
++                                    dma_descriptors[number_dma_descriptors].id_pointer_mem=j;
++                                    dma_descriptors[number_dma_descriptors].pointer_mem=dma_pointers[j];
++                                }else
++                                {
++                                                                         
++                                        dma_descriptors[number_dma_descriptors].id_pointer_peri=j;
++                                        dma_descriptors[number_dma_descriptors].pointer_peri=dma_pointers[j];
++                                        dma_descriptors[number_dma_descriptors].id_pointer_mem=i;
++                                        dma_descriptors[number_dma_descriptors].pointer_mem=dma_pointers[i];
++
++                                }
++                                dma_descriptors[number_dma_descriptors].number_beats=0;
++                                dma_descriptors[number_dma_descriptors].t_access_mem=NOACCESS;
++                                dma_descriptors[number_dma_descriptors].t_access_peri=NOACCESS;
++                                dma_descriptors[number_dma_descriptors].exc_num_dma= NONUM;
++                                dma_descriptors[number_dma_descriptors].version=2;
++                                number_dma_descriptors++;                                
++                            }
++
++                            else
++                            {
++                                printf("Max number of DMA descriptors reached!!");
++                            }
++                            
++                            break;
++                        }
++                    }
++                    if (descriptor_found==true)
++                    {
++                        break;
++                    }
++
++                }
++                
++            }
++
++
++        }
++
+         // by default write val
+         target_ulong wri_val = (target_ulong)val;
+ 
+         pm_reg_type_t prev_type = reg->type;
+ 
+-        if (pm_me_ena) {
++        if (pm_me_ena) 
++        {
+             // reg_cat
+             reg->write = 1;
+ 
+             if (reg->type == UC) {
+-                reg->type = DR;
+-            } else if (paddr == addr32 && pa == REG_R) {
++                reg->type = DR; 
++                //Alejandro Patch NRF52832
++                if((addr32==0x40004128 || addr32==0x40004104 ) && strcmp( cs_g->mcu_name, "NRF52832")==0)
++                {
++                  reg->type = SR;
++                  reg->sr_locked = true;
++                }               
++            } else if (paddr == addr32 && pa == REG_R) { //paddr: previous address; pa: previous access
+                 if (pm_stage != SR_R_EXPLORE && 
+                    !((reg->type == SR || reg->type == CR_SR) && reg->sr_locked)) {
+                 //if (pm_stage != SR_R_EXPLORE) {
+@@ -1581,6 +1845,11 @@ static void unassigned_mem_write(void *opaque, hwaddr addr,
+                 }
+             }
+ 
++            if((addr32==0x40011504  ) && strcmp( cs_g->mcu_name, "NRF52832")==0) //PATCH NRF52832 counter mynewt
++                {
++                  reg->type = DR;
++                }
++
+             paddr = addr32;
+             pa = REG_W;
+             preg_type = reg->type;
+@@ -1602,6 +1871,8 @@ static void unassigned_mem_write(void *opaque, hwaddr addr,
+             printf("[%x, %x] %3d-th(total %3d-th) \tpm_w *0x%x = 0x%x, turns %s into %s\n",
+                 cur_bbl_s, cur_bbl_e, pm_cnt, cnt, addr32, wri_val, pm_rt_str(prev_type), pm_rt_str(reg->type));
+ 
++        //TODO: here add logic to finish execution when a new DMA descriptor is identified or updated
++        // in addition verify model stored in XML to create a method to stroe and retrieve this information
+         switch (reg->type) {
+             case UC:
+                 fprintf(stderr, "Uncategorized register 0x%x is accessed!\n", addr32);
+
+diff --git a/qemu-options.hx b/qemu-options.hx
+index eb434cc142..fd0776eb05 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2788,6 +2788,8 @@ Add named fw_cfg entry from file. @var{name} determines the name of
+ the entry in the fw_cfg file directory exposed to the guest.
+ ETEXI
+ 
++DEF("dmaFile", HAS_ARG, QEMU_OPTION_dmafile, \
++    "-dmaFile DMA input sourced from fname\n", QEMU_ARCH_ALL)
+ DEF("aflFile", HAS_ARG, QEMU_OPTION_aflFile, \
+     "-aflFile fname  AFL input sourced from fname\n", QEMU_ARCH_ALL)
+ DEF("aflPanicAddr", HAS_ARG, QEMU_OPTION_aflPanicAddr, \
+diff --git a/softmmu_template.h b/softmmu_template.h
+index acc808ce29..06d4866b0b 100644
+--- a/softmmu_template.h
++++ b/softmmu_template.h
+@@ -26,6 +26,8 @@
+ #include "exec/memory.h"
+ // Bo: check whether address range is valid
+ #include "include/hw/arm/cortexm-mcu.h"
++#include "peri-mod/dma.h" 
++#include "peri-mod/peri-mod.h"
+ 
+ #define DATA_SIZE (1 << SHIFT)
+ 
+@@ -171,6 +173,21 @@ static inline DATA_TYPE glue(io_read, SUFFIX)(CPUArchState *env,
+ extern CortexMState *cs_g;
+ extern uint32_t cur_bbl_s, cur_bbl_e;
+ 
++extern int number_dma_buff_addreses;
++extern int number_dma_pointers;
++extern int number_dma_descriptors;
++extern pm_DMA_pointers dma_pointers[MAX_POINTERS];
++extern pm_DMA_desc dma_descriptors[MAX_DMA_DESC];
++extern pm_dma_buffer_beat dma_buffer_addresses[MAX_DMA_BEAT_ADDRESS];
++
++
++extern pm_dma_canary canaries[NUMCANARIES];
++extern int number_canaries;
++
++extern int exception_num_dma;
++extern bool exception_active_dma; 
++bool access_nearby_DMA;
++
+ #ifdef SOFTMMU_CODE_ACCESS
+ static __attribute__((unused))
+ #endif
+@@ -181,24 +198,366 @@ WORD_TYPE helper_le_ld_name(CPUArchState *env, target_ulong addr,
+     int index = (addr >> TARGET_PAGE_BITS) & (CPU_TLB_SIZE - 1);
+     target_ulong tlb_addr = env->tlb_table[mmu_idx][index].ADDR_READ;
+     uintptr_t haddr;
+-    DATA_TYPE res;
++    DATA_TYPE res, aux_res;
++
++   // bool pointer_exist=false;
++    pm_pointer_type_t pointer_type;
++    pm_pointer_type_t address_type;
++
++    if (DMAFile && number_canaries==0)
++    {
++        FILE * pFile;
++        char mystring [100];
++        char *pEnd;
++        target_ulong a;
++        int s, counter;
++        
++        
++        pFile = fopen (DMAFile , "r");
++        if (pFile == NULL) perror ("Error opening DMA file");
++        else {
++            while ( fgets (mystring , 100 , pFile) != NULL && number_canaries < NUMCANARIES )
++            {
++                a= strtol(mystring,&pEnd,0);
++                s= strtol(pEnd,&pEnd,10);
++                canaries[number_canaries].address=a;
++                canaries[number_canaries].size=s;
++                number_canaries++;
++            }
++            fclose (pFile);
++            printf("READ Canaries loaded: %d \n",number_canaries);
++            for(counter=0;counter<number_canaries; counter++)
++            {
++                printf("C%d: 0x%x, %d \n",counter+1,canaries[counter].address, canaries[counter].size );
++            }
++                      
++        }
++    }
++
++    if(number_canaries && pm_stage==FUZZING && afl_startfs_invoked )
++    {
++        int icanary;
++        for(icanary=0; icanary<number_canaries;icanary++)
++        {
++            if (addr>=canaries[icanary].address && addr<(canaries[icanary].address + canaries[icanary].size) )
++            {
++                printf("[%x, %x] illegal read at canary 0x%x\n", cur_bbl_s, cur_bbl_e, addr);
++                exit(-1);
++
++            }
++        }
++    }
+ 
+     // Bo: check whether address range is valid
+     if (!(cs_g->flash_base <= addr && addr < (cs_g->flash_base+(cs_g->flash_size_kb<<10))
++        || 0x00000000U <= addr && addr < cs_g->flash_size_kb<<10 && (strcmp( cs_g->mcu_name, "STM32F105RC")==0 ||
++        strcmp( cs_g->mcu_name, "STM32F103RB")==0 ||  
++        strcmp( cs_g->mcu_name, "STM32F429ZI")==0 || 
++        strcmp( cs_g->mcu_name, "STM32F105RC")==0 || 
++        strcmp( cs_g->mcu_name, "STM32F303RE")==0 ) // mirror required for STM32 parts without this false positives may be triggered
+         || 0xFFFFFFF8U <= addr && addr <= 0xFFFFFFFFU
+         || cs_g->sram_base <= addr && addr < (cs_g->sram_base+(cs_g->sram_size_kb<<10))
+         || cs_g->sram_size_kb2 && cs_g->sram_base2 <= addr && addr < (cs_g->sram_base2+(cs_g->sram_size_kb2<<10))
+         || cs_g->sram_size_kb3 && cs_g->sram_base3 <= addr && addr < (cs_g->sram_base3+(cs_g->sram_size_kb3<<10))
+         //|| 0x40000000U <= addr && addr < 0x40030000U
+-        || 0x40000000U <= addr && addr < 0x44000000U
+-        || 0xE0000000U <= addr && addr < 0xE0100000U)) {
++        //|| 0x40000000U <= addr && addr < 0x44000000U
++        || 0xE0001000U <= addr && addr < 0xE0001FFCU //Data Watchpoint and Trace Unit F429
++        || 0x1FFF7A10U <= addr && addr < 0x1FFF7A1CU //Unique device ID register (96 bits) F429
++        || 0x40000000U <= addr && addr < 0x60000000U
++        || 0xE0000000U <= addr && addr < 0xE0100000U
++        || 0x10000000U <= addr && addr <= 0x1000045CU //NRF52832 FICR
++        || 0x10001000U <= addr && addr <= 0x1000120CU //NRF52832 UICR
++        )) {
+         printf("[%x, %x] illegal read at 0x%x\n", cur_bbl_s, cur_bbl_e, addr);
+         exit(-1);
+     }
+ 
++    address_type = get_pointer_type(addr); 
++    //check for read on DMA buffer on RAM
++    //this check should be done only during peripheral modeling
++    if(address_type==TRAM /*&& DATA_SIZE==4 */) // we do not care about data size bacause it could access aligned words or int32
++    {     
++        int i,j,k,beat_size, number_beats;
++        bool find_address=false;
++
++        //printf("Read on RAM *0x%x \n", addr);
++        
++        //Here check if any pointer registered on peripherals is accessed
++
++        for(i=0; i<number_dma_pointers; i++)
++        {
++            //No span supported for this type of descriptor
++            //check that pointer has not been used previously
++            if(dma_pointers[i].id_ctp==0 && dma_pointers[i].value==addr)  //id_ctp is used to verify if pointer has been associated with another descriptor
++            {
++                printf("DMA Descriptor V1: base *0x%x p_A:*0x%x->*0x%x \n", dma_pointers[i].base,dma_pointers[i].register_addr,dma_pointers[i].value);
++                if(number_dma_descriptors<MAX_DMA_DESC)
++                {
++                    //arbitrary assigment to peri or mem not necessarily represents a pripheral or memory address, 
++                    //it is just a differentition of names between pointers. This is similar to STM32F103 DMA hardware implementation                               
++                    
++                    dma_descriptors[number_dma_descriptors].id_pointer_peri=i; // both pointers are equal on this type of descriptor
++                    dma_descriptors[number_dma_descriptors].id_pointer_mem=i;                                        
++                    dma_descriptors[number_dma_descriptors].number_beats=0;
++                    dma_descriptors[number_dma_descriptors].t_access_mem=NOACCESS;
++                    dma_descriptors[number_dma_descriptors].t_access_peri=NOACCESS;
++                    dma_descriptors[number_dma_descriptors].exc_num_dma= NONUM;
++                    dma_descriptors[number_dma_descriptors].version=1;
++                
++                    dma_descriptors[number_dma_descriptors].pointer_peri=dma_pointers[i];
++                    dma_descriptors[number_dma_descriptors].pointer_mem=dma_pointers[i];
++
++                    number_dma_descriptors++;       
++                     //here execution should terminate, model needs to be updated
++                     //New DMA descriptor found
++
++                }
++                else
++                {
++                        printf("Max number of DMA descriptors reached!!");
++                }                                
++
++            }
++        }
++
++        
++        for(i=0; i<number_dma_descriptors; i++)
++        {       
++                access_nearby_DMA=false;     
++                //register access to nearby memory areas of a DMA pointer
++                
++                //if(( (addr - dma_descriptors[i].pointer_mem.value)<=DMA_SPAN_BUFFER   ) || ( (addr - dma_descriptors[i].pointer_peri.value)<=DMA_SPAN_BUFFER ) )
++                if( ((addr - dma_descriptors[i].pointer_mem.value)<(DATA_SIZE*2) &&   (addr - dma_descriptors[i].pointer_mem.value)>=0 )|| 
++                 ( (addr - dma_descriptors[i].pointer_peri.value)<(DATA_SIZE*2) &&   (addr - dma_descriptors[i].pointer_peri.value)>=0 ))
++                {
++                   
++                    if(addr == dma_pointers[dma_descriptors[i].id_pointer_mem].value || addr == dma_pointers[ dma_descriptors[i].id_pointer_peri].value)
++                    {
++                        access_nearby_DMA=false; 
++                    }
++                    else
++                    {
++                        access_nearby_DMA=true; // more aggressive heuristic to identify access to DMA buffer
++                    }
++                   
++                }
++
++                //printf("\nACCESS: 0x%x\n",addr);
++                // check for access to the  DMA pointer registered on descriptor
++                // this works when the exact access access to DMA buffer occurs and requires at least 2 interrupts to correct the size and beggining of DMA buffer
++                //if( addr == dma_pointers[dma_descriptors[i].id_pointer_mem].value || addr == dma_pointers[ dma_descriptors[i].id_pointer_peri].value || access_nearby_DMA ) 
++                //if( addr == dma_pointers[dma_descriptors[i].id_pointer_mem].value || addr == dma_pointers[ dma_descriptors[i].id_pointer_peri].value  ) 
++                
++                if( addr>=dma_descriptors[i].pointer_mem.value  && 
++                   addr<=(dma_descriptors[i].pointer_mem.value + dma_descriptors[i].number_beats * dma_descriptors[i].beat_size )
++                   || addr>=dma_descriptors[i].pointer_peri.value  && 
++                   addr<=(dma_descriptors[i].pointer_peri.value + dma_descriptors[i].number_beats * dma_descriptors[i].beat_size ) || access_nearby_DMA  )
++                {               
++                    
++                     //Verify if the memory address is already registered
++                    for(j=0; (j<MAX_DMA_BEAT_ADDRESS) && (j< number_dma_buff_addreses); j++)
++                    {
++                        if(dma_buffer_addresses[j].address==addr)
++                        {
++                            find_address=true;
++                            break;
++                        }                        
++                    }
++                    //This should be eliminated.
++                    if(find_address==false)
++                    {
++                        //adds new address
++                        dma_buffer_addresses[number_dma_buff_addreses].address=addr;
++                        dma_buffer_addresses[number_dma_buff_addreses].access=READ;
++                        dma_buffer_addresses[number_dma_buff_addreses].exc_num_dma=exception_num_dma; 
++                        number_dma_buff_addreses++;
++                        qsort(dma_buffer_addresses,number_dma_buff_addreses,sizeof(pm_dma_buffer_beat),cmp_address_DMA); 
++                    }
++                    else
++                    {
++                        //update address
++                        dma_buffer_addresses[j].address=addr;
++                        dma_buffer_addresses[j].access=READ;
++                        dma_buffer_addresses[j].exc_num_dma=exception_num_dma;                       
++                        qsort(dma_buffer_addresses,number_dma_buff_addreses,sizeof(pm_dma_buffer_beat),cmp_address_DMA); 
++                    }
++                    
++                    
++                    //printf("\n Load on DMA pointer: 0x%x \n", addr);
++                    //Analyze address accessed
++                    /*
++                    for(j=0; (j<MAX_DMA_BEAT_ADDRESS) && (j< number_dma_buff_addreses); j++)
++                    {
++                         //find the index  were buffer starts
++                         if(dma_buffer_addresses[j].address==addr )
++                         {
++                            break; //breaks the loop and keeps the index in j
++                         }
++                    }
++                    */
++
++
++                    beat_size=DATA_SIZE; //the size used by DMA template access                  
++                    dma_descriptors[i].beat_size=beat_size;
++                    if(dma_descriptors[i].number_beats==0)
++                    {                 
++                        dma_descriptors[i].number_beats=1; 
++                        dma_descriptors[i].exc_num_dma=exception_num_dma; //capture the exception number used to access DMA descriptor
++                    }
++
++                    if(access_nearby_DMA) 
++                    {
++                       target_ulong peri, mem;                    
++                       peri= dma_pointers[dma_descriptors[i].id_pointer_mem].value;
++                       mem= dma_pointers[dma_descriptors[i].id_pointer_peri].value;
++                       
++                       printf("\nAccess to nearby area of DMA peri: 0x%x  mem: 0x%x address: 0x%x beatsize: %d  number beats: %d \n", peri, mem, addr,beat_size,dma_descriptors[i].number_beats);
++                    }
++                    else
++                    {                       
++                       printf("\nAccess to DMA buffer base address: 0x%x beatsize: %d  number beats: %d address: 0x%x \n",addr,beat_size,dma_descriptors[i].number_beats,addr);  
++                    }
++                                    
++                   
++                    /* This is a more agressive less precise method to identify buffer size */                   
++                    beat_size=DATA_SIZE;
++                    int span_aux;
++                   
++                    // calulates the current span between base pointer and actual memory access and asign the new buffer size in terms of data_size 
++                    if(abs(addr-dma_pointers[dma_descriptors[i].id_pointer_mem].value)< abs(addr-dma_pointers[dma_descriptors[i].id_pointer_peri].value))
++                    {
++                        span_aux= addr-dma_pointers[dma_descriptors[i].id_pointer_mem].value;                       
++                    }
++                    else
++                    {
++                        span_aux= addr-dma_pointers[dma_descriptors[i].id_pointer_peri].value;                        
++                    }
++                                                                                                                                                           
++                    number_beats=span_aux/beat_size+1;
++                    
++                  
++                    if(dma_descriptors[i].number_beats <number_beats &&  exception_num_dma== dma_descriptors[i].exc_num_dma ) 
++                    {
++                        dma_descriptors[i].beat_size=beat_size;
++                        dma_descriptors[i].number_beats=number_beats;   
++                        printf("\nNew size of DMA buffer identified!! beats: %d \n", number_beats);
++                    }
++
++               
++                                                                                                                                                         
++                }              
++        }
++    }
++
+     /* Adjust the given return address.  */
+     retaddr -= GETPC_ADJ;
+ 
++    /*here implement I/O access for DMA buffer */
++
++    extern pm_stage_t pm_stage;
++    extern int afl_startfs_invoked;
++    extern const char *aflFile;
++    extern int pm_rand_sz;
++    extern unsigned char pm_rand[PM_RAND_ARR_SIZE];
++    extern int pm_rand_i;
++    static int pm_rand_i_dma=0;
++    static int rounds_rand_i_dma=0;
++    bool accessDMAbuffer =false;
++    int i;
++    bool DMAenabled=true; //  true provides data trhough DMA buffers, false only identifies DMA buffers 
++
++
++    for (i=0; i<number_dma_descriptors; i++ )
++    {
++        //TODO: check this condition, eventually a more agressive heuristic can serve data from fuzzing file even when the pointer is not derefenced at the very beginning.
++        // currently this only serve data after observing access to the pointer of descriptor.
++        if(addr>=dma_descriptors[i].pointer_mem.value  && 
++         addr<=(dma_descriptors[i].pointer_mem.value + dma_descriptors[i].number_beats * dma_descriptors[i].beat_size)
++         || addr>=dma_descriptors[i].pointer_peri.value  && 
++         addr<=(dma_descriptors[i].pointer_peri.value + dma_descriptors[i].number_beats * dma_descriptors[i].beat_size) 
++         && get_pointer_type(addr)==TRAM  )
++         {
++            if(DMAenabled)
++		{
++			printf("\nAccessing and serving DMA buffer. address: 0x%x\n", addr);
++		}
++            else
++	    {
++			printf("\nAccessing DMA buffer. address: 0x%x\n", addr);
++		
++	    }
++            accessDMAbuffer=true;
++            break;
++         }
++    }
++
++    int doneWork_p = 0;
++    char err_msg[80] = {0};
++    bool hookActive=false;
++  
++
++   // if(pm_stage==FUZZING && afl_startfs_invoked && accessDMAbuffer && DMAenabled) // memory hock with data coming from Fuzzer //if( DMAFile && accessDMAbuffer) // memory hock with data coming from Fuzzer
++   
++if ((pm_stage==FUZZING && afl_startfs_invoked  || (pm_stage == SR_R_ID || pm_stage == SR_R_EXPLORE) && aflFile && (bbl_cnt < replay_bbl_cnt))  && accessDMAbuffer && DMAenabled)
++ {
++      //  if(DMAFile)aflFile=DMAFile;
++        printf("DMA hook!! file: %s \n",aflFile);
++        if (!pm_rand_sz) 
++        {
++            int fd = open(aflFile, O_RDONLY);
++            if (fd == -1) {
++                       perror("open");
++                       doneWork_p = 0x70;
++                    }
++
++                    struct stat sb;
++                    if (stat(aflFile, &sb) == -1) {
++                        perror("stat");
++                        doneWork_p = 0x70;
++                    }
++
++                    if (sb.st_size < PM_RAND_MIN_SIZE) {
++                        // no enough bytes in aflFile
++                        fprintf(stderr, "No enough bytes for DMA_RAND, MIN: %d\n", PM_RAND_MIN_SIZE);
++                        doneWork_p = 0x70;
++                    }
++
++                    // copy input into pm_rand
++                    // no more than PM_RAND_ARR_SIZE bytes, to avoid buffer overflow
++                    pm_rand_sz = (sb.st_size > PM_RAND_ARR_SIZE) ? PM_RAND_ARR_SIZE : sb.st_size;
++                    if (read(fd, pm_rand, pm_rand_sz) < pm_rand_sz) {
++                       perror("read");
++                       doneWork_p = 0x70;
++                    }
++
++                    if (close(fd) == -1) {
++                        perror("close");
++                        doneWork_p = 0x70;
++                    }
++        }
++
++        res=0;
++        for (i = 0; i < DATA_SIZE; i ++) {
++            aux_res = (aux_res << 8) + (target_ulong)pm_rand[pm_rand_i_dma];
++            pm_rand_i_dma ++;
++            if (pm_rand_i_dma > pm_rand_sz) {                
++                pm_rand_i_dma = 0; //circular buffer 
++                printf("DMA buffer wrap around! finishing fuzzing session\n");
++                //doneWork_p = 0x70;
++                //snprintf(err_msg, 80, "[Error] Run out of input bytes DMA!\n");
++                doneWork(0);                   
++            }
++        }
++
++        if (doneWork_p) {
++            fprintf(stderr, "%s", err_msg);
++            doneWork(doneWork_p);
++        }
++        printf("Reading DMA file: 0x%x \n", aux_res);
++        hookActive=true;
++        //return res;
++    }
++
+     /* If the TLB entry is for a different page, reload and try again.  */
+     if ((addr & TARGET_PAGE_MASK)
+          != (tlb_addr & (TARGET_PAGE_MASK | TLB_INVALID_MASK))) {
+@@ -226,6 +585,7 @@ WORD_TYPE helper_le_ld_name(CPUArchState *env, target_ulong addr,
+            byte ordering.  We should push the LE/BE request down into io.  */
+         res = glue(io_read, SUFFIX)(env, iotlbentry, addr, retaddr);
+         res = TGT_LE(res);
++        if(hookActive)res=aux_res;
+         return res;
+     }
+ 
+@@ -251,6 +611,7 @@ WORD_TYPE helper_le_ld_name(CPUArchState *env, target_ulong addr,
+ 
+         /* Little-endian combine.  */
+         res = (res1 >> shift) | (res2 << ((DATA_SIZE * 8) - shift));
++        if(hookActive)res=aux_res;
+         return res;
+     }
+ 
+@@ -263,10 +624,13 @@ WORD_TYPE helper_le_ld_name(CPUArchState *env, target_ulong addr,
+ 
+     haddr = addr + env->tlb_table[mmu_idx][index].addend;
+ #if DATA_SIZE == 1
++    if(hookActive)res=aux_res;
+     res = glue(glue(ld, LSUFFIX), _p)((uint8_t *)haddr);
+ #else
++    if(hookActive)res=aux_res;
+     res = glue(glue(ld, LSUFFIX), _le_p)((uint8_t *)haddr);
+ #endif
++    if(hookActive)res=aux_res;
+     return res;
+ }
+ 
+@@ -403,6 +767,8 @@ static inline void glue(io_write, SUFFIX)(CPUArchState *env,
+                                  iotlbentry->attrs);
+ }
+ 
++target_ulong previous_address, previous_value;
++bool first_address;
+ void helper_le_st_name(CPUArchState *env, target_ulong addr, DATA_TYPE val,
+                        TCGMemOpIdx oi, uintptr_t retaddr)
+ {
+@@ -410,18 +776,100 @@ void helper_le_st_name(CPUArchState *env, target_ulong addr, DATA_TYPE val,
+     int index = (addr >> TARGET_PAGE_BITS) & (CPU_TLB_SIZE - 1);
+     target_ulong tlb_addr = env->tlb_table[mmu_idx][index].addr_write;
+     uintptr_t haddr;
++    pm_pointer_type_t pointer_type;
++    pm_pointer_type_t address_type;
++
++
++    if (DMAFile && number_canaries==0)
++    {
++        FILE * pFile;
++        char mystring [100];
++        char *pEnd;
++        target_ulong a;
++        int s, counter;
++        
++        
++        pFile = fopen (DMAFile , "r");
++        if (pFile == NULL) perror ("Error opening DMA file");
++        else {
++            while ( fgets (mystring , 100 , pFile) != NULL && number_canaries < NUMCANARIES )
++            {
++                a= strtol(mystring,&pEnd,0);
++                s= strtol(pEnd,&pEnd,10);
++                canaries[number_canaries].address=a;
++                canaries[number_canaries].size=s;
++                number_canaries++;
++            }
++            fclose (pFile);
++            printf("WRITE Canaries loaded: %d \n",number_canaries);
++            for(counter=0;counter<number_canaries; counter++)
++            {
++                printf("C%d: 0x%x, %d \n",counter+1,canaries[counter].address, canaries[counter].size );
++            }
++            
++        }
++    }
++
++    if(number_canaries && pm_stage==FUZZING && afl_startfs_invoked )
++    {
++        int icanary;
++        for(icanary=0; icanary<number_canaries;icanary++)
++        {
++            if (addr>=canaries[icanary].address && addr<(canaries[icanary].address + canaries[icanary].size) )
++            {
++                printf("[%x, %x] illegal write at canary 0x%x\n", cur_bbl_s, cur_bbl_e, addr);
++                exit(-1);
++
++            }
++        }
++    }
++
+ 
+     // Bo: check whether address range is valid
+     if (!(cs_g->sram_base <= addr && addr < (cs_g->sram_base+(cs_g->sram_size_kb<<10))
+         || cs_g->sram_size_kb2 && cs_g->sram_base2 <= addr && addr < (cs_g->sram_base2+(cs_g->sram_size_kb2<<10))
+         || cs_g->sram_size_kb3 && cs_g->sram_base3 <= addr && addr < (cs_g->sram_base3+(cs_g->sram_size_kb3<<10))
+         //|| 0x40000000U <= addr && addr < 0x40030000U
+-        || 0x40000000U <= addr && addr < 0x44000000U
++        //|| 0x40000000U <= addr && addr < 0x44000000U
++        || 0x40000000U <= addr && addr < 0x60000000U
+         || 0xE0000000U <= addr && addr < 0xE0100000U)) {
+         printf("[%x, %x] illegal write at 0x%x\n", cur_bbl_s, cur_bbl_e, addr);
+         exit(-1);
+     }
+ 
++    
++    
++    // descriptor on RAM 
++    address_type = get_pointer_type(addr); 
++   /* if(address_type==TRAM && DATA_SIZE==4 )
++    {
++      
++        pointer_type = get_pointer_type(val); 
++               
++        if(pointer_type != TUNKNOWN && abs(addr-previous_address)==4 && previous_value != val 
++               && previous_value != addr && val !=  previous_address  ) 
++        {
++            if (valid_descriptor_pointers(val, previous_value))
++            {
++                printf("type 1: %d, type 2:%d \n",get_pointer_type(val) ,get_pointer_type(previous_value));
++                printf("RAM DMA descriptor: addr_a:0x%x  val_a:0x%x , addr_b:0x%x  val_b:0x%x \n", previous_address, previous_value,  addr, val);
++            }
++        }
++
++        previous_address=addr; 
++        previous_value=val;                   
++    }*/
++
++/*
++     if(address_type==TRAM ) // we do not care about data size bacasue it could access aligned words or int32
++    {     
++        int i,j,k,beat_size, number_beats;
++        bool find_address=false;
++
++        printf("Write on RAM *0x%x, val: 0x%x \n", addr, val);
++
++    }*/
++ 
+     /* Adjust the given return address.  */
+     retaddr -= GETPC_ADJ;
+ 
+diff --git a/target-arm/helper.c b/target-arm/helper.c
+index a274d83e58..e414c68c00 100644
+--- a/target-arm/helper.c
++++ b/target-arm/helper.c
+@@ -12,6 +12,7 @@
+ #include "arm_ldst.h"
+ #include <zlib.h> /* For crc32 */
+ #include "exec/semihost.h"
++#include "peri-mod/dma.h"
+ 
+ #ifndef CONFIG_USER_ONLY
+ static inline bool get_phys_addr(CPUARMState *env, target_ulong address,
+@@ -4530,6 +4531,9 @@ void arm_v6m_cpu_do_interrupt(CPUState *cs)
+ 
+ extern volatile unsigned int bbl_cnt;
+ int en_int_for_svc = 0;
++
++int exception_num_dma;
++bool exception_active_dma;
+ void arm_v7m_cpu_do_interrupt(CPUState *cs)
+ {
+     ARMCPU *cpu = ARM_CPU(cs);
+@@ -4586,7 +4590,10 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
+     case EXCP_IRQ:
+         env->v7m.exception = armv7m_nvic_acknowledge_irq(env->nvic);
+         qemu_log_mask(CPU_LOG_INT, "\tbbl_cnt %d: Acknowledged IRQ %d\n", 
+-          bbl_cnt, env->v7m.exception-16);
++        bbl_cnt, env->v7m.exception-16);
++        exception_num_dma=env->v7m.exception-16; //get the IRQ number
++        exception_active_dma=true; // serving the IRQ
++
+         break;
+     case EXCP_EXCEPTION_EXIT:
+         // Disable INT if INT is temporarily enabled for SVC
+@@ -4596,6 +4603,8 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
+         }
+         do_v7m_exception_exit(env);
+         qemu_log_mask(CPU_LOG_INT, "\tbbl_cnt %d: EXCP/ISR exits\n", bbl_cnt);
++        exception_num_dma=NONUM; //get the IRQ number
++        exception_active_dma=false; // serving the IRQ
+         return;
+     default:
+         cpu_abort(cs, "Unhandled exception 0x%x\n", cs->exception_index);
+diff --git a/target-arm/translate.c b/target-arm/translate.c
+index 7002a3ff74..5623e56599 100644
+--- a/target-arm/translate.c
++++ b/target-arm/translate.c
+@@ -11659,6 +11659,7 @@ unsigned char pm_rand[PM_RAND_ARR_SIZE];
+ 
+ int pm_me_ena = 0; // 1: model extraction process, 0: fuzzing process
+ 
++
+ /* copy work into ptr[0..sz].  Assumes memory range is locked. */
+ // XXX totally obsolete now
+ static target_ulong getWork(CPUArchState *env, target_ulong ptr, target_ulong sz)
+diff --git a/tcg/i386/tcg-target.c b/tcg/i386/tcg-target.c
+index ff4d9cfec7..4bfa299ca0 100644
+--- a/tcg/i386/tcg-target.c
++++ b/tcg/i386/tcg-target.c
+@@ -1219,7 +1219,8 @@ static inline void tcg_out_tlb_load(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
+     tcg_out_mov(s, ttype, r1, addrlo);
+ 
+     /* jne slow_path */
+-    tcg_out_opc(s, OPC_JCC_long + JCC_JNE, 0, 0, 0);
++    //tcg_out_opc(s, OPC_JCC_long + JCC_JNE, 0, 0, 0);
++    tcg_out_opc(s, OPC_JMP_long, 0, 0, 0); // disable TLB
+     label_ptr[0] = s->code_ptr;
+     s->code_ptr += 4;
+ 
+diff --git a/vl.c b/vl.c
+index 57010c31af..6201d963eb 100644
+--- a/vl.c
++++ b/vl.c
+@@ -143,6 +143,7 @@ const char *me_bin;
+ const char *me_config;
+ 
+ extern const char *aflFile;
++extern const char *DMAFile;
+ extern unsigned long aflPanicAddr;
+ extern unsigned long aflDmesgAddr;
+ 
+@@ -3468,6 +3469,9 @@ int main(int argc, char **argv, char **envp)
+             case QEMU_OPTION_aflDmesgAddr:
+                 aflDmesgAddr = strtoul(optarg, NULL, 16);
+                 break;
++            case QEMU_OPTION_dmafile:
++                DMAFile = (char *)optarg;
++                break;
+             case QEMU_OPTION_kernel:
+                 qemu_opts_set(qemu_find_opts("machine"), 0, "kernel", optarg,
+                               &error_abort);

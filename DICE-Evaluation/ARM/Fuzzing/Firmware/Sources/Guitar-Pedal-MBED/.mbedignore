@@ -1,0 +1,4 @@
+mbed-os/rtos/*
+mbed-os/components/*
+mbed-os/features/*
+mbed-os/usb/*
