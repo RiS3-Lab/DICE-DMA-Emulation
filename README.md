@@ -1,7 +1,7 @@
 
 # DICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis
 
-This is the repository of our paper DICE to appear at Proceedings of the 42nd IEEE Symposium on Security and Privacy (Oakland'21).
+This is the repository of our paper DICE to appear at the Proceedings of the 42nd IEEE Symposium on Security and Privacy (Oakland'21).
 
 
 # Citing our paper
