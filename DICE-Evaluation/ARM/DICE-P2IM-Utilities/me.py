@@ -604,7 +604,8 @@ def stage2(srr_info, sr_dir, fname_l, inv_num=1):
             "-model-input", model_if, "-model-output", model_of1]
         if args.run_from_fs:
             cmd += ["-aflFile", args.afl_file]
-        print ("cmd: %s" % ' '.join(cmd))
+        #Enable the following line for debugging of the executed command
+        #print ("cmd: %s" % ' '.join(cmd))
 
         ret_val = qemu_run(cmd, cfg.retry_num, stage)
         term_cond0[fname] = ret_val

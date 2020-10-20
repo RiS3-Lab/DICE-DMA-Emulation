@@ -34,8 +34,8 @@ if len(sys.argv) == 3:
 
         
     for file in files:
-    
-        command = ["grep", "DMA", "./revision/dma_trace/"+file]
+        print(file)
+        command = ["grep", "DMA", mypath + "/" + file]
         with open(outfile,'a') as f:
             f.write("        \n")
             f.write("START **********  "+ file + "  *****************\n")
