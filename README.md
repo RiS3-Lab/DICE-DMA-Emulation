@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 # DICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis
 
@@ -245,13 +244,3 @@ Please open a new issue in the GitHub repository including the details of your p
 
 
 
-=======
-# DICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis
-This is the main repository of our paper "DICE" appearing at S&P Oakland 2021.
-
-We are working on cleaning our source code and adding documentation. 
-
-We will open-source all the code and firmware referenced in our paper soon... 
-
-Keep tuned! 
->>>>>>> d7ab75159f11d0e01dacfb7037a6d2ad290066ca
