@@ -228,7 +228,7 @@ This script will execute the QEMU DICE-Mips-emulator for 10 seconds and then wil
 
 
 # More documentation
-Please refer to our [paper] (https://www.longlu.org/publication/dice/dice.pdf).
+Please refer to our [paper](https://www.longlu.org/publication/dice/dice.pdf).
 
 # Issues, questions and support
 Please open a new issue in the GitHub repository including the details of your particular inquiry. 
