@@ -3,6 +3,9 @@
 
 This is the repository of our paper DICE to appear at the Proceedings of the 42nd IEEE Symposium on Security and Privacy (Oakland'21).
 
+# Talk preview
+Talk preview video at IEEE S&P Youtube channel: https://www.youtube.com/watch?v=i7o9fsj2AkI
+
 
 # Citing our paper
 
