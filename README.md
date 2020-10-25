@@ -32,7 +32,7 @@ DICE is based in many open source projects (check references in the paper), part
 for Fuzz testing and benchmarks of the ARM Cortex-M.  Use the following commands to clone this repository and initialize all the required sub-modules:
 
 ```bash
-git clone https://github.com/alejoseb/DICEscrathcpad.git
+git clone https://github.com/RiS3-Lab/DICE-DMA-Emulation.git
 cd DICE-DMA-Emulation
 git submodule update --init --recursive
 
