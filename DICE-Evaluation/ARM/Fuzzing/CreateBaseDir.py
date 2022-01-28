@@ -39,8 +39,13 @@ if __name__ == "__main__":
         help="fuzzing run number")
     parser.add_argument("-B", "--base", dest="base", default="FuzzDir",
         help="base dir for fuzzing ")
+    parser.add_argument("-P", "--project", dest="project", default="",
+        help="project name (if unspecified, generates for all built-in projects)")
 
     args = parser.parse_args()
+
+    if len(args.project) != 0:
+        dirs = [args.project]
 
     base = args.base
     run_num = args.run
