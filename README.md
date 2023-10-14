@@ -3,6 +3,8 @@
 
 This is the repository of our paper DICE to appear at the Proceedings of the 42nd IEEE Symposium on Security and Privacy (Oakland'21).
 
+Besides DICE, we have a series of work on firmware rehosting, including *P<sup>2</sup>IM: Scalable and Hardware-independent Firmware Testing via Automatic Peripheral Interface Modeling* (a USENIX Security 2020 paper, source code published [here](https://github.com/RiS3-Lab/p2im)) and *AIM: Automatic Interrupt Modeling for Dynamic Firmware Analysis* (an IEEE Trans. on Dependable and Secure Computing 2023 paper, source code published [here](https://github.com/bofeng17/AIM-Interrupt-Modeling)). DICE, P<sup>2</sup>IM, and AIM all aim to enable firmware testing in an emulator that does not support peripherals. They perform automated modeling for DMA, MMIO, and interrupt channels used by peripherals respectively. 
+
 # Talk preview
 Talk preview video at IEEE S&P Youtube channel: https://www.youtube.com/watch?v=i7o9fsj2AkI
 
